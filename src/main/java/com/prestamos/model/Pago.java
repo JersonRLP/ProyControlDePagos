@@ -16,13 +16,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 @Entity
-@Table(name = "pago")
+@Table(name = "tb_pago")
 public class Pago {
 
 	@Id
@@ -59,5 +55,68 @@ public class Pago {
 	
 	@Column(name = "estado")
 	private int estado;
-	
+
+	public int getIdPago() {
+		return idPago;
+	}
+
+	public void setIdPago(int idPago) {
+		this.idPago = idPago;
+	}
+
+	public Cuota getCuota() {
+		return cuota;
+	}
+
+	public void setCuota(Cuota cuota) {
+		this.cuota = cuota;
+	}
+
+	public double getMonto() {
+		return monto;
+	}
+
+	public void setMonto(double monto) {
+		this.monto = monto;
+	}
+
+	public Date getFechaRegistro() {
+		return fechaRegistro;
+	}
+
+	public void setFechaRegistro(Date fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
+
+	public Usuario getPrestatario() {
+		return prestatario;
+	}
+
+	public void setPrestatario(Usuario prestatario) {
+		this.prestatario = prestatario;
+	}
+
+	public Usuario getPrestamista() {
+		return prestamista;
+	}
+
+	public void setPrestamista(Usuario prestamista) {
+		this.prestamista = prestamista;
+	}
+
+	public FormaPago getFormapago() {
+		return formapago;
+	}
+
+	public void setFormapago(FormaPago formapago) {
+		this.formapago = formapago;
+	}
+
+	public int getEstado() {
+		return estado;
+	}
+
+	public void setEstado(int estado) {
+		this.estado = estado;
+	}
 }

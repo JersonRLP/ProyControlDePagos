@@ -6,13 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 @Entity
-@Table(name = "zona")
+@Table(name = "tb_zona")
 public class Zona {
 
 	@Id
@@ -24,5 +20,28 @@ public class Zona {
 	
 	@Column(name = "estado")
 	private int estado;
-	
+
+	public int getIdZona() {
+		return idZona;
+	}
+
+	public void setIdZona(int idZona) {
+		this.idZona = idZona;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public int getEstado() {
+		return estado;
+	}
+
+	public void setEstado(int estado) {
+		this.estado = estado;
+	}	
 }

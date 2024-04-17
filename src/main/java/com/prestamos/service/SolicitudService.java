@@ -1,5 +1,5 @@
 package com.prestamos.service;
 
-public interface SolicitudService {
+public class SolicitudService {
 
 }

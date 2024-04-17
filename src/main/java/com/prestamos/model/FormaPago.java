@@ -6,13 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 @Entity
-@Table(name = "formapago")
+@Table(name = "tb_formapago")
 public class FormaPago {
 
 	@Id
@@ -24,5 +20,28 @@ public class FormaPago {
 	
 	@Column(name= "estado")
 	private int estado;
-	
+
+	public int getIdFormaPago() {
+		return idFormaPago;
+	}
+
+	public void setIdFormaPago(int idFormaPago) {
+		this.idFormaPago = idFormaPago;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public int getEstado() {
+		return estado;
+	}
+
+	public void setEstado(int estado) {
+		this.estado = estado;
+	}	
 }

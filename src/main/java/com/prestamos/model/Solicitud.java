@@ -16,13 +16,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 @Entity
-@Table(name = "solicitud")
+@Table(name = "tb_solicitud")
 public class Solicitud {
 
 	@Id
@@ -59,5 +55,68 @@ public class Solicitud {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idPrestamista")
 	private Usuario idPrestamista;
-	
+
+	public int getIdSolicitud() {
+		return idSolicitud;
+	}
+
+	public void setIdSolicitud(int idSolicitud) {
+		this.idSolicitud = idSolicitud;
+	}
+
+	public double getMonto() {
+		return monto;
+	}
+
+	public void setMonto(double monto) {
+		this.monto = monto;
+	}
+
+	public Date getFechaRegistro() {
+		return fechaRegistro;
+	}
+
+	public void setFechaRegistro(Date fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
+
+	public Date getFechaInicioPrestamo() {
+		return fechaInicioPrestamo;
+	}
+
+	public void setFechaInicioPrestamo(Date fechaInicioPrestamo) {
+		this.fechaInicioPrestamo = fechaInicioPrestamo;
+	}
+
+	public Date getFechaFinPrestamo() {
+		return fechaFinPrestamo;
+	}
+
+	public void setFechaFinPrestamo(Date fechaFinPrestamo) {
+		this.fechaFinPrestamo = fechaFinPrestamo;
+	}
+
+	public int getEstado() {
+		return estado;
+	}
+
+	public void setEstado(int estado) {
+		this.estado = estado;
+	}
+
+	public Usuario getIdPrestatario() {
+		return idPrestatario;
+	}
+
+	public void setIdPrestatario(Usuario idPrestatario) {
+		this.idPrestatario = idPrestatario;
+	}
+
+	public Usuario getIdPrestamista() {
+		return idPrestamista;
+	}
+
+	public void setIdPrestamista(Usuario idPrestamista) {
+		this.idPrestamista = idPrestamista;
+	}
 }

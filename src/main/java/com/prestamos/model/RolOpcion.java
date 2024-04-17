@@ -7,7 +7,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "rol_has_opcion")
+@Table(name = "tb_rol_has_opcion")
 public class RolOpcion {
 
 	@EmbeddedId

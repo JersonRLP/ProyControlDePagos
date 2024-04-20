@@ -16,8 +16,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "tb_cuota")
 public class Cuota {
 
@@ -49,59 +55,5 @@ public class Cuota {
 	@JoinColumn(name = "idPrestamo")
 	private Prestamo prestamo;
 
-	public int getIdCuota() {
-		return idCuota;
-	}
 
-	public void setIdCuota(int idCuota) {
-		this.idCuota = idCuota;
-	}
-
-	public int getNumero() {
-		return numero;
-	}
-
-	public void setNumero(int numero) {
-		this.numero = numero;
-	}
-
-	public double getMonto() {
-		return monto;
-	}
-
-	public void setMonto(double monto) {
-		this.monto = monto;
-	}
-
-	public Date getFechaPago() {
-		return fechaPago;
-	}
-
-	public void setFechaPago(Date fechaPago) {
-		this.fechaPago = fechaPago;
-	}
-
-	public Date getFechaRegistro() {
-		return fechaRegistro;
-	}
-
-	public void setFechaRegistro(Date fechaRegistro) {
-		this.fechaRegistro = fechaRegistro;
-	}
-
-	public int getEstado() {
-		return estado;
-	}
-
-	public void setEstado(int estado) {
-		this.estado = estado;
-	}
-
-	public Prestamo getPrestamo() {
-		return prestamo;
-	}
-
-	public void setPrestamo(Prestamo prestamo) {
-		this.prestamo = prestamo;
-	}
 }

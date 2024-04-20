@@ -11,8 +11,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "tb_usuario")
 public class Usuario {
 
@@ -59,116 +65,7 @@ public class Usuario {
 	@JoinColumn(name = "idUsuarioLider")
 	private Usuario usuariolider;
 
-	public int getIdUsuario() {
-		return idUsuario;
-	}
 
-	public void setIdUsuario(int idUsuario) {
-		this.idUsuario = idUsuario;
-	}
-
-	public String getNombres() {
-		return nombres;
-	}
-
-	public void setNombres(String nombres) {
-		this.nombres = nombres;
-	}
-
-	public String getApellidoP() {
-		return apellidoP;
-	}
-
-	public void setApellidoP(String apellidoP) {
-		this.apellidoP = apellidoP;
-	}
-
-	public String getApellidoM() {
-		return apellidoM;
-	}
-
-	public void setApellidoM(String apellidoM) {
-		this.apellidoM = apellidoM;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getTelefono() {
-		return telefono;
-	}
-
-	public void setTelefono(String telefono) {
-		this.telefono = telefono;
-	}
-
-	public String getDni() {
-		return dni;
-	}
-
-	public void setDni(String dni) {
-		this.dni = dni;
-	}
-
-	public int getEstado() {
-		return estado;
-	}
-
-	public void setEstado(int estado) {
-		this.estado = estado;
-	}
-
-	public Rol getRol() {
-		return rol;
-	}
-
-	public void setRol(Rol rol) {
-		this.rol = rol;
-	}
-
-	public Zona getZona() {
-		return zona;
-	}
-
-	public void setZona(Zona zona) {
-		this.zona = zona;
-	}
-
-	public Usuario getUsuariolider() {
-		return usuariolider;
-	}
-
-	public void setUsuariolider(Usuario usuariolider) {
-		this.usuariolider = usuariolider;
-	}
-
-	public Usuario(String nombres, String apellidoP, String apellidoM, String password, String email, String telefono,
-			String dni, Rol rol, Zona zona, Usuario usuariolider) {
-		super();
-		this.nombres = nombres;
-		this.apellidoP = apellidoP;
-		this.apellidoM = apellidoM;
-		this.password = password;
-		this.email = email;
-		this.telefono = telefono;
-		this.dni = dni;
-		this.rol = rol;
-		this.zona = zona;
-		this.usuariolider = usuariolider;
-	}
 	
 
 

@@ -5,8 +5,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "tb_rol_has_opcion")
 public class RolOpcion {
 
@@ -21,37 +27,5 @@ public class RolOpcion {
 	@JoinColumn(name = "idOpcion", nullable = false, insertable = false, updatable = false)
 	private Opcion opcion;
 
-	public RolOpcion() {
 
-	}
-
-	public RolOpcion(RolOpcionPK rolOpcionPK, Rol rol, Opcion opcion) {
-		this.rolOpcionPK = rolOpcionPK;
-		this.rol = rol;
-		this.opcion = opcion;
-	}
-
-	public RolOpcionPK getRolOpcionPK() {
-		return rolOpcionPK;
-	}
-
-	public void setRolOpcionPK(RolOpcionPK rolOpcionPK) {
-		this.rolOpcionPK = rolOpcionPK;
-	}
-
-	public Rol getRol() {
-		return rol;
-	}
-
-	public void setRol(Rol rol) {
-		this.rol = rol;
-	}
-
-	public Opcion getOpcion() {
-		return opcion;
-	}
-
-	public void setOpcion(Opcion opcion) {
-		this.opcion = opcion;
-	}	
 }

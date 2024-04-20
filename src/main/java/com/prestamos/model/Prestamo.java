@@ -16,8 +16,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "tb_prestamo")
 public class Prestamo {
 
@@ -58,75 +64,5 @@ public class Prestamo {
 	@JoinColumn(name = "idSolicitud")
 	private Solicitud solicitud;
 
-	public int getIdPrestamo() {
-		return idPrestamo;
-	}
 
-	public void setIdPrestamo(int idPrestamo) {
-		this.idPrestamo = idPrestamo;
-	}
-
-	public double getMonto() {
-		return monto;
-	}
-
-	public void setMonto(double monto) {
-		this.monto = monto;
-	}
-
-	public double getMontoInteres() {
-		return montoInteres;
-	}
-
-	public void setMontoInteres(double montoInteres) {
-		this.montoInteres = montoInteres;
-	}
-
-	public TipoPrestamo getTipoprestamo() {
-		return tipoprestamo;
-	}
-
-	public void setTipoprestamo(TipoPrestamo tipoprestamo) {
-		this.tipoprestamo = tipoprestamo;
-	}
-
-	public Usuario getPrestatario() {
-		return prestatario;
-	}
-
-	public void setPrestatario(Usuario prestatario) {
-		this.prestatario = prestatario;
-	}
-
-	public Usuario getPrestamista() {
-		return prestamista;
-	}
-
-	public void setPrestamista(Usuario prestamista) {
-		this.prestamista = prestamista;
-	}
-
-	public Date getFechaRegistro() {
-		return fechaRegistro;
-	}
-
-	public void setFechaRegistro(Date fechaRegistro) {
-		this.fechaRegistro = fechaRegistro;
-	}
-
-	public int getEstado() {
-		return estado;
-	}
-
-	public void setEstado(int estado) {
-		this.estado = estado;
-	}
-
-	public Solicitud getSolicitud() {
-		return solicitud;
-	}
-
-	public void setSolicitud(Solicitud solicitud) {
-		this.solicitud = solicitud;
-	}
 }

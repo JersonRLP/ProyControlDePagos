@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="home  :: head">
+	<meta charset="UTF-8">
+	
+	<title>Actualizar cliente</title>
+
+	
+</head>
+<body>
+	
+	<!-- Main container -->
+	<main class="full-box main-container">
+	<!-- Nav lateral -->
+		<section th:replace="home :: nav-lateral">
+		</section>
+
+		<!-- Page content -->
+		<section class="full-box page-content">
+			<nav class="full-box navbar-info">
+				<a href="#" class="float-left show-nav-lateral">
+					<i class="fas fa-exchange-alt"></i>
+				</a>
+				<a href="user-update.html">
+					<i class="fas fa-user-cog"></i>
+				</a>
+				<a href="#" class="btn-exit-system">
+					<i class="fas fa-power-off"></i>
+				</a>
+			</nav>
+
+			<!-- Page header -->
+			<div class="full-box page-header">
+				<h3 class="text-left">
+					<i class="fas fa-sync-alt fa-fw"></i> &nbsp; ACTUALIZAR JEFE DE PRESTAMISTAS
+				</h3>
+				<p class="text-justify">
+					Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quidem odit amet asperiores quis minus, dolorem repellendus optio doloremque error a omnis soluta quae magnam dignissimos, ipsam, temporibus sequi, commodi accusantium!
+				</p>
+			</div>
+
+			<div class="container-fluid">
+				<ul class="full-box list-unstyled page-nav-tabs">
+					<li>
+						<a href="nuevoJefe"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR JEFE</a>
+					</li>
+					<li>
+						<a href="listaJefe"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE JEFES</a>
+					</li>
+					<li>
+						<a href="buscarJefe"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR JEFE</a>
+					</li>
+				</ul>	
+			</div>
+			
+			<!-- Content here-->
+			<div class="container-fluid">
+				<form th:action="@{/actualizarJefe}" th:object="${jefe}" method="post" class="form-neon">
+					<fieldset>
+						<legend><i class="fas fa-user"></i> &nbsp; Información básica</legend>
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-12 col-md-6" style="display: none;">
+									<div class="form-group">
+										<label for="InputIdUsuario" class="bmd-label-floating">ID</label>
+										<input th:field="*{idUsuario}" type="text" class="form-control" name="dni" id="InputIdUsuario" th:value="${jefe.idUsuario}" required>
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="cliente_dni" class="bmd-label-floating">DNI</label>
+										<input th:field="*{dni}" type="" pattern="\d{8,20}" class="form-control" name="dni" id="cliente_dni" th:value="${jefe.dni}" maxlength="27" readonly>
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="cliente_nombre" class="bmd-label-floating">Nombres</label>
+										<input th:field="*{nombres}" type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="nombres" id="cliente_nombre" th:value="${jefe.nombres}" maxlength="40" required>
+									</div>
+								</div>
+								<div class="col-12 col-md-4">
+									<div class="form-group">
+										<label for="cliente_apellido_paterno" class="bmd-label-floating">Apellido Paterno</label>
+										<input th:field="*{apePaterno}" type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="apePaterno" id="cliente_apellido_paterno" th:value="${jefe.apePaterno}" maxlength="40" required>
+									</div>
+								</div>
+								<div class="col-12 col-md-4">
+									<div class="form-group">
+										<label for="cliente_apellido_materno" class="bmd-label-floating">Apellido Materno</label>
+										<input th:field="*{apeMaterno}" type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="apeMaterno" id="cliente_apellido_materno" th:value="${jefe.apeMaterno}" maxlength="40" required>
+									</div>
+								</div>
+								<div class="col-12 col-md-4">
+									<div class="form-group">
+										<label for="cliente_telefono" class="bmd-label-floating">Teléfono</label>
+										<input th:field="*{telefono}" type="text" pattern="[0-9()+]{1,20}" class="form-control" name="telefono" id="cliente_telefono" th:value="${jefe.telefono}" maxlength="20" required>
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="cliente_apellido" class="bmd-label-floating">Email</label>
+										<input th:field="*{email}" type="text" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" class="form-control" name="email" id="email" th:value="${jefe.email}" maxlength="100" title="Ingresa un email correcto" required>
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="password" class="bmd-label-floating">Contraseña</label>
+										<input th:field="*{password}" type="password"  class="form-control" name="password" id="password" th:value="${jefe.password}" maxlength="40" required>
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
+								        <div class="form-group">
+								            <label for="zona" class="bmd-label-floating">Zona</label>
+								            <select id="zona" class="form-control" name="idZona">
+								                <option disabled value="">Selecciona una zona</option>
+								                <option th:each="zona : ${listzonas}" th:value="${zona.idZona}" th:text="${zona.descripcion}"></option>
+								            </select>
+								        </div>
+								</div>
+								<div class="col-12 col-md-4" style="display: none;">
+									<div class="form-group">
+										<label for="estado" class="bmd-label-floating">Estado</label>
+										<input type="number"  class="form-control" name="estado" id="estado" value="0" readonly>
+									</div>
+								</div>
+								<div class="col-12 col-md-4" style="display: none;">
+								    <div class="form-group">
+								        <label for="idUsuarioLider" class="bmd-label-floating">ID Usuario Líder</label>
+								        <input type="number" class="form-control" name="idUsuarioLider" id="idUsuarioLider" th:value="${idUsuario}" readonly>
+								    </div>
+								</div>
+								<div class="col-12 col-md-4" style="display: none;">
+									<div class="form-group">
+										<label for="estado" class="bmd-label-floating">idRol</label>
+										<input type="number"  class="form-control" name="idRol" id="idRol" value="4" readonly>
+									</div>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+					<br><br><br>
+					<p class="text-center" style="margin-top: 40px;">
+						<button type="submit" class="btn btn-raised btn-success btn-sm"><i class="fas fa-sync-alt"></i> &nbsp; ACTUALIZAR</button>
+					</p>
+				</form>
+			</div>	
+
+		</section>
+	</main>
+	
+    <!-- Incluir el fragmento de JavaScript -->
+    <div th:include="home :: javascript-include"></div>
+</body>
+</html>

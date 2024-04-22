@@ -47,7 +47,7 @@ public class WebSecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(requests -> requests
             	.requestMatchers("/","/webfonts/**","/assets/**","/images/**","/js/**","/jspage/**","/css/**","/csspage/**","/fonts/**","/vendor/**","/login", "/registrarUser").permitAll()
-            	 .requestMatchers("/client-new","/client-search","/client-list").hasAnyAuthority("Inversionista")
+            	 .requestMatchers("/nuevoJefe","/buscarJefe","/listaJefe","/actualizarJefe").hasAnyAuthority("Inversionista")
 
             	.requestMatchers("/home").hasAnyAuthority("Administrador","Inversionista","Jefe de Prestamista")
                 .anyRequest().authenticated())

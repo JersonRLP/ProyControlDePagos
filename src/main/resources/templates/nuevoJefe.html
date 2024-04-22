@@ -39,13 +39,13 @@
 			<div class="container-fluid">
 				<ul class="full-box list-unstyled page-nav-tabs">
 					<li>
-						<a class="active" href="/client-new"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR JEFE</a>
+						<a class="active" href="/nuevoJefe"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR JEFE</a>
 					</li>
 					<li>
-						<a href="/client-list"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE JEFES</a>
+						<a href="/listaJefe"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE JEFES</a>
 					</li>
 					<li>
-						<a href="/client-search"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR JEFE</a>
+						<a href="/buscarJefe"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR JEFE</a>
 					</li>
 				</ul>	
 			</div>
@@ -53,9 +53,8 @@
 			<!-- Content here-->
 			<div class="container-fluid">
 				<form th:action="@{/save}" method="post"  class="form-neon" autocomplete="off">
-									<div th:if=${param.registroExitoso}>
-					<div class="alert alert-info">Se ha registrado exitosamente a
-						la aplicación</div>
+				<div align="center" th:if=${param.registroExitoso}>
+						<div class="alert alert-info">Jefe Registrado Exitosamente</div>
 				</div>
 					<fieldset>
 						<legend><i class="fas fa-user"></i> &nbsp; Información básica</legend>
@@ -64,53 +63,53 @@
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_dni" class="bmd-label-floating">DNI</label>
-										<input type="text" pattern="[a-zA-Z0-9-]{1,27}" class="form-control" name="dni" id="dni" maxlength="27">
+										<input type="text" pattern="\d{8}" class="form-control" name="dni" id="dni" maxlength="8" title="Ingresa 8 dígitos numéricos" required>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
-										<label for="cliente_nombre" class="bmd-label-floating">Nombre</label>
-										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="nombres" id="nombres" maxlength="40">
+										<label for="cliente_nombre" class="bmd-label-floating">Nombres</label>
+										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="nombres" id="nombres" maxlength="50" title="Ingresa nombres correctos" required>
 									</div>
 								</div>
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_apellido" class="bmd-label-floating">Apellido Paterno</label>
-										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="apePaterno" id="apePaterno" maxlength="40">
+										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}" class="form-control" name="apePaterno" id="apePaterno" maxlength="50" title="Ingresa un apellido correcto" required>
 									</div>
 								</div>
-									<div class="col-12 col-md-4">
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="cliente_apellido" class="bmd-label-floating">Apellido Materno</label>
+										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}" class="form-control" name="apeMaterno" id="apeMaterno" title="Ingresa un apellido correcto" maxlength="50">
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="cliente_apellido" class="bmd-label-floating">Email</label>
+										<input type="text" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" class="form-control" name="email" id="email" maxlength="100" title="Ingresa un email correcto" required>
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="password" class="bmd-label-floating">Contraseña</label>
-										<input type="password"  class="form-control" name="password" id="password" maxlength="40">
+										<input type="password"  class="form-control" name="password" id="password" maxlength="40" required>
 									</div>
 								</div>
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_telefono" class="bmd-label-floating">Teléfono</label>
-										<input type="text" pattern="[0-9()+]{1,20}" class="form-control" name="telefono" id="telefono" maxlength="20">
+										<input type="text" pattern="[0-9()+]{1,20}" class="form-control" name="telefono" id="telefono" maxlength="20" required>
 									</div>
 								</div>
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-6">
 								        <div class="form-group">
 								            <label for="zona" class="bmd-label-floating">Zona</label>
 								            <select id="zona" class="form-control" name="idZona">
-								                <option value="">Selecciona una zona</option>
+								                <option disabled value="">Selecciona una zona</option>
 								                <option th:each="zona : ${listzonas}" th:value="${zona.idZona}" th:text="${zona.descripcion}"></option>
 								            </select>
 								        </div>
-								    </div>
-								<div class="col-12 col-md-4">
-									<div class="form-group">
-										<label for="cliente_apellido" class="bmd-label-floating">Apellido Materno</label>
-										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="apeMaterno" id="apeMaterno" maxlength="40">
-									</div>
-								</div>
-								<div class="col-12 col-md-4">
-									<div class="form-group">
-										<label for="cliente_apellido" class="bmd-label-floating">Email</label>
-										<input type="text" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" class="form-control" name="email" id="email" maxlength="40">
-									</div>
 								</div>
 								<div class="col-12 col-md-4" style="display: none;">
 									<div class="form-group">

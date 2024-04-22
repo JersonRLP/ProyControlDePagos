@@ -1,5 +1,7 @@
 package com.prestamos.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -7,7 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -32,9 +34,7 @@ public class InversionistaController {
 	@Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-	
-	
-	@GetMapping("/client-new")
+	@GetMapping("/nuevoJefe")
 	public String cargarPagina(Model model) {
 	    // Obtener el nombre de usuario del contexto de seguridad
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -59,20 +59,9 @@ public class InversionistaController {
 	    // También puedes pasar otros datos necesarios al modelo
 	    model.addAttribute("listzonas", zonarepo.findAll());
 	    
-	    return "client-new";
+	    return "nuevoJefe";
 	}
-
-	@GetMapping("/client-search")
-	public String cargarPaginaBuscar(Model model) {
-		return "client-search";
-	}
-	
-	@GetMapping("/client-list")
-	public String cargarPaginaListar(Model model) {
-		return "client-list";
-	}
-
-    
+		
     @PostMapping("/save")
     public String registrarUsuarioJefe(@RequestParam("nombres") String nombres,
     									@RequestParam("apePaterno") String apePaterno,
@@ -107,6 +96,72 @@ public class InversionistaController {
     	usurepo.save(jefe);
         
 
-        return "redirect:/client-new?registroExitoso";
+        return "redirect:/nuevoJefe?registroExitoso";
     }
+    
+	@GetMapping("/listaJefe")
+	public String cargarPaginaListar(Model model) {
+		List<Usuario> listaJefes = usurepo.findByIdRolDescripcionAndEstado("Jefe de Prestamista", 0);
+		model.addAttribute("lstJefes", listaJefes);
+		return "listaJefe";
+	}
+    
+    //POR TERMINAR
+	@GetMapping("/obtenerJefe")
+	public String cargarDatosActualizar(Model model) {
+		Usuario usu = usurepo.findByIdUsuario(3);
+		
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    String nombreUsuario = auth.getName();
+	    
+	    Usuario usuario = usurepo.findByNombres(nombreUsuario);	    
+	    int idUsuario = usuario.getIdUsuario();
+	    model.addAttribute("idUsuario", idUsuario);	    
+	    int idRol = usuario.getIdRol().getIdRol();
+	    
+	    model.addAttribute("idRol", idRol);
+	    model.addAttribute("listzonas", zonarepo.findAll());	
+		model.addAttribute("jefe", usu);
+		
+		return "actualizarJefe";
+	}
+	
+	//POR TERMINAR
+	@PostMapping("/actualizarJefe")
+	public String actualizarJefe(@ModelAttribute Usuario jefe) {
+		
+		usurepo.save(jefe);
+		return "redirect:/listaJefe?actualizacionExitosa";
+	}
+
+	//POR TERMINAR
+	@GetMapping("/buscarJefe")
+	public String cargarPaginaBuscar(@RequestParam(name = "search", required = false) String search, Model model) {
+		List<Usuario> listaJefes = null;
+		
+	    if (search != null && !search.isEmpty()) {
+	    	listaJefes = usurepo.findBySearchAndIdRolDescripcionAndEstado(search, "Jefe de Prestamista", 0);
+	    } else {
+	    	listaJefes = usurepo.findByIdRolDescripcionAndEstado("Jefe de Prestamista", 0);
+	    }
+	    
+	    model.addAttribute("lstJefes", listaJefes);
+		
+		return "buscarJefe";
+	}
+    
+    @PostMapping("/eliminarJefeLogico")
+	public String eliminarJefeLogico(@ModelAttribute Usuario usuario, Model model) {
+		Usuario usu = usurepo.findByIdUsuario(usuario.getIdUsuario());
+		usu.setEstado(1);
+		usurepo.save(usu);
+		return "redirect:/listaJefe?eliminacionExitosa";
+	}
+    
+    @PostMapping("/eliminarJefeFisico")
+	public String eliminarJefeFisico(@ModelAttribute Usuario usuario, Model model) {
+		Usuario usu = usurepo.findByIdUsuario(usuario.getIdUsuario());
+		usurepo.delete(usu);
+		return "redirect:/listaJefe?eliminacionExitosa";
+	}
 }

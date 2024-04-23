@@ -49,7 +49,7 @@ public class PrestamistaController {
 	        return "prestamista-list";
 	    }
 
-	    @GetMapping("/crear")
+	    @GetMapping("/prestamista-crear")
 	    public String mostrarFormularioCrear(Model model) {
 	        model.addAttribute("prestamista", new Usuario());
 	        return "prestamista-crear";
@@ -58,7 +58,7 @@ public class PrestamistaController {
 	    @PostMapping("/crear")
 	    public String crearPrestamista(@ModelAttribute Usuario usuario) {
 	        prestamistaService.guardar(usuario);
-	        return "redirect:/prestamistas";
+	        return "redirect:/prestamista-list";
 	    }
 
 	    @GetMapping("/editar/{id}")
@@ -72,7 +72,7 @@ public class PrestamistaController {
 	    public String actualizarPrestamista(@PathVariable Integer id, @ModelAttribute Usuario usuario) {
 	        usuario.setIdUsuario(id); // Asegurarse de que el rol tenga el ID correcto
 	        prestamistaService.actualizar(usuario);
-	        return "redirect:/prestamistas";
+	        return "redirect:/prestamista-list";
 	    }
 
 	    @GetMapping("/eliminar/{id}")

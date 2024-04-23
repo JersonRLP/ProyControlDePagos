@@ -48,7 +48,7 @@ public class WebSecurityConfig {
             .authorizeHttpRequests(requests -> requests
             	.requestMatchers("/","/webfonts/**","/assets/**","/images/**","/js/**","/jspage/**","/css/**","/csspage/**","/fonts/**","/vendor/**","/login", "/registrarUser").permitAll()
             	 .requestMatchers("/nuevoJefe","/buscarJefe","/listaJefe","/actualizarJefe").hasAnyAuthority("Inversionista")
-                    .requestMatchers("/prestamista-list").hasAnyAuthority("Inversionista")
+                 .requestMatchers("/prestamista-list").hasAnyAuthority("Jefe de Prestamista")
 
             	.requestMatchers("/home").hasAnyAuthority("Administrador","Inversionista","Jefe de Prestamista")
                 .anyRequest().authenticated())

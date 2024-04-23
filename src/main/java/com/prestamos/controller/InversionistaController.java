@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.prestamos.model.Rol;
 import com.prestamos.model.Usuario;
 import com.prestamos.model.Zona;
+import com.prestamos.repository.InversionistaRepository;
 import com.prestamos.repository.UsuarioRepository;
 import com.prestamos.repository.ZonaRepository;
 
@@ -30,6 +31,9 @@ public class InversionistaController {
 	
 	@Autowired
 	private ZonaRepository zonarepo;
+	
+	@Autowired
+	private InversionistaRepository invrepo;
 	
 	@Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -101,7 +105,7 @@ public class InversionistaController {
     
 	@GetMapping("/listaJefe")
 	public String cargarPaginaListar(Model model) {
-		List<Usuario> listaJefes = usurepo.findByIdRolDescripcionAndEstado("Jefe de Prestamista", 0);
+		List<Usuario> listaJefes = invrepo.findByIdRolDescripcionAndEstado("Jefe de Prestamista", 0);
 		model.addAttribute("lstJefes", listaJefes);
 		return "listaJefe";
 	}
@@ -140,9 +144,9 @@ public class InversionistaController {
 		List<Usuario> listaJefes = null;
 		
 	    if (search != null && !search.isEmpty()) {
-	    	listaJefes = usurepo.findBySearchAndIdRolDescripcionAndEstado(search, "Jefe de Prestamista", 0);
+	    	listaJefes = invrepo.findBySearchAndIdRolDescripcionAndEstado(search, "Jefe de Prestamista", 0);
 	    } else {
-	    	listaJefes = usurepo.findByIdRolDescripcionAndEstado("Jefe de Prestamista", 0);
+	    	listaJefes = invrepo.findByIdRolDescripcionAndEstado("Jefe de Prestamista", 0);
 	    }
 	    
 	    model.addAttribute("lstJefes", listaJefes);

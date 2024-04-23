@@ -6,9 +6,12 @@ import java.util.List;
 
 public interface PrestamistaService {
 
+
     List<Usuario> obtenerTodos();
     Usuario obtenerPorId(Integer id);
     void guardar(Usuario usuario);
     void actualizar(Usuario usuario);
     void eliminar(Integer id);
+    //List<Usuario> obtenerUsuariosPorRol(Integer idRol);
+
 }

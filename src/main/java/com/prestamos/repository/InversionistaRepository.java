@@ -10,6 +10,12 @@ import com.prestamos.model.Usuario;
 
 public interface InversionistaRepository extends JpaRepository<Usuario, Integer> {
 
+	Usuario findByEmail(String email);
+	
+	Usuario findByTelefono(String telefono);
+	
+	Usuario findByDni(String dni);
+	
 	List<Usuario> findByIdRolDescripcionAndEstado(String descripcion, int estado);
 	
 	@Query("SELECT u FROM Usuario u " +

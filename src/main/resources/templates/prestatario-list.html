@@ -30,7 +30,7 @@
         <!-- Page header -->
         <div class="full-box page-header">
             <h3 class="text-left">
-                <i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRESTAMISTA
+                <i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRESTATARIO
             </h3>
             <p class="text-justify">
                 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit nostrum rerum animi natus beatae ex. Culpa blanditiis tempore amet alias placeat, obcaecati quaerat ullam, sunt est, odio aut veniam ratione.
@@ -40,13 +40,13 @@
         <div class="container-fluid">
             <ul class="full-box list-unstyled page-nav-tabs">
                 <li>
-                    <a href="/prestamista-crear"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR PRESTAMISTA</a>
+                    <a href="/prestatario-crear"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR PRESTATARIO</a>
                 </li>
                 <li>
-                    <a class="active" href="client-list.html"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRESTAMISTA</a>
+                    <a class="active" href="/prestatario-list"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRESTATARIOS</a>
                 </li>
                 <li>
-                    <a href="client-search.html"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR PRESTAMISTA</a>
+                    <a href="client-search.html"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR PRESTATARIO</a>
                 </li>
             </ul>
         </div>
@@ -70,17 +70,17 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="text-center" th:each="prestamista : ${prestamistas}">
-                        <td th:text="${prestamista.idUsuario}"></td>
-                        <td th:text="${prestamista.nombres}"></td>
-                        <td th:text="${prestamista.apePaterno}"></td>
-                        <td th:text="${prestamista.apeMaterno}"></td>
-                        <td th:text="${prestamista.email}"></td>
-                        <td th:text="${prestamista.telefono}"></td>
-                        <td th:text="${prestamista.dni}"></td>
-                        <td th:text="${prestamista.estado}"></td>
+                    <tr class="text-center" th:each="prestatario : ${prestatarios}">
+                        <td th:text="${prestatario.idUsuario}"></td>
+                        <td th:text="${prestatario.nombres}"></td>
+                        <td th:text="${prestatario.apePaterno}"></td>
+                        <td th:text="${prestatario.apeMaterno}"></td>
+                        <td th:text="${prestatario.email}"></td>
+                        <td th:text="${prestatario.telefono}"></td>
+                        <td th:text="${prestatario.dni}"></td>
+                        <td th:text="${prestatario.estado}"></td>
                         <td>
-                            <a href="client-update.html" class="btn btn-success">
+                            <a href="prestatario-actualizar.html" class="btn btn-success">
                                 <i class="fas fa-sync-alt"></i>
                             </a>
                         </td>

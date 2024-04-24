@@ -58,8 +58,9 @@
 						<li>
 							<a href="/home"><i class="fab fa-dashcube fa-fw"></i> &nbsp; Dashboard</a>
 						</li>
-
-						<li>
+					<!-- inicio del rol -->
+					<ul th:switch="${rol}">
+						<li th:case="'Inversionista'">
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-users fa-fw"></i> &nbsp; Jefe de Prestamistas <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
@@ -73,7 +74,7 @@
 								</li>
 							</ul>
 						</li>
-						<li>
+						<li th:case="'Jefe de Prestamista'">
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-users fa-fw"></i> &nbsp; Prestamistas <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
@@ -87,6 +88,7 @@
 								</li>
 							</ul>
 						</li>
+<<<<<<< HEAD
 						<li>
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-users fa-fw"></i> &nbsp; Prestatario <i class="fas fa-chevron-down"></i></a>
 							<ul>
@@ -103,6 +105,10 @@
 						</li>
 
 						<li>
+=======
+					
+						<li th:case="'Jefe de Prestamista'">
+>>>>>>> f39936c5dc8477ada3d71729e3ea79a37950604a
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-pallet fa-fw"></i> &nbsp; Items <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
@@ -117,7 +123,7 @@
 							</ul>
 						</li>
 
-						<li>
+						<li th:case="'Jefe de Prestamista'">
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-file-invoice-dollar fa-fw"></i> &nbsp; Préstamos <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
@@ -135,7 +141,7 @@
 							</ul>
 						</li>
 
-						<li>
+						<li th:case="'Jefe de Prestamista'">
 							<a href="#" class="nav-btn-submenu"><i class="fas  fa-user-secret fa-fw"></i> &nbsp; Usuarios <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
@@ -144,15 +150,16 @@
 								<li>
 									<a href="/user-list"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista de usuarios</a>
 								</li>
-								<li>
+								<li> 
 									<a href="/user-search"><i class="fas fa-search fa-fw"></i> &nbsp; Buscar usuario</a>
 								</li>
 							</ul>
 						</li>
 
-						<li>
+						<li th:case="'Jefe de Prestamista'">
 							<a href="/company"><i class="fas fa-store-alt fa-fw"></i> &nbsp; Empresa</a>
 						</li>
+					<!-- fin de rol--></ul>
 					</ul>
 				</nav>
 			</div>

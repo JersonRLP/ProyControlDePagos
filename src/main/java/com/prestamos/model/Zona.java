@@ -19,5 +19,5 @@ public class Zona {
 	private String descripcion;
 	private int estado;
 	
-
+	
 }

@@ -24,9 +24,6 @@ import lombok.Setter;
 @Table(name="usuario")
 public class Usuario {
 
-
-
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)	
 	private int idUsuario;	
@@ -50,5 +47,6 @@ public class Usuario {
 	// Campo para el ID del líder
     @Column(name = "id_usuario_lider")
     private Integer idUsuarioLider;
+
 
 }

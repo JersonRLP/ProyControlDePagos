@@ -13,17 +13,14 @@ import org.springframework.security.web.SecurityFilterChain;
 import com.prestamos.service.UserDetailsServiceImpl;
 
 
-
-
 @Configuration
 @EnableWebSecurity
-
 public class WebSecurityConfig {
     @Bean
     UserDetailsService userDetailsService() {
         return new UserDetailsServiceImpl();
     }
-     
+    
     @Bean
     BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -48,9 +45,21 @@ public class WebSecurityConfig {
             .authorizeHttpRequests(requests -> requests
             	.requestMatchers("/","/webfonts/**","/assets/**","/images/**","/js/**","/jspage/**","/css/**","/csspage/**","/fonts/**","/vendor/**","/login", "/registrarUser").permitAll()
             	 .requestMatchers("/nuevoJefe","/buscarJefe","/listaJefe","/actualizarJefe").hasAnyAuthority("Inversionista")
+<<<<<<< HEAD
 
 
             	.requestMatchers("/home").hasAnyAuthority("Administrador","Inversionista","Jefe de Prestamista","Prestamista")
+=======
+<<<<<<< HEAD
+                 .requestMatchers("/prestamista-list","/prestamista-crear").hasAnyAuthority("Jefe de Prestamista")
+
+=======
+                 .requestMatchers("/prestamista-list").hasAnyAuthority("Jefe de Prestamista")
+                 
+                 
+>>>>>>> 38318bb64a2226e61f122734ba5656e5d4e9a2c1
+            	.requestMatchers("/home").hasAnyAuthority("Administrador","Inversionista","Jefe de Prestamista")
+>>>>>>> f39936c5dc8477ada3d71729e3ea79a37950604a
                 .anyRequest().authenticated())
             .formLogin(form -> form
                 .loginPage("/login")

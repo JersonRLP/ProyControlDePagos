@@ -21,5 +21,8 @@ public class Rol {
 	private int idRol;
 	private String descripcion;
 	private  int estado;
+	
+
+
 
 }

@@ -46,13 +46,30 @@ public class WebSecurityConfig {
             	.requestMatchers("/","/webfonts/**","/assets/**","/images/**","/js/**","/jspage/**","/css/**","/csspage/**","/fonts/**","/vendor/**","/login", "/registrarUser").permitAll()
             	 .requestMatchers("/nuevoJefe","/buscarJefe","/listaJefe","/actualizarJefe").hasAnyAuthority("Inversionista")
 
+
+
+
+
+            	.requestMatchers("/home").hasAnyAuthority("Administrador","Inversionista","Jefe de Prestamista","Prestamista","Prestatario")
+
+
+
+
+
                  .requestMatchers("/prestamista-list","/prestamista-crear").hasAnyAuthority("Jefe de Prestamista")
 
 
                  .requestMatchers("/prestamista-list").hasAnyAuthority("Jefe de Prestamista")
                  
 
+
+                 
+
+
             	.requestMatchers("/home").hasAnyAuthority("Administrador","Inversionista","Jefe de Prestamista")
+
+
+
                 .anyRequest().authenticated())
             .formLogin(form -> form
                 .loginPage("/login")

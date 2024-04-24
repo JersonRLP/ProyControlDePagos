@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.prestamos.model.Rol;
 import com.prestamos.model.Usuario;
+import com.prestamos.service.PrestatarioService;
 import com.prestamos.service.RolService;
 
 

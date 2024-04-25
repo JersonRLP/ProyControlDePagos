@@ -37,7 +37,7 @@ public class JefePrestamistaController {
 		String username = auth.getName();
 		Usuario usuario = usuRepo.findByNombres(username);
 		model.addAttribute("lstPrestamistas", usuRepo.findByIdUsuarioLiderAndEstado(usuario.getIdUsuario(), 0));
-		return "listaJefe";
+		return "prestamista-list";
 	}
 	
 	@GetMapping("/vistaregistrar")
@@ -69,7 +69,7 @@ public class JefePrestamistaController {
 		Usuario usuario = usuRepo.findByIdUsuario(idUsuario);
 		model.addAttribute("prestamista", usuario);
 		model.addAttribute("lstZona", zonaRepo.findAll());
-		return "actualizarJefe";
+		return "prestamista-Actualizar";
 	}
 	
 	@PostMapping("/actualizar")

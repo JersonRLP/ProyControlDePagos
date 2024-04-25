@@ -7,28 +7,28 @@
 	<title>Home</title>
 
 	<!-- Normalize V8.0.1 -->
-	<link rel="stylesheet" href="csspage/normalize.css">
+	<link rel="stylesheet" href="/csspage/normalize.css">
 
 	<!-- Bootstrap V4.3 -->
-	<link rel="stylesheet" href="csspage/bootstrap.min.css">
+	<link rel="stylesheet" href="/csspage/bootstrap.min.css">
 
 	<!-- Bootstrap Material Design V4.0 -->
-	<link rel="stylesheet" href="csspage/bootstrap-material-design.min.css">
+	<link rel="stylesheet" href="/csspage/bootstrap-material-design.min.css">
 
 	<!-- Font Awesome V5.9.0 -->
-	<link rel="stylesheet" href="csspage/all.css">
+	<link rel="stylesheet" href="/csspage/all.css">
 
 	<!-- Sweet Alerts V8.13.0 CSS file -->
-	<link rel="stylesheet" href="csspage/sweetalert2.min.css">
+	<link rel="stylesheet" href="/csspage/sweetalert2.min.css">
 
 	<!-- Sweet Alert V8.13.0 JS file-->
-	<script src="jspage/sweetalert2.min.js" ></script>
+	<script src="/jspage/sweetalert2.min.js" ></script>
 
 	<!-- jQuery Custom Content Scroller V3.1.5 -->
-	<link rel="stylesheet" href="csspage/jquery.mCustomScrollbar.css">
+	<link rel="stylesheet" href="/csspage/jquery.mCustomScrollbar.css">
 	
 	<!-- General Styles -->
-	<link rel="stylesheet" href="csspage/style.css">
+	<link rel="stylesheet" href="/csspage/style.css">
 
 
 </head>
@@ -42,7 +42,7 @@
 			<div class="full-box nav-lateral-content">
 				<figure class="full-box nav-lateral-avatar">
 					<i class="far fa-times-circle show-nav-lateral"></i>
-					<img src="./assets/avatar/Avatar.png" class="img-fluid" alt="Avatar">
+					<img src="/assets/avatar/Avatar.png" class="img-fluid" alt="Avatar">
 					<figcaption class="roboto-medium text-center">
 					<span sec:authentication="name">Username</span>
 					    <br>
@@ -81,7 +81,7 @@
 									<a href="/prestamista-crear"><i class="fas fa-plus fa-fw"></i> &nbsp; Agregar Prestamista</a>
 								</li>
 								<li>
-									<a href="/prestamista-list"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista de Prestamista</a>
+									<a th:href="@{/jefepresmista/listado}"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Lista de Prestamista</a>
 								</li>
 								<li>
 									<a href="/prestamista-buscar"><i class="fas fa-search fa-fw"></i> &nbsp; Buscar Prestamista</a>
@@ -89,7 +89,7 @@
 							</ul>
 						</li>
 
-						<li>
+						<li th:case="'Jefe de Prestamista'">
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-users fa-fw"></i> &nbsp; Prestatario <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
@@ -247,22 +247,22 @@
 	<!-- javascript-fragment.html -->
 <div th:fragment="javascript-include">
 	<!-- jQuery V3.4.1 -->
-	<script src="jspage/jquery-3.4.1.min.js" ></script>
+	<script src="/jspage/jquery-3.4.1.min.js" ></script>
 
 	<!-- popper -->
-	<script src="jspage/popper.min.js" ></script>
+	<script src="/jspage/popper.min.js" ></script>
 
 	<!-- Bootstrap V4.3 -->
-	<script src="jspage/bootstrap.min.js" ></script>
+	<script src="/jspage/bootstrap.min.js" ></script>
 
 	<!-- jQuery Custom Content Scroller V3.1.5 -->
-	<script src="jspage/jquery.mCustomScrollbar.concat.min.js" ></script>
+	<script src="/jspage/jquery.mCustomScrollbar.concat.min.js" ></script>
 
 	<!-- Bootstrap Material Design V4.0 -->
 	<script src="jspage/bootstrap-material-design.min.js" ></script>
 	<script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
 
-	<script src="jspage/main.js" ></script>
+	<script src="/jspage/main.js" ></script>
 </div>
 </body>
 </html>

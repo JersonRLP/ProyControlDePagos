@@ -46,7 +46,7 @@ public class PrestatarioController {
         return "prestatario-list";
     }
 
-    @GetMapping("/prestatario/crear")
+    @GetMapping("/prestatario-crear")
     public String mostrarFormularioCrear(Model model) {
         model.addAttribute("prestatario", new Usuario());
         return "prestatario-crear";

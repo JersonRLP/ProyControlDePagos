@@ -40,4 +40,9 @@ public class RolServiceImpl implements RolService {
     public void eliminar(Integer id) {
         rolRepository.deleteById(id);
     }
+
+    @Override
+    public Rol obtenerRolPrestatario(int idRol) {
+        return rolRepository.findByIdRol(idRol);
+    }
 }

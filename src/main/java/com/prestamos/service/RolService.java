@@ -13,4 +13,5 @@ public interface RolService{
     void guardar(Rol rol);
     void actualizar(Rol rol);
     void eliminar(Integer id);
+    Rol obtenerRolPrestatario(int idRol);
 }

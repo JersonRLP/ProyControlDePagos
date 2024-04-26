@@ -36,7 +36,7 @@ public class Usuario {
 	private String dni;
 	private int estado;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="id_rol")
 	Rol idRol;
 	

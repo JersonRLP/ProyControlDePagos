@@ -3,13 +3,16 @@ package com.prestamos.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.prestamos.model.Zona;
+import com.prestamos.repository.UsuarioRepository;
+import com.prestamos.service.ZonaService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.prestamos.model.Rol;
 import com.prestamos.model.Usuario;
@@ -26,10 +29,17 @@ public class PrestatarioController {
     @Autowired
     private RolService rolService;
 
+    @Autowired
+    private ZonaService zonaService;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
 
 
     @GetMapping("prestatario-list")
     public String mostrarTodos(Model model) {
+
         List<Rol> roles = rolService.obtenerTodos();
         List<Usuario> prestatarios = prestatarioService.obtenerTodos();
         List<Usuario> prestatariosConRol6 = new ArrayList<>();
@@ -48,14 +58,65 @@ public class PrestatarioController {
 
     @GetMapping("/prestatario-crear")
     public String mostrarFormularioCrear(Model model) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String nombrePrestamista = auth.getName();
+        Usuario prestamista = usuarioRepository.findByNombres(nombrePrestamista);
+
+        // Obtener la zona del prestamista
+        Zona zonaPrestamista = prestamista.getIdZona();
+
+        // Agregar la zona del prestamista al modelo
+        model.addAttribute("zonaPrestamista", zonaPrestamista);
+
+        //List<Zona> zonas = zonaService.obtenerTodos();
+
+        // Filtrar los roles para obtener solo el de "prestatario"
+        Rol rolPrestatario = rolService.obtenerRolPrestatario(6);
+
+        model.addAttribute("nombrePrestamista", nombrePrestamista);
+        //model.addAttribute("zonas", zonas);
+        // Agregar el rol al modelo
+        model.addAttribute("rolPrestatario", rolPrestatario);
         model.addAttribute("prestatario", new Usuario());
         return "prestatario-crear";
     }
 
     @PostMapping("/prestatario/crear")
-    public String crearPrestamista(@ModelAttribute Usuario usuario) {
+    public String crearPrestamista(@ModelAttribute Usuario usuario, @RequestParam("idZona") int idZona, Model model) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String nombrePrestamista = auth.getName();
+        Usuario prestamista = usuarioRepository.findByNombres(nombrePrestamista);
+
+        // Encriptar la contraseña
+        String passwordEncriptado = encriptarPassword(usuario.getPassword());
+        usuario.setPassword(passwordEncriptado);
+
+
+        int idPrestamista = prestamista.getIdUsuario();
+        usuario.setIdUsuarioLider(idPrestamista);
+
+        // Obtener el rol del prestatario
+        Rol rolPrestatario = rolService.obtenerRolPrestatario(6);
+        // Asignar el rol al usuario
+        usuario.setIdRol(rolPrestatario);
+
+        // Asignar el ID de la zona seleccionada al usuario
+        /*Zona zonaSeleccionada = new Zona();
+        zonaSeleccionada.setIdZona(idZona);
+        usuario.setIdZona(zonaSeleccionada);*/
+
+
+
         prestatarioService.guardar(usuario);
         return "redirect:/prestatario-list";
+    }
+
+    // Método para encriptar la contraseña
+    private String encriptarPassword(String password) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.encode(password);
     }
 
     @GetMapping("/prestatario/editar/{id}")

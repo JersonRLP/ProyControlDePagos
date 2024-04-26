@@ -72,7 +72,7 @@ public class PrestamistaController {
 
 		model.addAttribute("roles", roles);
 		model.addAttribute("prestamistas", prestamistasFiltrados);
-		return "prestamista-list";
+		return "";
 	}
 
 	@GetMapping("/prestamista-crear")

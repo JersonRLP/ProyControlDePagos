@@ -39,6 +39,7 @@ public class PrestatarioController {
 
     @GetMapping("prestatario-list")
     public String mostrarTodos(Model model) {
+
         List<Rol> roles = rolService.obtenerTodos();
         List<Usuario> prestatarios = prestatarioService.obtenerTodos();
         List<Usuario> prestatariosConRol6 = new ArrayList<>();
@@ -57,6 +58,7 @@ public class PrestatarioController {
 
     @GetMapping("/prestatario-crear")
     public String mostrarFormularioCrear(Model model) {
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String nombrePrestamista = auth.getName();
         Usuario prestamista = usuarioRepository.findByNombres(nombrePrestamista);

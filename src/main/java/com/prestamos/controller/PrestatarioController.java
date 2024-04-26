@@ -176,7 +176,8 @@ public class PrestatarioController {
         prestatarioService.guardar(usuario);
         return "redirect:/prestatario-list";
     }
-
+    
+    
     @GetMapping("/prestatario/eliminar/{id}")
     public String eliminarPrestamista(@PathVariable Integer id) {
         prestatarioService.eliminar(id);

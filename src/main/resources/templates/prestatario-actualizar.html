@@ -42,24 +42,30 @@
         <div class="container-fluid">
             <ul class="full-box list-unstyled page-nav-tabs">
                 <li>
-                    <a class="active" href="user-new.html"><i class="fas fa-plus fa-fw"></i> &nbsp; NUEVO PRESTAMISTA</a>
+                    <a class="active" href="/prestatario-crear"><i class="fas fa-plus fa-fw"></i> &nbsp; NUEVO PRESTATARIO</a>
                 </li>
                 <li>
-                    <a href="user-list.html"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRESTAMISTA</a>
+                    <a href="/prestatario-list"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRESTATARIO</a>
                 </li>
                 <li>
-                    <a href="user-search.html"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR PRESTAMISTA</a>
+                    <a href="user-search.html"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR PRESTATARIO</a>
                 </li>
             </ul>
         </div>
 
         <!-- Content -->
         <div class="container-fluid">
-            <form th:action="@{/prestatario/actualizar}" th:object="${prestatario}" method="post" class="form-neon" autocomplete="off">
+            <form th:action="@{/prestatario/editar/{id}(id=${usuario.idUsuario})}" th:object="${usuario}" method="post" class="form-neon" autocomplete="off">
                 <fieldset>
                     <legend><i class="far fa-address-card"></i> &nbsp; Información personal</legend>
                     <div class="container-fluid">
                         <div class="row">
+                            <div class="col-12 col-md-4">
+                                <div class="form-group">
+                                    <label for="" class="bmd-label-floating">ID</label>
+                                    <input type="text" th:field="*{idUsuario}" class="form-control" name="idUsuario" id="idUsuario" readonly>
+                                </div>
+                            </div>
 
 
                             <div class="col-12 col-md-4">
@@ -106,26 +112,39 @@
                             </div>
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
-                                    <label for="usuario_direccion" class="bmd-label-floating">Estado</label>
-                                    <input type="text" th:field="*{estado}" class="form-control" name="usuario_direccion" id="usuario_direccion" maxlength="190">
+                                    <label for="" class="bmd-label-floating">Estado</label>
+                                    <input type="text" th:field="*{estado}" class="form-control" name="usuario_direccion" id="" maxlength="190">
                                 </div>
                             </div>
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
-                                    <label for="usuario_direccion" class="bmd-label-floating">Rol</label>
-                                    <input type="text" th:field="*{idRol}" class="form-control" name="usuario_direccion" id="usuario_direccion" maxlength="190">
+                                    <label for="" class="bmd-label-floating">Rol</label>
+                                    <!--<select class="form-select form-control" name="rol" id="idRol">
+                                        <option value=" ">[Seleccione Rol]</option>
+                                        <option th:each="rol:${roles}"
+                                                th:utext="${rol.descripcion}"
+                                                th:value="${rol.idRol}"/>
+                                    </select>-->
+                                    <input type="text" class="form-control" th:value="${rolPrestatario.descripcion}" readonly>
                                 </div>
                             </div>
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
-                                    <label for="usuario_direccion" class="bmd-label-floating">Zona</label>
-                                    <input type="text" th:field="*{idZona}" class="form-control" name="usuario_direccion" id="usuario_direccion" maxlength="190">
+                                    <label for="" class="bmd-label-floating">Zona</label>
+                                    <select class="form-select form-control" name="idZona" id="idZona">
+                                        <!--<option value=" ">[Seleccione Zona]</option>-->
+                                        <option th:each="zona:${zonaPrestamista}"
+                                                th:value="${zona.idZona}"
+                                                th:text="${zona.descripcion}"
+                                        />
+                                    </select>
+
                                 </div>
                             </div>
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
-                                    <label for="usuario_direccion" class="bmd-label-floating">Lider</label>
-                                    <input type="text" th:field="*{idUsuarioLider}" class="form-control" name="usuario_direccion" id="usuario_direccion" maxlength="190">
+                                    <label for="" class="bmd-label-floating">Lider</label>
+                                    <input type="text" class="form-control" id="nombrePrestamista" th:value="${nombrePrestamista}" readonly>
                                 </div>
                             </div>
                         </div>

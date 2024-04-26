@@ -69,7 +69,7 @@
           </tr>
           </thead>
           <tbody>
-          <tr class="text-center" th:each="prestamista : ${prestamistas}">
+          <tr class="text-center" th:each="prestamista : ${lstPrestamistas}">
             <td th:text="${prestamista.idUsuario}"></td>
             <td th:text="${prestamista.nombres}"></td>
             <td th:text="${prestamista.apePaterno}"></td>
@@ -79,7 +79,7 @@
             <td th:text="${prestamista.dni}"></td>
             <td th:text="${prestamista.estado}"></td>
             <td>
-              <a href="client-update.html" class="btn btn-success">
+              <a th:href="@{'/jefepresmista/vistaactualizar/' + ${prestamista.idUsuario}}" class="btn btn-success">
                 <i class="fas fa-sync-alt"></i>
               </a>
             </td>

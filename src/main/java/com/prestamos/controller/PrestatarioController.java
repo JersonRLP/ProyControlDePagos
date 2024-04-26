@@ -122,14 +122,58 @@ public class PrestatarioController {
     @GetMapping("/prestatario/editar/{id}")
     public String mostrarFormularioEditar(@PathVariable Integer id, Model model) {
         Usuario usuario = prestatarioService.obtenerPorId(id);
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String nombrePrestamista = auth.getName();
+        Usuario prestamista = usuarioRepository.findByNombres(nombrePrestamista);
+
+        // Obtener la zona del prestamista
+        Zona zonaPrestamista = prestamista.getIdZona();
+
+        // Agregar la zona del prestamista al modelo
+        model.addAttribute("zonaPrestamista", zonaPrestamista);
+
+        //List<Zona> zonas = zonaService.obtenerTodos();
+
+        // Filtrar los roles para obtener solo el de "prestatario"
+        Rol rolPrestatario = rolService.obtenerRolPrestatario(6);
+
+        model.addAttribute("nombrePrestamista", nombrePrestamista);
+        //model.addAttribute("zonas", zonas);
+        // Agregar el rol al modelo
+        model.addAttribute("rolPrestatario", rolPrestatario);
+        model.addAttribute("prestatario", new Usuario());
         model.addAttribute("usuario", usuario);
         return "prestatario-actualizar";
     }
 
     @PostMapping("/prestatario/editar/{id}")
-    public String actualizarPrestamista(@PathVariable Integer id, @ModelAttribute Usuario usuario) {
-        usuario.setIdUsuario(id); // Asegurarse de que el rol tenga el ID correcto
-        prestatarioService.actualizar(usuario);
+    public String actualizarPrestamista(@PathVariable Integer id, @ModelAttribute Usuario usuario, @RequestParam("idZona") int idZona, Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String nombrePrestamista = auth.getName();
+        Usuario prestamista = usuarioRepository.findByNombres(nombrePrestamista);
+
+        // Encriptar la contraseña
+        String passwordEncriptado = encriptarPassword(usuario.getPassword());
+        usuario.setPassword(passwordEncriptado);
+
+
+        int idPrestamista = prestamista.getIdUsuario();
+        usuario.setIdUsuarioLider(idPrestamista);
+
+        // Obtener el rol del prestatario
+        Rol rolPrestatario = rolService.obtenerRolPrestatario(6);
+        // Asignar el rol al usuario
+        usuario.setIdRol(rolPrestatario);
+
+        // Asignar el ID de la zona seleccionada al usuario
+        /*Zona zonaSeleccionada = new Zona();
+        zonaSeleccionada.setIdZona(idZona);
+        usuario.setIdZona(zonaSeleccionada);*/
+
+
+
+        prestatarioService.guardar(usuario);
         return "redirect:/prestatario-list";
     }
 

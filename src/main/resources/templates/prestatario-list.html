@@ -80,7 +80,7 @@
                         <td th:text="${prestatario.dni}"></td>
                         <td th:text="${prestatario.estado}"></td>
                         <td>
-                            <a href="prestatario-actualizar.html" class="btn btn-success">
+                            <a th:href="@{/prestatario/editar/{id}(id=${prestatario.idUsuario})}" class="btn btn-success">
                                 <i class="fas fa-sync-alt"></i>
                             </a>
                         </td>

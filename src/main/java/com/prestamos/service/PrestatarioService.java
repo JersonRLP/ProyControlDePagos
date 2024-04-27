@@ -11,4 +11,6 @@ public interface PrestatarioService {
     void guardar(Usuario usuario);
     void actualizar(Usuario usuario);
     void eliminar(Integer id);
+    List<Usuario> buscarPorNombreYRol(String nombres);
+    List<Usuario> buscarPorAtributos(String nombres, String apePaterno, String apeMaterno, String email, String telefono, String dni);
 }

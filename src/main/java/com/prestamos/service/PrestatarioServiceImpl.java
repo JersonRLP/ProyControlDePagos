@@ -40,4 +40,16 @@ public class PrestatarioServiceImpl implements PrestatarioService{
         prestatarioRepository.deleteById(id);
 
     }
+
+    @Override
+    public List<Usuario> buscarPorNombreYRol(String nombres) {
+        Integer idRol = 6; // ID del rol "prestatario"
+        return prestatarioRepository.findByNombresAndRolId(nombres, idRol);
+    }
+
+    @Override
+    public List<Usuario> buscarPorAtributos(String nombres, String apellidoPaterno, String apellidoMaterno, String email, String telefono, String dni) {
+        Integer idRol = 6; // ID del rol "prestatario"
+        return prestatarioRepository.findByAttributes(nombres, apellidoPaterno, apellidoMaterno, email, telefono, dni, idRol);
+    }
 }

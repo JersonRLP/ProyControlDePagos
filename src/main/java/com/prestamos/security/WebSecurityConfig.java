@@ -61,7 +61,7 @@ public class WebSecurityConfig {
 
                  .requestMatchers("/prestamista-list").hasAnyAuthority("Jefe de Prestamista")
 
-                    .requestMatchers("/prestatario-list").hasAnyAuthority("Prestamista")
+                    .requestMatchers("/prestatario-list","/prestatario-search").hasAnyAuthority("Prestamista")
                  
 
 

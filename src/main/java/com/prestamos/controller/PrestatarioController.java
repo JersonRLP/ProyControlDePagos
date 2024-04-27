@@ -183,7 +183,28 @@ public class PrestatarioController {
         prestatarioService.eliminar(id);
         return "redirect:/prestatario-list";
     }
-	
+
+    @GetMapping("/prestatario-search")
+    public String buscarPorNombreYRol(String nombres, Model model) {
+        List<Usuario> personas = prestatarioService.buscarPorNombreYRol(nombres);
+        model.addAttribute("personas", personas);
+        return "prestatario-search"; // nombre de la plantilla Thymeleaf
+    }
+
+    @GetMapping("/prestatario-search1")
+    public String buscarPorAtributos(
+            String nombres,
+            String apePaterno,
+            String apeMaterno,
+            String email,
+            String telefono,
+            String dni,
+            Model model) {
+
+        List<Usuario> usuarios = prestatarioService.buscarPorAtributos(nombres, apePaterno, apeMaterno, email, telefono, dni);
+        model.addAttribute("usuarios", usuarios);
+        return "prestatario-search";
+    }
 	
 	
 }

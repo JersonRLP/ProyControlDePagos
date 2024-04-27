@@ -7,6 +7,6 @@ import com.prestamos.model.Rol;
 
 public interface RolRepository extends JpaRepository<Rol,Integer>  {
 
-	Rol findByIdRol(int idRol);
-	
+	Rol  findByIdRol(int idRol);
+	Rol  findByDescripcion(String descripcion);
 }

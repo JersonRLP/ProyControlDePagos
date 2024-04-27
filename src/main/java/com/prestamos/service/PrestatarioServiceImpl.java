@@ -42,6 +42,11 @@ public class PrestatarioServiceImpl implements PrestatarioService{
     }
 
     @Override
+    public List<Usuario> obtenerPrestatariosDelPrestamista(Integer idUsuario) {
+        return prestatarioRepository.obtenerPrestatariosDelPrestamista(idUsuario);
+    }
+
+    @Override
     public List<Usuario> buscarPorNombreYRol(String nombres) {
         Integer idRol = 6; // ID del rol "prestatario"
         return prestatarioRepository.findByNombresAndRolId(nombres, idRol);

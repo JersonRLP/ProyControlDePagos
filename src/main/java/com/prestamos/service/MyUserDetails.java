@@ -46,6 +46,7 @@ public class MyUserDetails implements UserDetails {
 		return usuario.getNombres();
 	}
 
+
 	@Override
 	public boolean isAccountNonExpired() {
 		return true;

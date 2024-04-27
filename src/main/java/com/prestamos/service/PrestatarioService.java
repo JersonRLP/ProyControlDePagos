@@ -14,4 +14,5 @@ public interface PrestatarioService {
     List<Usuario> obtenerPrestatariosDelPrestamista(Integer idUsuario);
     List<Usuario> buscarPorNombreYRol(String nombres);
     List<Usuario> buscarPorAtributos(String nombres, String apePaterno, String apeMaterno, String email, String telefono, String dni);
+    List<Usuario> buscarPorAtributosP(String nombres, String apePaterno, String apeMaterno, String email, String telefono, String dni, Integer idUsuario);
 }

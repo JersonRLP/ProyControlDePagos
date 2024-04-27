@@ -32,4 +32,21 @@ public interface PrestatarioRepository extends JpaRepository<Usuario, Integer> {
                                 String telefono, String dni,
                                 Integer idRol);
 
+    @Query("SELECT u FROM Usuario u JOIN u.idRol r WHERE " +
+            "(:nombres is null or u.nombres like %:nombres%) AND " +
+            "(:apePaterno is null or u.apePaterno like %:apePaterno%) AND " +
+            "(:apeMaterno is null or u.apeMaterno like %:apeMaterno%) AND " +
+            "(:email is null or u.email like %:email%) AND " +
+            "(:telefono is null or u.telefono like %:telefono%) AND " +
+            "(:dni is null or u.dni like %:dni%) AND " +
+            "(u.idUsuarioLider = :idUsuario) AND" +
+            "(r.idRol = :idRol)")
+    List<Usuario> findByAttributesP(String nombres,
+                                   String apePaterno,
+                                   String apeMaterno,
+                                   String email,
+                                   String telefono, String dni,
+                                   Integer idRol,
+                                    Integer idUsuario);
+
 }

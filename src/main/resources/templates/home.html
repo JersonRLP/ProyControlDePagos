@@ -89,7 +89,7 @@
 							</ul>
 						</li>
 
-						<li th:case="'Prestamista'">
+						<li sec:authorize="hasAnyAuthority('Prestamista')">
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-users fa-fw"></i> &nbsp; Prestatario <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
@@ -123,7 +123,7 @@
 							</ul>
 						</li>
 
-						<li th:case="'Jefe de Prestamista'">
+						<li sec:authorize="hasAnyAuthority('Prestatario')">
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-file-invoice-dollar fa-fw"></i> &nbsp; Préstamos <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>

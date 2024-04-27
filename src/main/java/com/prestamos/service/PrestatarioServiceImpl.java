@@ -57,4 +57,10 @@ public class PrestatarioServiceImpl implements PrestatarioService{
         Integer idRol = 6; // ID del rol "prestatario"
         return prestatarioRepository.findByAttributes(nombres, apellidoPaterno, apellidoMaterno, email, telefono, dni, idRol);
     }
+
+    @Override
+    public List<Usuario> buscarPorAtributosP(String nombres, String apePaterno, String apeMaterno, String email, String telefono, String dni, Integer idUsuario) {
+        Integer idRol = 6; // ID del rol "prestatario"
+        return prestatarioRepository.findByAttributesP(nombres, apePaterno, apeMaterno, email, telefono, dni, idRol, idUsuario);
+    }
 }

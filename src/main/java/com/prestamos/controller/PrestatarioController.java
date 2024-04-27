@@ -54,7 +54,7 @@ public class PrestatarioController {
         //List<Usuario> prestatarios = prestatarioService.obtenerTodos();
         /*List<Usuario> prestatariosConRol6 = new ArrayList<>();
 
-        // Filtrar los prestamistas que tienen el rol con ID 5
+        // Filtrar los prestamistas que tienen el rol con ID 6
         for (Usuario prestatario : prestatarios) {
             if (prestatario.getIdRol().getIdRol() == 6) {
                 prestatariosConRol6.add(prestatario);
@@ -213,6 +213,29 @@ public class PrestatarioController {
             Model model) {
 
         List<Usuario> usuarios = prestatarioService.buscarPorAtributos(nombres, apePaterno, apeMaterno, email, telefono, dni);
+        model.addAttribute("usuarios", usuarios);
+        return "prestatario-search";
+    }
+
+    @GetMapping("/prestatario-search2")
+    public String buscarPorAtributosP(
+            String nombres,
+            String apePaterno,
+            String apeMaterno,
+            String email,
+            String telefono,
+            String dni,
+            Model model) {
+
+        // Obtener el nombre del prestamista logueado
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String nombrePrestamista = auth.getName();
+
+        // Obtener el prestamista logueado desde la base de datos
+        Usuario prestamista = usuarioRepository.findByNombres(nombrePrestamista);
+        Integer idUsuario = prestamista.getIdUsuario();
+
+        List<Usuario> usuarios = prestatarioService.buscarPorAtributosP(nombres, apePaterno, apeMaterno, email, telefono, dni, idUsuario);
         model.addAttribute("usuarios", usuarios);
         return "prestatario-search";
     }

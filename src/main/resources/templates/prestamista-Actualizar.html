@@ -56,10 +56,10 @@
 			<div class="container-fluid" sec:authorize="hasAnyAuthority('Jefe de Prestamista')">
 				<ul class="full-box list-unstyled page-nav-tabs">
 					<li>
-						<a class="active" th:href="@{/jefepresmista/vistaregistrar}"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR PRESTAMISTA</a>
+						<a th:href="@{/prestamista-crear}"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR PRESTAMISTA</a>
 					</li>
 					<li>
-						<a th:href="@{/jefepresmista/listado}"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRESTAMISTA</a>
+						<a th:href="@{/prestamista/listado}"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRESTAMISTA</a>
 					</li>
 					<li>
 						<a href="/buscarJefe"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR PRESTAMISTA</a>
@@ -69,7 +69,7 @@
 			
 			<!-- Content here-->
 			<div class="container-fluid" sec:authorize="hasAnyAuthority('Jefe de Prestamista')">
-				<form th:action="@{/jefepresmista/actualizar}" th:object="${prestamista}" method="post" class="form-neon">
+				<form th:action="@{/prestamista/editar/{id}(id=${usuario.idUsuario})}" th:object="${usuario}" method="post" class="form-neon">
 					<fieldset>
 						<legend><i class="fas fa-user"></i> &nbsp; Información básica</legend>
 						<div class="container-fluid">
@@ -80,12 +80,7 @@
 										<input th:field="*{idUsuario}" type="text" class="form-control" name="dni" id="InputIdUsuario" required>
 									</div>
 								</div>
-								<div class="col-12 col-md-6">
-									<div class="form-group">
-										<label for="cliente_dni" class="bmd-label-floating">DNI</label>
-										<input th:field="*{dni}" type="text" pattern="\d{8,20}" class="form-control" name="dni" id="cliente_dni" maxlength="27" readonly>
-									</div>
-								</div>
+
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_nombre" class="bmd-label-floating">Nombres</label>
@@ -104,6 +99,12 @@
 										<input th:field="*{apeMaterno}" type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="apeMaterno" id="cliente_apellido_materno"  maxlength="40" required>
 									</div>
 								</div>
+								<div class="col-12 offset-md-3 col-md-6">
+									<div class="form-group">
+										<label for="password" class="bmd-label-floating">Contraseña</label>
+										<input type="text"  th:field="*{password}" class="form-control" name="password" id="password" maxlength="40" required>
+									</div>
+								</div>
 								<div class="col-12 col-md-4">
 									<div class="form-group">
 										<label for="cliente_telefono" class="bmd-label-floating">Teléfono</label>
@@ -112,18 +113,47 @@
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
-										<label for="cliente_apellido" class="bmd-label-floating">Email</label>
+										<label for="cliente_dni" class="bmd-label-floating">DNI</label>
+										<input th:field="*{dni}" type="text" pattern="\d{8,20}" class="form-control" name="dni" id="cliente_dni" maxlength="27" readonly>
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="email" class="bmd-label-floating">Email</label>
 										<input th:field="*{email}" type="text" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" class="form-control" name="email" id="email" maxlength="100" title="Ingresa un email correcto" required>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
-								        <div class="form-group">
-								            <label for="zona" class="bmd-label-floating">Zona</label>
-								            <select id="zona" class="form-control" name="idZona" th:field="*{idZona}">
-								                <option disabled value="">Selecciona una zona</option>
-								                <option th:each="zona : ${lstZona}" th:value="${zona.idZona}" th:text="${zona.descripcion}"></option>
-								            </select>
-								        </div>
+									<div class="form-group">
+										<label for="" class="bmd-label-floating">Estado</label>
+										<input type="text" th:field="*{estado}" class="form-control" name="usuario_direccion" id="" maxlength="190">
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="" class="bmd-label-floating">Rol</label>
+
+										<input type="text" class="form-control" th:value="${rolJefePrestamista.descripcion}" readonly>
+									</div>
+								</div>
+								<div class="col-12 col-md-4">
+									<div class="form-group">
+										<label for="nombreJefePrestamista" class="bmd-label-floating">ID Usuario Líder</label>
+										<input type="text" class="form-control" id="nombreJefePrestamista" th:value="${nombreJefePrestamista}" readonly>
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="" class="bmd-label-floating">Zona</label>
+										<select class="form-select form-control" name="idZona" id="idZona">
+											<!--<option value=" ">[Seleccione Zona]</option>-->
+											<option th:each="zona:${zonaJefePrestamista}"
+													th:value="${zona.idZona}"
+													th:text="${zona.descripcion}"
+											/>
+										</select>
+
+									</div>
 								</div>
 							</div>
 						</div>

@@ -62,13 +62,13 @@ public class WebSecurityConfig {
                  .requestMatchers("/prestamista-list").hasAnyAuthority("Jefe de Prestamista")
 
                     .requestMatchers("/prestatario-list","/prestatario-search").hasAnyAuthority("Prestamista")
-                 
+                    .requestMatchers("/solicitar-prestamo","historial-prestamo").hasAnyAuthority("Prestatario")
 
 
                  
 
 
-            	.requestMatchers("/home").hasAnyAuthority("Administrador","Inversionista","Jefe de Prestamista")
+            	.requestMatchers("/home").hasAnyAuthority("Administrador","Inversionista","Jefe de Prestamista","Prestatario")
 
 
 

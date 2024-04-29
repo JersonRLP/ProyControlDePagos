@@ -49,13 +49,13 @@
 			
 			<!-- Content here-->
 			<div class="container-fluid">
-				<form th:action="@{/registrarJefe}" method="post"  class="form-neon" autocomplete="off">
+				<form th:action="@{/registrarJefe}" th:object="${jefe}" method="post"  class="form-neon" autocomplete="off">
 				<div align="center" th:if=${param.registroExitoso}>
 						<div class="alert alert-info">Jefe Registrado Exitosamente</div>
 				</div>
 					<div align="center" th:if="${mensaje != null}" class="alert alert-danger">
 						<p th:text="${mensaje}"></p>
-					</div>
+					 </div>
 					<fieldset>
 						<legend><i class="fas fa-user"></i> &nbsp; Información básica</legend>
 						<div class="container-fluid">
@@ -63,43 +63,46 @@
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_dni" class="bmd-label-floating">DNI</label>
-										<input type="text" pattern="\d{8}" class="form-control" name="dni" id="dni" maxlength="8" title="Ingresa 8 dígitos numéricos" required>
+										<input th:field="*{dni}" type="text" pattern="\d{8}" class="form-control" name="dni" id="dni" th:value="${jefe.dni}" maxlength="8" title="Ingresa 8 dígitos numéricos" required>
+										<p th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}" class="error-message"></p>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_nombre" class="bmd-label-floating">Nombres</label>
-										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="nombres" id="nombres" maxlength="50" title="Ingresa nombres correctos" required>
+										<input th:field="*{nombres}" type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="nombres" id="nombres" th:value="${jefe.nombres}" maxlength="50" title="Ingresa nombres correctos" required>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_apellido" class="bmd-label-floating">Apellido Paterno</label>
-										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}" class="form-control" name="apePaterno" id="apePaterno" maxlength="50" title="Ingresa un apellido correcto" required>
+										<input th:field="*{apePaterno}" type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}" class="form-control" name="apePaterno" id="apePaterno" th:value="${jefe.apePaterno}" maxlength="50" title="Ingresa un apellido correcto" required>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_apellido" class="bmd-label-floating">Apellido Materno</label>
-										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}" class="form-control" name="apeMaterno" id="apeMaterno" title="Ingresa un apellido correcto" maxlength="50">
+										<input th:field="*{apeMaterno}" type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}" class="form-control" name="apeMaterno" id="apeMaterno" th:value="${jefe.apeMaterno}" title="Ingresa un apellido correcto" maxlength="50">
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_apellido" class="bmd-label-floating">Email</label>
-										<input type="text" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" class="form-control" name="email" id="email" maxlength="100" title="Ingresa un email correcto" required>
+										<input th:field="*{email}" type="text" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" class="form-control" name="email" id="email" th:value="${jefe.email}" maxlength="100" title="Ingresa un email correcto" required>
+										<p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error-message"></p>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="password" class="bmd-label-floating">Contraseña</label>
-										<input type="password"  class="form-control" name="password" id="password" maxlength="40" required>
+										<input th:field="*{password}" type="password"  class="form-control" name="password" id="password" th:value="${jefe.password}" maxlength="40" required>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_telefono" class="bmd-label-floating">Teléfono</label>
-										<input type="text" pattern="[0-9()+]{1,20}" class="form-control" name="telefono" id="telefono" maxlength="20" required>
+										<input th:field="*{telefono}" type="text" pattern="[0-9()+]{1,20}" class="form-control" name="telefono" id="telefono" th:value="${jefe.telefono}" maxlength="20" required>
+										<p th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}" class="error-message"></p>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
@@ -107,6 +110,7 @@
 								            <label for="zona" class="bmd-label-floating">Zona</label>
 								            <select id="zona" class="form-control" name="idZona">
 								                <option disabled value="">Selecciona una zona</option>
+								              
 								                <option th:each="zona : ${listzonas}" th:value="${zona.idZona}" th:text="${zona.descripcion}"></option>
 								            </select>
 								        </div>
@@ -147,5 +151,14 @@
 	
     <!-- Incluir el fragmento de JavaScript -->
     <div th:include="home :: javascript-include"></div>
+    
+    <script th:inline="javascript">
+    var errorField = /*[[${errorField}]]*/ 'dni';
+    var inputField = document.getElementById('input' + errorField.charAt(0).toUpperCase() + errorField.slice(1));
+    
+    inputField.focus();
+    
+    inputField.value = '';
+</script>
 </body>
 </html>

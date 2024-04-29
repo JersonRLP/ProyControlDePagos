@@ -42,6 +42,7 @@ public class InversionistaController {
 	
 	@GetMapping("/nuevoJefe")
 	public String cargarPagina(Model model, HttpSession session) {
+		model.addAttribute("jefe", new Usuario());
 	    // Obtener el nombre de usuario del contexto de seguridad
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    String nombreUsuario = auth.getName();
@@ -62,8 +63,8 @@ public class InversionistaController {
 	    model.addAttribute("idRol", idRol);
 	    
 	    // Poner la lista de Zonas en el modelo
-	    model.addAttribute("listzonas", zonarepo.findAll());
-	    		
+	    model.addAttribute("listzonas", zonarepo.findAll());		
+	    
 		// Obtener el rol del usuario logueado (Inversionista)
 	    Rol r = usuario.getIdRol();	    	
 		String desrol = r.getDescripcion();		
@@ -78,74 +79,83 @@ public class InversionistaController {
 	
 	@GetMapping("/corregirJefe")
 	public String corregirjefe(@ModelAttribute("jefe") Usuario jefe,
-		    				 @ModelAttribute("lstZonas") List<Zona> lstZonas,
+		    				 //@ModelAttribute("listzonas") List<Zona> listzonas,
 		    				 @ModelAttribute("errorField") String errorField,
-		    				 Model model) {
+		    				 Model model, HttpSession session) {
 	
 	    model.addAttribute("jefe", jefe);
-	    model.addAttribute("lstZonas", lstZonas);
+	    //model.addAttribute("listzonas", listzonas);
 	    model.addAttribute("errorField", errorField);
+	 /*
+	    // Obtener la zona del jefe de prestamista 
+	    Zona zonaJefe = jefe.getIdZona();	    
+	    List<Zona> listaZonas = zonarepo.findAll();
+	    // Eliminar la zona del jefe del la lista para evitar duplicidad
+	    listaZonas.remove(zonaJefe);
+	    
+	    // Agregar lista de zonas al modelo
+	    model.addAttribute("listzonas", listaZonas);
+		// Agregar la zona del jefe al modelo
+		model.addAttribute("zonajefe", zonaJefe);*/
+	    
+	    
+	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    String nombreUsuario = auth.getName();		
+	    Usuario usuario = usurepo.findByNombres(nombreUsuario);  
+	    
+	    // Obtener el ID del usuario actual
+	    int idUsuario = usuario.getIdUsuario();
+	    
+	    // Poner el ID del usuario en el modelo
+	    model.addAttribute("idUsuario", idUsuario);
+	    
+	    // Obtener el ID del rol del usuario actual
+	    int idRol = usuario.getIdRol().getIdRol();
+	    
+	    // Poner el ID del rol en el modelo
+	    model.addAttribute("idRol", idRol);
+	    
+	    Rol r = usuario.getIdRol();
+	    String desrol = r.getDescripcion();	
+		session.setAttribute("rol", desrol);		
+		String rol = (String) session.getAttribute("rol");	
+		model.addAttribute("rol", rol);
+		
 		return "nuevoJefe";
 	}
 		
     @PostMapping("/registrarJefe")
-    public String registrarUsuarioJefe(@RequestParam("nombres") String nombres,
-    									@RequestParam("apePaterno") String apePaterno,
-    									@RequestParam("apeMaterno") String apeMaterno,
-    									@RequestParam("password") String password,
-    									@RequestParam("email") String email,
-    									@RequestParam("telefono") String telefono,
-    									@RequestParam("dni") String dni,
-    									@RequestParam("estado") int estado,
-    									@RequestParam("idRol") Rol idRol,
-    									@RequestParam("idZona") Zona idZona,
-    									@RequestParam("idUsuarioLider") int idUsuarioLider,
-    									RedirectAttributes attribute) {
+    public String registrarUsuarioJefe(@ModelAttribute Usuario jefe, RedirectAttributes attribute) {
     	
-        // Encriptar la contraseña antes de guardarla
-    	String passwordEncriptado = passwordEncoder.encode(password);
-    	
-    	// Declarar un objeto de tipo Usuario
-    	Usuario jefe = new Usuario();
-    	
-    	// LLenar campos a traves de los parametros
-    	jefe.setNombres(nombres);
-    	jefe.setApePaterno(apePaterno);
-    	jefe.setApeMaterno(apeMaterno);
+        // Encriptar la contraseña antes de guardarla    	
+    	String passwordEncriptado = passwordEncoder.encode(jefe.getPassword());
+    	  	
     	jefe.setPassword(passwordEncriptado);
-    	jefe.setEmail(email);
-    	jefe.setTelefono(telefono);
-    	jefe.setDni(dni);
-    	jefe.setEstado(estado);
-    	jefe.setIdRol(idRol);
-    	jefe.setIdZona(idZona);
-    	jefe.setIdUsuarioLider(idUsuarioLider);
-    	
-    	Usuario usuemail = invrepo.findByEmail(jefe.getEmail());
-    	if(usuemail == null) {
-    		Usuario usutel = invrepo.findByTelefono(jefe.getTelefono());
-    		if(usutel == null) {
-    			Usuario usudni = invrepo.findByDni(jefe.getDni());
-    			if(usudni == null) {
+    	Usuario jefeemail = invrepo.findByEmail(jefe.getEmail());
+    	if(jefeemail == null) {
+    		Usuario jefetel = invrepo.findByTelefono(jefe.getTelefono());
+    		if(jefetel == null) {
+    			Usuario jefedni = invrepo.findByDni(jefe.getDni());
+    			if(jefedni == null) {
     				usurepo.save(jefe);
     				return "redirect:/nuevoJefe?registroExitoso";
     			}else {
-					attribute.addFlashAttribute("mensaje", "El Jefe con el Correo: "+jefe.getEmail()+" ya existe");
+					attribute.addFlashAttribute("mensaje", "El Jefe con el DNI: "+jefe.getDni()+" ya existe");
 		            attribute.addFlashAttribute("jefe", jefe);
-		            attribute.addFlashAttribute("lstZonas", zonarepo.findAll());
-		            attribute.addFlashAttribute("errorField", "email");
+		            attribute.addFlashAttribute("listzonas", zonarepo.findAll());
+		            attribute.addFlashAttribute("errorField", "dni");
 				}
     		}else{
 				attribute.addFlashAttribute("mensaje", "El Jefe con el Teléfono: "+jefe.getTelefono()+" ya existe");
 	            attribute.addFlashAttribute("jefe", jefe);
-	            attribute.addFlashAttribute("lstZonas", zonarepo.findAll());
+	            attribute.addFlashAttribute("listzonas", zonarepo.findAll());
 	            attribute.addFlashAttribute("errorField", "telefono");
     		}
     	}else {
-			attribute.addFlashAttribute("mensaje", "El Jefe con el DNI: "+jefe.getDni()+" ya existe");
+			attribute.addFlashAttribute("mensaje", "El Jefe con el Correo: "+jefe.getEmail()+" ya existe");
             attribute.addFlashAttribute("jefe", jefe);
-            attribute.addFlashAttribute("lstZonas", zonarepo.findAll());
-            attribute.addFlashAttribute("errorField", "dniUsuario");
+            attribute.addFlashAttribute("listzonas", zonarepo.findAll());
+            attribute.addFlashAttribute("errorField", "email");
 		}
     	
     	return "redirect:/corregirJefe";
@@ -180,7 +190,8 @@ public class InversionistaController {
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 	    String nombreUsuario = auth.getName();
 	    
-	    Usuario usuario = usurepo.findByNombres(nombreUsuario);  
+	    Usuario usuario = usurepo.findByNombres(nombreUsuario); 
+	    
 	    int inversionista = usuario.getIdUsuario();
 	    model.addAttribute("idUsuario", inversionista);	    
 	    int idRol = usuario.getIdRol().getIdRol();	    
@@ -211,6 +222,53 @@ public class InversionistaController {
 		return "actualizarJefe";
 	}
 	
+	/*
+	@GetMapping("/corregirActualizarJefe")
+	public String corregirActualizarJefe(@ModelAttribute("jefe") Usuario jefe,
+		    				 @ModelAttribute("errorField") String errorField,
+		    				 Model model, HttpSession session) {
+	
+	    model.addAttribute("jefe", jefe);
+	    //model.addAttribute("listzonas", listzonas);
+	    model.addAttribute("errorField", errorField);
+	 /*
+	    // Obtener la zona del jefe de prestamista 
+	    Zona zonaJefe = jefe.getIdZona();	    
+	    List<Zona> listaZonas = zonarepo.findAll();
+	    // Eliminar la zona del jefe del la lista para evitar duplicidad
+	    listaZonas.remove(zonaJefe);
+	    
+	    // Agregar lista de zonas al modelo
+	    model.addAttribute("listzonas", listaZonas);
+		// Agregar la zona del jefe al modelo
+		model.addAttribute("zonajefe", zonaJefe);*/
+	    
+	    
+	   /* Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    String nombreUsuario = auth.getName();		
+	    Usuario usuario = usurepo.findByNombres(nombreUsuario);  
+	    
+	    // Obtener el ID del usuario actual
+	    int idUsuario = usuario.getIdUsuario();
+	    
+	    // Poner el ID del usuario en el modelo
+	    model.addAttribute("idUsuario", idUsuario);
+	    
+	    // Obtener el ID del rol del usuario actual
+	    int idRol = usuario.getIdRol().getIdRol();
+	    
+	    // Poner el ID del rol en el modelo
+	    model.addAttribute("idRol", idRol);
+	    
+	    Rol r = usuario.getIdRol();
+	    String desrol = r.getDescripcion();	
+		session.setAttribute("rol", desrol);		
+		String rol = (String) session.getAttribute("rol");	
+		model.addAttribute("rol", rol);
+		
+		return "redirect:/obtenerJefe";
+	}*/
+	
 	@PostMapping("/actualizarJefe")
 	public String actualizarJefe(@ModelAttribute Usuario jefe, @RequestParam("nombres") String nombres,
 								 @RequestParam("apePaterno") String apePaterno,
@@ -226,21 +284,69 @@ public class InversionistaController {
 								 RedirectAttributes attribute) {
 		
     	String passwordEncriptado = passwordEncoder.encode(password);
-    	 	
+    	
+    	/*String dniactual = jefe.getDni();
+    	String emailactual = jefe.getEmail();
+    	String telefonoactual = jefe.getTelefono();
+    	
+    	String dninuevo = dni;
+		String emailnuevo = email;
+		String telefononuevo = telefono;
+    	
+		
     	jefe.setNombres(nombres);
     	jefe.setApePaterno(apePaterno);
     	jefe.setApeMaterno(apeMaterno);
     	jefe.setPassword(passwordEncriptado);
-    	jefe.setEmail(email);
+    	jefe.setEstado(estado);
+    	jefe.setIdRol(idRol);
+    	jefe.setIdZona(idZona);
+    	jefe.setIdUsuarioLider(idUsuarioLider);
+		Usuario jefeemail = invrepo.findByEmail(emailnuevo);
+    	if(jefeemail.getEmail() == null || jefeemail.getEmail() == emailactual) {
+    		jefe.setEmail(email);
+    		Usuario jefetel = invrepo.findByTelefono(telefononuevo);
+    		if(jefetel.getTelefono() == null || jefeemail.getTelefono() == telefonoactual) {
+    			jefe.setTelefono(telefono);
+    			Usuario jefedni = invrepo.findByDni(dninuevo);
+    			if(jefedni.getDni() == null || jefedni.getDni() == dniactual) { 		    	
+    		    	jefe.setDni(dni);
+    				usurepo.save(jefe);
+    				return "redirect:/listaJefe?actualizacionExitosa";
+    			}else {
+					attribute.addFlashAttribute("mensaje", "El Jefe con el DNI: "+jefe.getDni()+" ya existe");
+		            attribute.addFlashAttribute("jefe", jefe);
+		            attribute.addFlashAttribute("listzonas", zonarepo.findAll());
+		            attribute.addFlashAttribute("errorField", "dni");
+				}
+    		}else{
+				attribute.addFlashAttribute("mensaje", "El Jefe con el Teléfono: "+jefe.getTelefono()+" ya existe");
+	            attribute.addFlashAttribute("jefe", jefe);
+	            attribute.addFlashAttribute("listzonas", zonarepo.findAll());
+	            attribute.addFlashAttribute("errorField", "telefono");
+    		}
+    	}else {
+			attribute.addFlashAttribute("mensaje", "El Jefe con el Correo: "+jefe.getEmail()+" ya existe");
+            attribute.addFlashAttribute("jefe", jefe);
+            attribute.addFlashAttribute("listzonas", zonarepo.findAll());
+            attribute.addFlashAttribute("errorField", "email");
+		}
+   
+    	return "redirect:/corregirActualizarJefe";*/
+    	
+    	jefe.setNombres(nombres);
+    	jefe.setApePaterno(apePaterno);
+    	jefe.setApeMaterno(apeMaterno);
+    	jefe.setPassword(passwordEncriptado);
     	jefe.setTelefono(telefono);
+    	jefe.setEmail(email);
     	jefe.setDni(dni);
     	jefe.setEstado(estado);
     	jefe.setIdRol(idRol);
     	jefe.setIdZona(idZona);
     	jefe.setIdUsuarioLider(idUsuarioLider);
-		
+    	
     	usurepo.save(jefe);
-
     	return "redirect:/listaJefe?actualizacionExitosa";
 	}
     

@@ -90,13 +90,13 @@
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_telefono" class="bmd-label-floating">Teléfono</label>
-										<input th:field="*{telefono}" type="text" pattern="[0-9()+]{1,20}" class="form-control" name="telefono" id="cliente_telefono" th:value="${jefe.telefono}" maxlength="20" required>
+										<input th:field="*{telefono}" type="text" pattern="[0-9()+]{1,20}" class="form-control" name="telefono" id="cliente_telefono" th:value="${jefe.telefono}" maxlength="20" readonly>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_apellido" class="bmd-label-floating">Email</label>
-										<input th:field="*{email}" type="text" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" class="form-control" name="email" id="email" th:value="${jefe.email}" maxlength="100" title="Ingresa un email correcto" required>
+										<input th:field="*{email}" type="text" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" class="form-control" name="email" id="email" th:value="${jefe.email}" maxlength="100" title="Ingresa un email correcto" readonly>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">

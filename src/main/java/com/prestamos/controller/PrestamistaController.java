@@ -77,39 +77,29 @@ public class PrestamistaController {
 
 	@GetMapping("/prestamista-crear")
 	public String mostrarFormularioCrear(Model model) {
-		// Obtener el nombre de usuario del contexto de seguridad
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String nombreUsuario = auth.getName();
+			// Obtener el nombre de usuario del contexto de seguridad
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			String nombreUsuario = auth.getName();
 
+			// Obtener el usuario actual
+			Usuario usuario = usurepo.findByNombres(nombreUsuario);
 
-		// Obtener el usuario actual
-		Usuario usuario = usurepo.findByNombres(nombreUsuario);
+			Rol rolPrestatario = rolService.obtenerRolPrestatario(5);
 
-		// Obtener el ID del usuario actual
-		int idUsuario = usuario.getIdUsuario();
+			// Poner el usuario en el modelo
+			// Agregar otros atributos necesarios al modelo
+			model.addAttribute("nombreUsuario", nombreUsuario);
+			model.addAttribute("idRol", rolPrestatario);
+			model.addAttribute("idZona", usuario.getIdZona().getIdZona());
+			model.addAttribute("listzonas", zonarepo.findAll());
 
-		// Poner el ID del usuario en el modelo
-		model.addAttribute("idUsuario", idUsuario);
+			model.addAttribute("prestamista", new Usuario());
 
-		// Obtener el ID del rol del usuario actual
-		int idRol = usuario.getIdRol().getIdRol();
+			return "prestamista-crear";
 
-		// Poner el ID del rol en el modelo
-		model.addAttribute("idRol", idRol);
-
-		// Obtener la descripcion de la zona del usuario actual
-		int idZona = usuario.getIdZona().getIdZona();
-
-		// Poner la descripcion de la zona en el modelo
-		model.addAttribute("idZona", idZona);
-
-		// También puedes pasar otros datos necesarios al modelo
-		model.addAttribute("listzonas", zonarepo.findAll());
-
-		return "prestamista-crear";
 	}
 
-	@PostMapping("/crear")
+	@PostMapping("/prestamista/crear")
 
 		public String crearPrestamista (@RequestParam("nombres") String nombres,
 				@RequestParam("apePaterno") String apePaterno,
@@ -147,19 +137,65 @@ public class PrestamistaController {
 
 		}
 
-		@GetMapping("/editar/{id}")
+		@GetMapping("/prestamista/editar/{id}")
 		public String mostrarFormularioEditar (@PathVariable Integer id, Model model){
 			Usuario usuario = prestamistaService.obtenerPorId(id);
+
+
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			String nombreJefePrestamista = auth.getName();
+			Usuario jefeprestamista = usurepo.findByNombres(nombreJefePrestamista);
+
+			// Obtener la zona del prestamista
+			Zona zonaJefePrestamista = jefeprestamista.getIdZona();
+
+			// Agregar la zona del prestamista al modelo
+			model.addAttribute("zonaJefePrestamista", zonaJefePrestamista);
+
+			Rol rolJefePrestamista = rolService.obtenerRolPrestatario(5);
+
+			model.addAttribute("nombreJefePrestamista", nombreJefePrestamista);
+
+			// Agregar el rol al modelo
+			model.addAttribute("rolJefePrestamista", rolJefePrestamista);
+
 			model.addAttribute("usuario", usuario);
-			return "prestamista-actualizar";
+
+			
+			return "prestamista-Actualizar";
 		}
 
-		@PostMapping("/editar/{id}")
+
+
+	@PostMapping("/prestamista/editar/{id}")
 		public String actualizarPrestamista (@PathVariable Integer id, @ModelAttribute Usuario usuario){
-			usuario.setIdUsuario(id); // Asegurarse de que el rol tenga el ID correcto
+			usuario.setIdUsuario(id);// Asegurarse de que el rol tenga el ID correcto
+
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			String nombreJefePrestamista = auth.getName();
+			Usuario jefeprestamista = usurepo.findByNombres(nombreJefePrestamista);
+
+			// Encriptar la contraseña
+			String passwordEncriptado = encriptarPassword(usuario.getPassword());
+			usuario.setPassword(passwordEncriptado);
+
+			int idPrestamista = jefeprestamista.getIdUsuario();
+			usuario.setIdUsuarioLider(idPrestamista);
+
+			// Obtener el rol del prestatario
+			Rol rolJefePrestatario = rolService.obtenerRolPrestatario(5);
+			// Asignar el rol al usuario
+			usuario.setIdRol(rolJefePrestatario);
+
 			prestamistaService.actualizar(usuario);
-			return "redirect:/prestamista-list";
+			return "redirect:/prestamista/listado";
 		}
+
+	// Método para encriptar la contraseña
+	private String encriptarPassword(String password) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		return encoder.encode(password);
+	}
 
 		@GetMapping("/eliminar/{id}")
 		public String eliminarPrestamista (@PathVariable Integer id){

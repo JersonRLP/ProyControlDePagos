@@ -79,7 +79,7 @@
             <td th:text="${prestamista.dni}"></td>
             <td th:text="${prestamista.estado}"></td>
             <td>
-              <a th:href="@{'/jefepresmista/vistaactualizar/' + ${prestamista.idUsuario}}" class="btn btn-success">
+              <a th:href="@{/prestamista/editar/{id}(id=${prestamista.idUsuario})}" class="btn btn-success">
                 <i class="fas fa-sync-alt"></i>
               </a>
             </td>

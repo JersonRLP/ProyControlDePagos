@@ -12,5 +12,7 @@ public interface UsuarioRepository extends JpaRepository<Usuario,Integer> {
 	Usuario findByNombres(String nombres);
 	Usuario findByIdUsuario(int idUsuario);
 	List<Usuario> findByIdRol(Rol idRol);
-	List<Usuario> findByIdUsuarioLiderAndEstado(int id, int estado);
+	
+	@Query("SELECT u FROM Usuario u WHERE u.idUsuarioLider = :idUsuario AND u.estado = :estado")
+	List<Usuario> findByIdUsuarioLiderAndEstado(Integer idUsuario, int estado);
 }

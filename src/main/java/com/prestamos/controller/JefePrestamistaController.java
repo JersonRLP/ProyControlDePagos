@@ -18,7 +18,7 @@ import com.prestamos.repository.UsuarioRepository;
 import com.prestamos.repository.ZonaRepository;
 
 @Controller
-@RequestMapping("/jefepresmista")
+@RequestMapping("/prestamista")
 public class JefePrestamistaController {
 	
 	@Autowired
@@ -31,12 +31,20 @@ public class JefePrestamistaController {
 	private BCryptPasswordEncoder encriptar;
 	
 	@GetMapping("/listado")
-	public String homeJefePrestamista(Model model) {
+	public String homeJefePrestamista(@ModelAttribute Usuario usuario, Model model) {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String username = auth.getName();
-		Usuario usuario = usuRepo.findByNombres(username);
-		model.addAttribute("lstPrestamistas", usuRepo.findByIdUsuarioLiderAndEstado(usuario.getIdUsuario(), 0));
+		Usuario usuario1 = usuRepo.findByNombres(username);
+
+		Integer idUsuario = usuario1.getIdUsuario();
+		usuario.setIdUsuarioLider(idUsuario);
+
+
+		//List<Usuario> lstprestamistas = usuRepo.findAll();
+		List<Usuario> lstprestamistas = usuRepo.findByIdUsuarioLiderAndEstado(idUsuario, 0);
+
+		model.addAttribute("lstPrestamistas", lstprestamistas);
 		return "prestamista-list";
 	}
 	

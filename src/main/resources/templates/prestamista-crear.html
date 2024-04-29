@@ -1,160 +1,14 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="https://www.thymeleaf.org">
 <head th:replace="home  :: head">
-<<<<<<< HEAD
+
     <meta charset="UTF-8">
 
     <title>Nuevo Prestamista</title>
 
-
 </head>
 <body>
 
-<!-- Main container -->
-<main class="full-box main-container">
-    <!-- Nav lateral -->
-    <section th:replace="home :: nav-lateral">
-    </section>
-
-    <!-- Page content -->
-    <section class="full-box page-content">
-        <nav class="full-box navbar-info">
-            <a href="#" class="float-left show-nav-lateral">
-                <i class="fas fa-exchange-alt"></i>
-            </a>
-            <a href="user-update.html">
-                <i class="fas fa-user-cog"></i>
-            </a>
-            <a href="#" class="btn-exit-system">
-                <i class="fas fa-power-off"></i>
-            </a>
-        </nav>
-
-        <!-- Page header -->
-        <div class="full-box page-header">
-            <h3 class="text-left">
-                <i class="fas fa-plus fa-fw"></i> &nbsp; NUEVO PRESTAMISTA
-            </h3>
-            <p class="text-justify">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit nostrum rerum animi natus beatae ex. Culpa blanditiis tempore amet alias placeat, obcaecati quaerat ullam, sunt est, odio aut veniam ratione.
-            </p>
-        </div>
-
-        <div class="container-fluid">
-            <ul class="full-box list-unstyled page-nav-tabs">
-                <li>
-                    <a class="active" href="user-new.html"><i class="fas fa-plus fa-fw"></i> &nbsp; NUEVO PRESTAMISTA</a>
-                </li>
-                <li>
-                    <a href="user-list.html"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRESTAMISTA</a>
-                </li>
-                <li>
-                    <a href="user-search.html"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR PRESTAMISTA</a>
-                </li>
-            </ul>
-        </div>
-
-        <!-- Content -->
-        <div class="container-fluid">
-            <form th:action="@{/crear}" th:object="${prestamista}" method="post" class="form-neon" autocomplete="off">
-                <fieldset>
-                    <legend><i class="far fa-address-card"></i> &nbsp; Información personal</legend>
-                    <div class="container-fluid">
-                        <div class="row">
-
-
-                            <div class="col-12 col-md-4">
-                                <div class="form-group">
-                                    <label for="usuario_nombre" class="bmd-label-floating">Nombres</label>
-                                    <input type="text" th:field="*{nombres}" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,35}" class="form-control" name="usuario_nombre" id="usuario_nombre" maxlength="35">
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <div class="form-group">
-                                    <label for="usuario_apellido" class="bmd-label-floating">Apellido Paterno</label>
-                                    <input type="text" th:field="*{apePaterno}" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,35}" class="form-control" name="usuario_apellido" id="usuario_apellido" maxlength="35">
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <div class="form-group">
-                                    <label for="usuario_apellido" class="bmd-label-floating">Apellido Materno</label>
-                                    <input type="text" th:field="*{apeMaterno}" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,35}" class="form-control" name="usuario_apellido" id="usuario_apellido" maxlength="35">
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <div class="form-group">
-                                    <label for="usuario_apellido" class="bmd-label-floating">Password</label>
-                                    <input type="text" th:field="*{password}" class="form-control" name="usuario_apellido" id="usuario_apellido" maxlength="35">
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <div class="form-group">
-                                    <label for="usuario_apellido" class="bmd-label-floating">Email</label>
-                                    <input type="text" th:field="*{email}" class="form-control" name="usuario_apellido" id="usuario_apellido" maxlength="35">
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="usuario_telefono" class="bmd-label-floating">Teléfono</label>
-                                    <input type="text" th:field="*{telefono}" pattern="[0-9()+]{1,20}" class="form-control" name="usuario_telefono" id="usuario_telefono" maxlength="20">
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <div class="form-group">
-                                    <label for="usuario_dni" class="bmd-label-floating">DNI</label>
-                                    <input type="text" th:field="*{dni}" pattern="[0-9-]{1,20}" class="form-control" name="usuario_dni" id="usuario_dni" maxlength="20">
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="usuario_direccion" class="bmd-label-floating">Estado</label>
-                                    <input type="text" th:field="*{estado}" class="form-control" name="usuario_direccion" id="usuario_direccion" maxlength="190">
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="usuario_direccion" class="bmd-label-floating">Rol</label>
-                                    <input type="text" th:field="*{idRol}" class="form-control" name="usuario_direccion" id="usuario_direccion" maxlength="190">
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="usuario_direccion" class="bmd-label-floating">Zona</label>
-                                    <input type="text" th:field="*{idZona}" class="form-control" name="usuario_direccion" id="usuario_direccion" maxlength="190">
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <div class="form-group">
-                                    <label for="usuario_direccion" class="bmd-label-floating">Lider</label>
-                                    <input type="text" th:field="*{idUsuarioLider}" class="form-control" name="usuario_direccion" id="usuario_direccion" maxlength="190">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </fieldset>
-                <br><br><br>
-
-                <p class="text-center" style="margin-top: 40px;">
-                    <button type="reset" class="btn btn-raised btn-secondary btn-sm"><i class="fas fa-paint-roller"></i> &nbsp; LIMPIAR</button>
-                    &nbsp; &nbsp;
-                    <button type="submit" class="btn btn-raised btn-info btn-sm"><i class="far fa-save"></i> &nbsp; GUARDAR</button>
-                </p>
-            </form>
-        </div>
-
-
-    </section>
-</main>
-
-
-<!-- Incluir el fragmento de JavaScript -->
-<div th:include="home :: javascript-include"></div>
-=======
-	<meta charset="UTF-8">
-	<title>Cliente Nuevo</title>
-</head>
-<body>
-	
 	<!-- Main container -->
 	<main class="full-box main-container">
 		<!-- Nav lateral -->
@@ -188,20 +42,20 @@
 			<div class="container-fluid">
 				<ul class="full-box list-unstyled page-nav-tabs">
 					<li>
-						<a class="active" href="/nuevoJefe"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR PRESTAMISTA</a>
+						<a th:href="@{/prestamista-crear}"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR PRESTAMISTA</a>
 					</li>
 					<li>
-						<a href="/prestamista-list"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRESTAMISTA</a>
+						<a th:href="@{/prestamista/listado}"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRESTAMISTA</a>
 					</li>
 					<li>
 						<a href="/buscarJefe"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR PRESTAMISTA</a>
 					</li>
-				</ul>	
+				</ul>
 			</div>
-			
+
 			<!-- Content here-->
 			<div class="container-fluid">
-				<form th:action="@{/crear}" method="post"  class="form-neon" autocomplete="off">
+				<form th:action="@{/prestamista/crear}" th:object="${prestamista}" method="post"  class="form-neon" autocomplete="off">
 				<div align="center" th:if=${param.registroExitoso}>
 						<div class="alert alert-info">Prestamista Registrado Exitosamente</div>
 				</div>
@@ -209,48 +63,51 @@
 						<legend><i class="fas fa-user"></i> &nbsp; Información básica</legend>
 						<div class="container-fluid">
 							<div class="row">
-								<div class="col-12 col-md-6">
-									<div class="form-group">
-										<label for="cliente_dni" class="bmd-label-floating">DNI</label>
-										<input type="text" pattern="\d{8}" class="form-control" name="dni" id="dni" maxlength="8" title="Ingresa 8 dígitos numéricos" required>
-									</div>
-								</div>
+
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_nombre" class="bmd-label-floating">Nombres</label>
-										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="nombres" id="nombres" maxlength="50" title="Ingresa nombres correctos" required>
+										<input type="text" th:field="*{nombres}" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="nombres" id="nombres" maxlength="50" title="Ingresa nombres correctos" required>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_apellido" class="bmd-label-floating">Apellido Paterno</label>
-										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}" class="form-control" name="apePaterno" id="apePaterno" maxlength="50" title="Ingresa un apellido correcto" required>
+										<input type="text" th:field="*{apePaterno}" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}" class="form-control" name="apePaterno" id="apePaterno" maxlength="50" title="Ingresa un apellido correcto" required>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_apellido" class="bmd-label-floating">Apellido Materno</label>
-										<input type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}" class="form-control" name="apeMaterno" id="apeMaterno" title="Ingresa un apellido correcto" maxlength="50">
+										<input type="text" th:field="*{apeMaterno}" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}" class="form-control" name="apeMaterno" id="apeMaterno" title="Ingresa un apellido correcto" maxlength="50">
+									</div>
+								</div>
+								<div class="col-12 offset-md-3 col-md-6">
+									<div class="form-group">
+										<label for="password" class="bmd-label-floating">Contraseña</label>
+										<input type="password"  th:field="*{password}" class="form-control" name="password" id="password" maxlength="40" required>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_apellido" class="bmd-label-floating">Email</label>
-										<input type="text" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" class="form-control" name="email" id="email" maxlength="100" title="Ingresa un email correcto" required>
+										<input type="text" th:field="*{email}" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" class="form-control" name="email" id="email" maxlength="100" title="Ingresa un email correcto" required>
 									</div>
 								</div>
+
 								<div class="col-12 col-md-6">
                 					<div class="form-group">
                     					<label for="cliente_telefono" class="bmd-label-floating">Teléfono</label>
-                    					<input type="text" pattern="[0-9()+]{1,20}" class="form-control" name="telefono" id="telefono" maxlength="20" required>
+                    					<input type="text" th:field="*{telefono}" pattern="[0-9()+]{1,20}" class="form-control" name="telefono" id="telefono" maxlength="20" required>
                 					</div>
             					</div>
-								<div class="col-12 offset-md-3 col-md-6">
+								<div class="col-12 col-md-6">
 									<div class="form-group">
-										<label for="password" class="bmd-label-floating">Contraseña</label>
-										<input type="password"  class="form-control" name="password" id="password" maxlength="40" required>
+										<label for="cliente_dni" class="bmd-label-floating">DNI</label>
+										<input type="text" th:field="*{dni}" pattern="\d{8}" class="form-control" name="dni" id="dni" maxlength="8" title="Ingresa 8 dígitos numéricos" required>
 									</div>
 								</div>
+
 								<div class="col-12 col-md-6" style="display: none;">
 								        <div class="form-group">
 								            <label for="zona" class="bmd-label-floating">Zona</label>
@@ -263,15 +120,15 @@
 										<input type="number"  class="form-control" name="estado" id="estado" value="0" readonly>
 									</div>
 								</div>
-								<div class="col-12 col-md-4" style="display: none;">
+								<div class="col-12 col-md-4">
 								    <div class="form-group">
-								        <label for="idUsuarioLider" class="bmd-label-floating">ID Usuario Líder</label>
-								        <input type="number" class="form-control" name="idUsuarioLider" id="idUsuarioLider" th:value="${idUsuario}" readonly>
+								        <label for="nombreUsuario" class="bmd-label-floating">ID Usuario Líder</label>
+								        <input type="text" class="form-control" id="nombreUsuario" th:value="${nombreUsuario}" readonly>
 								    </div>
 								</div>
 								<div class="col-12 col-md-4" style="display: none;">
 									<div class="form-group">
-										<label for="estado" class="bmd-label-floating">idRol</label>
+										<label for="rol" class="bmd-label-floating">idRol</label>
 										<input type="number"  class="form-control" name="idRol" id="idRol" value="5" readonly>
 									</div>
 								</div>
@@ -286,13 +143,13 @@
 						<button type="submit" class="btn btn-raised btn-info btn-sm"><i class="far fa-save"></i> &nbsp; GUARDAR</button>
 					</p>
 				</form>
-			</div>	
+			</div>
 
 		</section>
 	</main>
-	
+
     <!-- Incluir el fragmento de JavaScript -->
     <div th:include="home :: javascript-include"></div>
->>>>>>> f39936c5dc8477ada3d71729e3ea79a37950604a
+
 </body>
 </html>

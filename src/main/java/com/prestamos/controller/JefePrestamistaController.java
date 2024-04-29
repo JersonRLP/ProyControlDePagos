@@ -17,6 +17,8 @@ import com.prestamos.model.Usuario;
 import com.prestamos.repository.UsuarioRepository;
 import com.prestamos.repository.ZonaRepository;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/prestamista")
 public class JefePrestamistaController {

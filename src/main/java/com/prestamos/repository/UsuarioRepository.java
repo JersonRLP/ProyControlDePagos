@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.prestamos.model.Rol;
 import com.prestamos.model.Usuario;
+import org.springframework.data.jpa.repository.Query;
 
 public interface UsuarioRepository extends JpaRepository<Usuario,Integer> {
 	Usuario findByIdUsuario(Integer selectPrestamista);

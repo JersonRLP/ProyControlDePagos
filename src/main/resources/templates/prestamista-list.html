@@ -56,7 +56,7 @@
         <table class="table table-dark table-sm">
           <thead>
           <tr class="text-center roboto-medium">
-            <th>ID</th>
+            <th>#</th>
             <th>NOMBRES</th>
             <th>APELLIDO PATERNO</th>
             <th>APELLIDO MATERNO</th>
@@ -69,8 +69,9 @@
           </tr>
           </thead>
           <tbody>
-          <tr class="text-center" th:each="prestamista : ${lstPrestamistas}">
-            <td th:text="${prestamista.idUsuario}"></td>
+          <tr class="text-center" th:each="prestamista, iterStat : ${lstPrestamistas}">
+			<td th:text="${iterStat.index + 1}"></td>
+            <td hidden hidth:text="${prestamista.idUsuario}"></td>
             <td th:text="${prestamista.nombres}"></td>
             <td th:text="${prestamista.apePaterno}"></td>
             <td th:text="${prestamista.apeMaterno}"></td>

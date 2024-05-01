@@ -101,36 +101,27 @@ public class PrestamistaController {
 
 	@PostMapping("/prestamista/crear")
 
-		public String crearPrestamista (@RequestParam("nombres") String nombres,
-				@RequestParam("apePaterno") String apePaterno,
-				@RequestParam("apeMaterno") String apeMaterno,
-				@RequestParam("password") String password,
-				@RequestParam("email") String email,
-				@RequestParam("telefono") String telefono,
-				@RequestParam("dni") String dni,
-				@RequestParam("estado") int estado,
-				@RequestParam("idRol") Rol idRol,
-				@RequestParam("idZona") Zona idZona,
-				@RequestParam("idUsuarioLider") int idUsuarioLider,
-				RedirectAttributes attribute){
+		public String crearPrestamista (@ModelAttribute Usuario usuario, @RequestParam("idZona") int idZona, Model model){
 
-			// Encriptar la contraseña antes de guardarla
-			String passwordEncriptado = passwordEncoder.encode(password);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String nombreJefePrestamista = auth.getName();
+		Usuario jefeprestamista = usurepo.findByNombres(nombreJefePrestamista);
 
-			Usuario prestamista = new Usuario();
-			prestamista.setNombres(nombres);
-			prestamista.setApePaterno(apePaterno);
-			prestamista.setApeMaterno(apeMaterno);
-			prestamista.setPassword(passwordEncriptado);
-			prestamista.setEmail(email);
-			prestamista.setTelefono(telefono);
-			prestamista.setDni(dni);
-			prestamista.setEstado(estado);
-			prestamista.setIdRol(idRol);
-			prestamista.setIdZona(idZona);
-			prestamista.setIdUsuarioLider(idUsuarioLider);
+		// Encriptar la contraseña
+		String passwordEncriptado = encriptarPassword(usuario.getPassword());
+		usuario.setPassword(passwordEncriptado);
 
-			usurepo.save(prestamista);
+		int idPrestamista = jefeprestamista.getIdUsuario();
+		usuario.setIdUsuarioLider(idPrestamista);
+
+		// Obtener el rol del prestatario
+		Rol rolJefePrestatario = rolService.obtenerRolPrestatario(5);
+		// Asignar el rol al usuario
+		usuario.setIdRol(rolJefePrestatario);
+
+
+
+			usurepo.save(usuario);
 
 			return "redirect:/prestamista-crear?registroExitoso";
 

@@ -50,7 +50,7 @@ public class PrestatarioController {
 
 
         List<Rol> roles = rolService.obtenerTodos();
-        List<Usuario> prestatarios = prestatarioService.obtenerPrestatariosDelPrestamista(idUsuario);
+        List<Usuario> prestatarios = prestatarioService.obtenerPrestatariosDelPrestamista(idUsuario, 0);
         //List<Usuario> prestatarios = prestatarioService.obtenerTodos();
         /*List<Usuario> prestatariosConRol6 = new ArrayList<>();
 
@@ -188,12 +188,7 @@ public class PrestatarioController {
         return "redirect:/prestatario-list";
     }
     
-    
-    @GetMapping("/prestatario/eliminar/{id}")
-    public String eliminarPrestamista(@PathVariable Integer id) {
-        prestatarioService.eliminar(id);
-        return "redirect:/prestatario-list";
-    }
+
 
     @GetMapping("/prestatario-search")
     public String buscarPorNombreYRol(String nombres, Model model) {
@@ -238,6 +233,18 @@ public class PrestatarioController {
         List<Usuario> usuarios = prestatarioService.buscarPorAtributosP(nombres, apePaterno, apeMaterno, email, telefono, dni, idUsuario);
         model.addAttribute("usuarios", usuarios);
         return "prestatario-search";
+    }
+
+    @GetMapping("/prestatario/eliminar/{id}")
+    public String eliminarPrestamista(@PathVariable Integer id) {
+        prestatarioService.eliminar(id);
+        return "redirect:/prestatario-list";
+    }
+
+    @PostMapping("/prestatario/cambiarEstado/{idUsuario}")
+    public String cambiarEstado(@PathVariable int idUsuario) {
+        prestatarioService.cambiarEstado(idUsuario); // Cambiar el estado de la entidad
+        return "redirect:/prestatario-list"; // Redirigir a la página de listado
     }
 	
 	

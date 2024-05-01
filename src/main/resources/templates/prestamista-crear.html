@@ -12,8 +12,11 @@
 	<!-- Main container -->
 	<main class="full-box main-container">
 		<!-- Nav lateral -->
-		<section th:replace="home :: nav-lateral">
-		</section>
+    <section class="full-box nav-lateral">
+		<div class="full-box nav-lateral-bg show-nav-lateral"></div>
+			<div class="full-box nav-lateral-content" th:replace="home :: nav-lateral">
+		</div>
+    </section>
 
 		<!-- Page content -->
 		<section class="full-box page-content">
@@ -64,25 +67,25 @@
 						<div class="container-fluid">
 							<div class="row">
 
-								<div class="col-12 col-md-6">
+								<div class="col-12 col-md-4">
 									<div class="form-group">
 										<label for="cliente_nombre" class="bmd-label-floating">Nombres</label>
 										<input type="text" th:field="*{nombres}" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="nombres" id="nombres" maxlength="50" title="Ingresa nombres correctos" required>
 									</div>
 								</div>
-								<div class="col-12 col-md-6">
+								<div class="col-12 col-md-4">
 									<div class="form-group">
 										<label for="cliente_apellido" class="bmd-label-floating">Apellido Paterno</label>
 										<input type="text" th:field="*{apePaterno}" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}" class="form-control" name="apePaterno" id="apePaterno" maxlength="50" title="Ingresa un apellido correcto" required>
 									</div>
 								</div>
-								<div class="col-12 col-md-6">
+								<div class="col-12 col-md-4">
 									<div class="form-group">
 										<label for="cliente_apellido" class="bmd-label-floating">Apellido Materno</label>
 										<input type="text" th:field="*{apeMaterno}" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}" class="form-control" name="apeMaterno" id="apeMaterno" title="Ingresa un apellido correcto" maxlength="50">
 									</div>
 								</div>
-								<div class="col-12 offset-md-3 col-md-6">
+								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="password" class="bmd-label-floating">Contraseña</label>
 										<input type="password"  th:field="*{password}" class="form-control" name="password" id="password" maxlength="40" required>
@@ -114,19 +117,19 @@
 								        	<input type="text" class="form-control" name="idZona" id="idZona" th:value="${idZona}" readonly>
 								        </div>
 								</div>
-								<div class="col-12 col-md-4" style="display: none;">
+								<div class="col-12 col-md-6" style="display: none;">
 									<div class="form-group">
 										<label for="estado" class="bmd-label-floating">Estado</label>
 										<input type="number"  class="form-control" name="estado" id="estado" value="0" readonly>
 									</div>
 								</div>
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-6" style="display: none;">
 								    <div class="form-group">
 								        <label for="nombreUsuario" class="bmd-label-floating">ID Usuario Líder</label>
 								        <input type="text" class="form-control" id="nombreUsuario" th:value="${nombreUsuario}" readonly>
 								    </div>
 								</div>
-								<div class="col-12 col-md-4" style="display: none;">
+								<div class="col-12 col-md-6" style="display: none;">
 									<div class="form-group">
 										<label for="rol" class="bmd-label-floating">idRol</label>
 										<input type="number"  class="form-control" name="idRol" id="idRol" value="5" readonly>

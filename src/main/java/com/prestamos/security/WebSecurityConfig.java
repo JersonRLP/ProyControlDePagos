@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.prestamos.service.UserDetailsServiceImpl;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -46,32 +47,11 @@ public class WebSecurityConfig {
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(requests -> requests
             	.requestMatchers("/","/webfonts/**","/assets/**","/images/**","/js/**","/jspage/**","/css/**","/csspage/**","/fonts/**","/vendor/**","/login", "/registrarUser","/listar","/buscarUsuario","/guardar").permitAll()
-            	 .requestMatchers("/nuevoJefe","/buscarJefe","/listaJefe","/actualizarJefe").hasAnyAuthority("Inversionista")
-
-
-
-
-
-            	.requestMatchers("/home").hasAnyAuthority("Administrador","Inversionista","Jefe de Prestamista","Prestamista","Prestatario")
-
-
-
-
-
-                 .requestMatchers("/prestamista-list","/prestamista-crear").hasAnyAuthority("Jefe de Prestamista")
-
-
-                 .requestMatchers("/prestamista-list").hasAnyAuthority("Jefe de Prestamista")
-
-                    .requestMatchers("/prestatario-list","/prestatario-search").hasAnyAuthority("Prestamista")
-                    .requestMatchers("/solicitar-prestamo","historial-prestamo").hasAnyAuthority("Prestatario")
-
-
-                 
-
-
-            	.requestMatchers("/home").hasAnyAuthority("Administrador","Inversionista","Jefe de Prestamista","Prestatario")
-
+           	 .requestMatchers("/nuevoJefe","/buscarJefe","/listaJefe","/actualizarJefe").hasAnyAuthority("Inversionista")
+           	.requestMatchers("/home").hasAnyAuthority("Administrador","Inversionista","Jefe de Prestamista","Prestamista","Prestatario")
+                .requestMatchers("/prestamista-list","/prestamista-crear").hasAnyAuthority("Jefe de Prestamista")
+                   .requestMatchers("prestatario-crear","prestatario-actualizar","/prestatario-list","/prestatario-search","/solicitudes-prestamo").hasAnyAuthority("Prestamista")
+                   .requestMatchers("/solicitar-prestamo","/historial-prestamo","/prestamos").hasAnyAuthority("Prestatario")  
 
 
                 .anyRequest().authenticated())
@@ -82,8 +62,11 @@ public class WebSecurityConfig {
                 .defaultSuccessUrl("/home", true)
                 .failureUrl("/login?error=true"))
             .logout(logout -> logout
+            		
+                	.invalidateHttpSession(true)
+                	.clearAuthentication(true)
+                	.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))	
             	.logoutSuccessUrl("/login?logout")  // Cambia la URL de éxito al registro de usuario
-            	.invalidateHttpSession(true)
             	.deleteCookies("JSESSIONID"));
 
         return http.build();

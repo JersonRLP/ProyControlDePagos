@@ -12,8 +12,11 @@
 	<!-- Main container -->
 	<main class="full-box main-container">
 	<!-- Nav lateral -->
-		<section th:replace="home :: nav-lateral">
-		</section>
+    <section class="full-box nav-lateral">
+		<div class="full-box nav-lateral-bg show-nav-lateral"></div>
+			<div class="full-box nav-lateral-content" th:replace="home :: nav-lateral">
+		</div>
+    </section>
 
 		<!-- Page content -->
 		<section class="full-box page-content">
@@ -81,7 +84,7 @@
 									</div>
 								</div>
 
-								<div class="col-12 col-md-6">
+								<div class="col-12 col-md-4">
 									<div class="form-group">
 										<label for="cliente_nombre" class="bmd-label-floating">Nombres</label>
 										<input th:field="*{nombres}" type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="nombres" id="cliente_nombre" maxlength="40" required>
@@ -99,13 +102,13 @@
 										<input th:field="*{apeMaterno}" type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="apeMaterno" id="cliente_apellido_materno"  maxlength="40" required>
 									</div>
 								</div>
-								<div class="col-12 offset-md-3 col-md-6">
+								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="password" class="bmd-label-floating">Contraseña</label>
 										<input type="text"  th:field="*{password}" class="form-control" name="password" id="password" maxlength="40" required>
 									</div>
 								</div>
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_telefono" class="bmd-label-floating">Teléfono</label>
 										<input th:field="*{telefono}" type="text" pattern="[0-9()+]{1,20}" class="form-control" name="telefono" id="cliente_telefono" maxlength="20" required>
@@ -123,26 +126,26 @@
 										<input th:field="*{email}" type="text" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" class="form-control" name="email" id="email" maxlength="100" title="Ingresa un email correcto" required>
 									</div>
 								</div>
-								<div class="col-12 col-md-6">
+								<div class="col-12 col-md-6" style="display: none;">
 									<div class="form-group">
 										<label for="" class="bmd-label-floating">Estado</label>
 										<input type="text" th:field="*{estado}" class="form-control" name="usuario_direccion" id="" maxlength="190">
 									</div>
 								</div>
-								<div class="col-12 col-md-6">
+								<div class="col-12 col-md-6" style="display: none;">
 									<div class="form-group">
 										<label for="" class="bmd-label-floating">Rol</label>
 
 										<input type="text" class="form-control" th:value="${rolJefePrestamista.descripcion}" readonly>
 									</div>
 								</div>
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-4" style="display: none;">
 									<div class="form-group">
 										<label for="nombreJefePrestamista" class="bmd-label-floating">ID Usuario Líder</label>
 										<input type="text" class="form-control" id="nombreJefePrestamista" th:value="${nombreJefePrestamista}" readonly>
 									</div>
 								</div>
-								<div class="col-12 col-md-6">
+								<div class="col-12 col-md-6" style="display: none;">
 									<div class="form-group">
 										<label for="" class="bmd-label-floating">Zona</label>
 										<select class="form-select form-control" name="idZona" id="idZona">

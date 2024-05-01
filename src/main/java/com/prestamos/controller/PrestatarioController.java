@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.prestamos.model.Zona;
+import com.prestamos.repository.PrestatarioRepository;
 import com.prestamos.repository.UsuarioRepository;
 import com.prestamos.service.MyUserDetails;
 import com.prestamos.service.ZonaService;
@@ -36,7 +37,8 @@ public class PrestatarioController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-
+    @Autowired
+    private PrestatarioRepository prestatarioRepository;
 
     @GetMapping("prestatario-list")
     public String mostrarTodos(@ModelAttribute Usuario usuario, Model model) {
@@ -50,20 +52,10 @@ public class PrestatarioController {
 
 
         List<Rol> roles = rolService.obtenerTodos();
-        List<Usuario> prestatarios = prestatarioService.obtenerPrestatariosDelPrestamista(idUsuario, 0);
-        //List<Usuario> prestatarios = prestatarioService.obtenerTodos();
-        /*List<Usuario> prestatariosConRol6 = new ArrayList<>();
-
-        // Filtrar los prestamistas que tienen el rol con ID 6
-        for (Usuario prestatario : prestatarios) {
-            if (prestatario.getIdRol().getIdRol() == 6) {
-                prestatariosConRol6.add(prestatario);
-            }
-        }*/
+        List<Usuario> prestatarios = prestatarioRepository.findByIdRolDescripcionAndIdUsuarioLiderAndEstado("Prestatario", idUsuario, 0);
 
         model.addAttribute("roles", roles);
         model.addAttribute("prestatarios", prestatarios);
-        //model.addAttribute("prestatarios", prestatariosConRol6);
         return "prestatario-list";
     }
 
@@ -188,7 +180,13 @@ public class PrestatarioController {
         return "redirect:/prestatario-list";
     }
     
-
+    @GetMapping("/prestatario/eliminar/{id}")
+    public String eliminarPrestamista(@PathVariable Integer id) {
+    	Usuario eliminar = usuarioRepository.findByIdUsuario(id);
+        eliminar.setEstado(1);
+        usuarioRepository.save(eliminar);
+        return "redirect:/prestatario-list";
+    }
 
     @GetMapping("/prestatario-search")
     public String buscarPorNombreYRol(String nombres, Model model) {
@@ -233,12 +231,6 @@ public class PrestatarioController {
         List<Usuario> usuarios = prestatarioService.buscarPorAtributosP(nombres, apePaterno, apeMaterno, email, telefono, dni, idUsuario);
         model.addAttribute("usuarios", usuarios);
         return "prestatario-search";
-    }
-
-    @GetMapping("/prestatario/eliminar/{id}")
-    public String eliminarPrestamista(@PathVariable Integer id) {
-        prestatarioService.eliminar(id);
-        return "redirect:/prestatario-list";
     }
 
     @PostMapping("/prestatario/cambiarEstado/{idUsuario}")

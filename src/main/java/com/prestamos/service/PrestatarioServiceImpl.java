@@ -4,6 +4,7 @@ import com.prestamos.model.Usuario;
 import com.prestamos.repository.PrestatarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -42,8 +43,8 @@ public class PrestatarioServiceImpl implements PrestatarioService{
     }
 
     @Override
-    public List<Usuario> obtenerPrestatariosDelPrestamista(Integer idUsuario) {
-        return prestatarioRepository.obtenerPrestatariosDelPrestamista(idUsuario);
+    public List<Usuario> obtenerPrestatariosDelPrestamista(Integer idUsuario, int estado) {
+        return prestatarioRepository.obtenerPrestatariosDelPrestamista(idUsuario, estado);
     }
 
     @Override
@@ -62,5 +63,11 @@ public class PrestatarioServiceImpl implements PrestatarioService{
     public List<Usuario> buscarPorAtributosP(String nombres, String apePaterno, String apeMaterno, String email, String telefono, String dni, Integer idUsuario) {
         Integer idRol = 6; // ID del rol "prestatario"
         return prestatarioRepository.findByAttributesP(nombres, apePaterno, apeMaterno, email, telefono, dni, idRol, idUsuario);
+    }
+
+    @Transactional
+    @Override
+    public void cambiarEstado(int idUsuario) {
+        prestatarioRepository.cambiarEstado(idUsuario);
     }
 }

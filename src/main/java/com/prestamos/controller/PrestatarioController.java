@@ -180,7 +180,6 @@ public class PrestatarioController {
         return "redirect:/prestatario-list";
     }
     
-    
     @GetMapping("/prestatario/eliminar/{id}")
     public String eliminarPrestamista(@PathVariable Integer id) {
     	Usuario eliminar = usuarioRepository.findByIdUsuario(id);
@@ -232,6 +231,12 @@ public class PrestatarioController {
         List<Usuario> usuarios = prestatarioService.buscarPorAtributosP(nombres, apePaterno, apeMaterno, email, telefono, dni, idUsuario);
         model.addAttribute("usuarios", usuarios);
         return "prestatario-search";
+    }
+
+    @PostMapping("/prestatario/cambiarEstado/{idUsuario}")
+    public String cambiarEstado(@PathVariable int idUsuario) {
+        prestatarioService.cambiarEstado(idUsuario); // Cambiar el estado de la entidad
+        return "redirect:/prestatario-list"; // Redirigir a la página de listado
     }
 	
 	

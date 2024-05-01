@@ -3,7 +3,7 @@
 <head th:replace="home  :: head">
     <meta charset="UTF-8">
 
-    <title>Nuevo Prestamista</title>
+    <title>Actualizar Prestatario</title>
 
 
 </head>
@@ -35,10 +35,10 @@
         <!-- Page header -->
         <div class="full-box page-header">
             <h3 class="text-left">
-                <i class="fas fa-plus fa-fw"></i> &nbsp; NUEVO PRESTAMISTA
+                <i class="fas fa-plus fa-fw"></i> &nbsp; ACTUALIZAR PRESTATARIO
             </h3>
             <p class="text-justify">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit nostrum rerum animi natus beatae ex. Culpa blanditiis tempore amet alias placeat, obcaecati quaerat ullam, sunt est, odio aut veniam ratione.
+
             </p>
         </div>
 
@@ -58,7 +58,7 @@
 
         <!-- Content -->
         <div class="container-fluid">
-            <form th:action="@{/prestatario/editar/{id}(id=${usuario.idUsuario})}" th:object="${usuario}" method="post" class="form-neon" autocomplete="off">
+            <form id="FormUpdate" th:action="@{/prestatario/editar/{id}(id=${usuario.idUsuario})}" th:object="${usuario}" method="post" class="form-neon" autocomplete="off">
                 <fieldset>
                     <legend><i class="far fa-address-card"></i> &nbsp; Información personal</legend>
                     <div class="container-fluid">
@@ -74,31 +74,31 @@
                             <div class="col-12 col-md-4">
                                 <div class="form-group">
                                     <label for="usuario_nombre" class="bmd-label-floating">Nombres</label>
-                                    <input type="text" th:field="*{nombres}" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,35}" class="form-control" name="usuario_nombre" id="usuario_nombre" maxlength="35">
+                                    <input type="text" th:field="*{nombres}" pattern="[A-Z][a-záéíóúñ ]{0,34}" class="form-control" name="usuario_nombre" id="usuario_nombre" maxlength="35" required>
                                 </div>
                             </div>
                             <div class="col-12 col-md-4">
                                 <div class="form-group">
-                                    <label for="usuario_apellido" class="bmd-label-floating">Apellido Paterno</label>
-                                    <input type="text" th:field="*{apePaterno}" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,35}" class="form-control" name="usuario_apellido" id="usuario_apellido" maxlength="35">
+                                    <label for="usuario_apepaterno" class="bmd-label-floating">Apellido Paterno</label>
+                                    <input type="text" th:field="*{apePaterno}" pattern="[A-Z][a-záéíóúñ ]{0,34}" class="form-control" name="usuario_apepaterno" id="usuario_apepaterno" maxlength="35" required>
                                 </div>
                             </div>
                             <div class="col-12 col-md-4">
                                 <div class="form-group">
-                                    <label for="usuario_apellido" class="bmd-label-floating">Apellido Materno</label>
-                                    <input type="text" th:field="*{apeMaterno}" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,35}" class="form-control" name="usuario_apellido" id="usuario_apellido" maxlength="35">
+                                    <label for="usuario_apematerno" class="bmd-label-floating">Apellido Materno</label>
+                                    <input type="text" th:field="*{apeMaterno}" pattern="[A-Z][a-záéíóúñ ]{0,34}" class="form-control" name="usuario_apematerno" id="usuario_apematerno" maxlength="35" required>
                                 </div>
                             </div>
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
-                                    <label for="usuario_apellido" class="bmd-label-floating">Password</label>
-                                    <input type="text" th:field="*{password}" class="form-control" name="usuario_apellido" id="usuario_apellido" maxlength="35">
+                                    <label for="password" class="bmd-label-floating">Password</label>
+                                    <input type="text" th:field="*{password}" class="form-control" name="password" id="password" maxlength="60" required pattern=".{6,60}">
                                 </div>
                             </div>
                             <div class="col-12 col-md-6">
                                 <div class="form-group">
-                                    <label for="usuario_apellido" class="bmd-label-floating">Email</label>
-                                    <input type="text" th:field="*{email}" class="form-control" name="usuario_apellido" id="usuario_apellido" maxlength="35">
+                                    <label for="email" class="bmd-label-floating">Email</label>
+                                    <input type="text" th:field="*{email}" class="form-control" name="email" id="email" maxlength="35" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}">
                                 </div>
                             </div>
                             <div class="col-12 col-md-6">
@@ -111,9 +111,11 @@
                                 <div class="form-group">
                                     <label for="usuario_dni" class="bmd-label-floating">DNI</label>
                                     <input type="text" th:field="*{dni}" pattern="[0-9-]{1,20}" class="form-control" name="usuario_dni" id="usuario_dni" maxlength="20">
+
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6" style="display: none;">
+
+                            <div class="col-12 col-md-6" hidden="hidden">
                                 <div class="form-group">
                                     <label for="" class="bmd-label-floating">Estado</label>
                                     <input type="text" th:field="*{estado}" class="form-control" name="usuario_direccion" id="" maxlength="190">
@@ -131,6 +133,7 @@
                                     <input type="text" class="form-control" th:value="${rolPrestatario.descripcion}" readonly>
                                 </div>
                             </div>
+
                             <div class="col-12 col-md-6" style="display: none;">
                                 <div class="form-group">
                                     <label for="" class="bmd-label-floating">Zona</label>
@@ -144,6 +147,7 @@
 
                                 </div>
                             </div>
+
                             <div class="col-12 col-md-6" style="display: none;">
                                 <div class="form-group">
                                     <label for="" class="bmd-label-floating">Lider</label>
@@ -156,9 +160,8 @@
                 <br><br><br>
 
                 <p class="text-center" style="margin-top: 40px;">
-                    <button type="reset" class="btn btn-raised btn-secondary btn-sm"><i class="fas fa-paint-roller"></i> &nbsp; LIMPIAR</button>
                     &nbsp; &nbsp;
-                    <button type="submit" class="btn btn-raised btn-info btn-sm"><i class="far fa-save"></i> &nbsp; GUARDAR</button>
+                    <button type="submit" id="btnActualizar" class="btn btn-raised btn-info btn-sm"><i class="far fa-save"></i> &nbsp; ACTUALIZAR</button>
                 </p>
             </form>
         </div>
@@ -166,6 +169,196 @@
 
     </section>
 </main>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!--<script>
+    $(document).ready(function() {
+        $('#FormUpdate').submit(function(e) {
+            e.preventDefault(); // Evita que el formulario se envíe automáticamente
+
+            // Guardar una referencia al formulario
+            var form = $(this);
+
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: '¿Quieres actualizar el registro?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, guardar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Si el usuario confirma, enviar el formulario con AJAX
+                    $.ajax({
+                        url: form.attr('action'), // URL del endpoint
+                        method: form.attr('method'), // Método HTTP (POST en este caso)
+                        data: form.serialize(), // Datos del formulario
+                        success: function(response) {
+                            // Manejar la respuesta del servidor aquí
+                            console.log(response);
+                            // No hay espera, muestra el mensaje de éxito directamente
+                            Swal.fire(
+                                'Guardado',
+                                'Los cambios han sido guardados exitosamente.',
+                                'success'
+                            ).then(() => {
+                                window.location.href = '/prestatario-list';
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            // Manejar errores de AJAX aquí
+                            console.error(xhr.responseText);
+                            Swal.fire(
+                                'Error',
+                                'Ha ocurrido un error al guardar los cambios.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>-->
+
+<script>
+    $(document).ready(function() {
+    // Llamar a validateForm() al cargar la página para marcar los campos vacíos
+    validateForm();
+
+    // Llamar a validateForm() cada vez que los campos cambien para actualizar las marcas de validación
+        $('#FormUpdate input[type="text"], #FormSave input[type="password"]').on('input', function() {
+            validateForm();
+        });
+
+        $('#FormUpdate').submit(function(e) {
+            e.preventDefault(); // Evita que el formulario se envíe automáticamente
+
+            // Validar que no haya campos vacíos antes de enviar el formulario
+            if (!validateForm()) {
+                // Mostrar alerta de SweetAlert cuando hay campos vacíos
+                Swal.fire(
+                    'Error',
+                    'Por favor completa todos los campos requeridos.',
+                    'error'
+                );
+                return; // Detener el envío del formulario si hay campos vacíos
+            }
+
+            // Guardar una referencia al formulario
+            var form = $(this);
+
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: '¿Quieres actualizar el registro?',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, actualizar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Si el usuario confirma, enviar el formulario con AJAX
+                    $.ajax({
+                        url: form.attr('action'), // URL del endpoint
+                        method: form.attr('method'), // Método HTTP (POST en este caso)
+                        data: form.serialize(), // Datos del formulario
+                        success: function(response) {
+                            // Manejar la respuesta del servidor aquí
+                            console.log(response);
+                            // Mostrar mensaje de éxito y redirigir
+                            Swal.fire(
+                                'Actualizado',
+                                'Los cambios han sido actualizados exitosamente.',
+                                'success'
+                            ).then(() => {
+                                window.location.href = '/prestatario-list';
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            // Manejar errores de AJAX aquí
+                            console.error(xhr.responseText);
+                            Swal.fire(
+                                'Error',
+                                'Ha ocurrido un error al actualizar los cambios.',
+                                'error'
+                            );
+                        }
+                    });
+                }
+            });
+        });
+
+        // Función para validar que no haya campos vacíos ni patrones incorrectos
+        function validateForm() {
+            var isValid = true;
+            // Iterar sobre los campos del formulario
+            $('#FormUpdate input[type="text"], #FormUpdate input[type="password"]').each(function() {
+                // Verificar si el campo está vacío o no cumple con el patrón
+                if ($(this).val() === '' || !validatePattern($(this))) {
+                    isValid = false;
+                    $(this).addClass('is-invalid'); // Marcar campo como inválido
+                    $(this).next('.invalid-feedback').text('Por favor completa este campo correctamente.').show(); // Mostrar mensaje de validación
+                    $(this).next('.valid-feedback').hide(); // Ocultar mensaje de validación de éxito si estaba visible
+                    $(this).next('small').text('Este campo es requerido.').show(); // Mostrar mensaje de validación
+                } else {
+                    $(this).removeClass('is-invalid'); // Marcar campo como válido si se ha completado correctamente
+                    $(this).addClass('is-valid'); // Marcar campo como válido
+                    $(this).next('.invalid-feedback').hide(); // Ocultar mensaje de validación de error si estaba visible
+                    $(this).next('.valid-feedback').show(); // Mostrar mensaje de validación de éxito
+                    $(this).next('small').text('').hide(); // Ocultar mensaje de validación si es válido
+                }
+            });
+            return isValid;
+        }
+
+        // Función para validar el patrón de un campo
+        function validatePattern(input) {
+            var pattern = input.attr('pattern');
+            if (!pattern) return true; // Si no hay patrón, devolver true
+            var regex = new RegExp(pattern);
+            return regex.test(input.val());
+        }
+
+        // Activar SweetAlert cuando se hace clic en el botón de guardar
+        $('#btnActualizar').click(function() {
+            $('#FormUpdate').submit(); // Simular envío del formulario al hacer clic en el botón de guardar
+        });
+    });
+</script>
+
+<script>
+    // Capturar el evento de entrada en el campo de texto 'usuario_nombre'
+    document.getElementById('usuario_nombre').addEventListener('input', function(event) {
+        var input = event.target; // Obtener el campo de texto
+        var value = input.value; // Obtener el valor del campo de texto
+
+        // Convertir la primera letra a mayúscula y mantener el resto en minúscula
+        input.value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+    });
+
+    // Capturar el evento de entrada en el campo de texto 'usuario_apepaterno'
+    document.getElementById('usuario_apepaterno').addEventListener('input', function(event) {
+        var input = event.target; // Obtener el campo de texto
+        var value = input.value; // Obtener el valor del campo de texto
+
+        // Convertir la primera letra a mayúscula y mantener el resto en minúscula
+        input.value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+    });
+
+    // Capturar el evento de entrada en el campo de texto 'usuario_apematerno'
+    document.getElementById('usuario_apematerno').addEventListener('input', function(event) {
+        var input = event.target; // Obtener el campo de texto
+        var value = input.value; // Obtener el valor del campo de texto
+
+        // Convertir la primera letra a mayúscula y mantener el resto en minúscula
+        input.value = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+    });
+</script>
 
 
 <!-- Incluir el fragmento de JavaScript -->

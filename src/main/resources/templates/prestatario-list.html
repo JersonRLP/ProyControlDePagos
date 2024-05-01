@@ -87,9 +87,10 @@
                             </a>
                         </td>
                         <td>
-                            <a th:href="@{/prestatario/eliminar/{id}(id=${prestatario.idUsuario})}" class="btn btn-danger">
-                               <i class="far fa-trash-alt"></i>
-                            </a>
+  							<form id="'cambiarEstadoForm' + ${prestatario.idUsuario}" th:action="@{/prestatario/cambiarEstado/{idUsuario}(idUsuario=${prestatario.idUsuario})}" method="post">
+
+                                <button type="button" id="'cambiarEstadoButton' + ${prestatario.idUsuario}" class="btn btn-warning cambiarEstadoButton"><i class="far fa-trash-alt"></i></button>
+                            </form>
                         </td>
                     </tr>
 

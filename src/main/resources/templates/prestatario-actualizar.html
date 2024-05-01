@@ -12,7 +12,10 @@
 <!-- Main container -->
 <main class="full-box main-container">
     <!-- Nav lateral -->
-    <section th:replace="home :: nav-lateral">
+    <section class="full-box nav-lateral">
+		<div class="full-box nav-lateral-bg show-nav-lateral"></div>
+			<div class="full-box nav-lateral-content" th:replace="home :: nav-lateral">
+		</div>
     </section>
 
     <!-- Page content -->
@@ -60,7 +63,7 @@
                     <legend><i class="far fa-address-card"></i> &nbsp; Información personal</legend>
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-4" style="display: none;">
                                 <div class="form-group">
                                     <label for="" class="bmd-label-floating">ID</label>
                                     <input type="text" th:field="*{idUsuario}" class="form-control" name="idUsuario" id="idUsuario" readonly>
@@ -86,13 +89,13 @@
                                     <input type="text" th:field="*{apeMaterno}" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,35}" class="form-control" name="usuario_apellido" id="usuario_apellido" maxlength="35">
                                 </div>
                             </div>
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="usuario_apellido" class="bmd-label-floating">Password</label>
                                     <input type="text" th:field="*{password}" class="form-control" name="usuario_apellido" id="usuario_apellido" maxlength="35">
                                 </div>
                             </div>
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="usuario_apellido" class="bmd-label-floating">Email</label>
                                     <input type="text" th:field="*{email}" class="form-control" name="usuario_apellido" id="usuario_apellido" maxlength="35">
@@ -104,19 +107,19 @@
                                     <input type="text" th:field="*{telefono}" pattern="[0-9()+]{1,20}" class="form-control" name="usuario_telefono" id="usuario_telefono" maxlength="20">
                                 </div>
                             </div>
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="usuario_dni" class="bmd-label-floating">DNI</label>
                                     <input type="text" th:field="*{dni}" pattern="[0-9-]{1,20}" class="form-control" name="usuario_dni" id="usuario_dni" maxlength="20">
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-6" style="display: none;">
                                 <div class="form-group">
                                     <label for="" class="bmd-label-floating">Estado</label>
                                     <input type="text" th:field="*{estado}" class="form-control" name="usuario_direccion" id="" maxlength="190">
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-6" style="display: none;">
                                 <div class="form-group">
                                     <label for="" class="bmd-label-floating">Rol</label>
                                     <!--<select class="form-select form-control" name="rol" id="idRol">
@@ -128,7 +131,7 @@
                                     <input type="text" class="form-control" th:value="${rolPrestatario.descripcion}" readonly>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-6" style="display: none;">
                                 <div class="form-group">
                                     <label for="" class="bmd-label-floating">Zona</label>
                                     <select class="form-select form-control" name="idZona" id="idZona">
@@ -141,7 +144,7 @@
 
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-6" style="display: none;">
                                 <div class="form-group">
                                     <label for="" class="bmd-label-floating">Lider</label>
                                     <input type="text" class="form-control" id="nombrePrestamista" th:value="${nombrePrestamista}" readonly>

@@ -11,7 +11,10 @@
 <!-- Main container -->
 <main class="full-box main-container">
     <!-- Nav lateral -->
-    <section th:replace="home :: nav-lateral">
+    <section class="full-box nav-lateral">
+		<div class="full-box nav-lateral-bg show-nav-lateral"></div>
+			<div class="full-box nav-lateral-content" th:replace="home :: nav-lateral">
+		</div>
     </section>
     <!-- Page content -->
     <section class="full-box page-content">
@@ -64,7 +67,6 @@
                         <th>EMAIL</th>
                         <th>TELEFONO</th>
                         <th>DNI</th>
-                        <th>ESTADO</th>
                         <th>ACTUALIZAR</th>
                         <th>ELIMINAR</th>
                     </tr>
@@ -79,18 +81,15 @@
                         <td th:text="${prestatario.email}"></td>
                         <td th:text="${prestatario.telefono}"></td>
                         <td th:text="${prestatario.dni}"></td>
-                        <td th:text="${prestatario.estado}"></td>
                         <td>
                             <a th:href="@{/prestatario/editar/{id}(id=${prestatario.idUsuario})}" class="btn btn-success">
                                 <i class="fas fa-sync-alt"></i>
                             </a>
                         </td>
                         <td>
-                            <form action="">
-                                <button type="button" class="btn btn-warning">
-                                    <i class="far fa-trash-alt"></i>
-                                </button>
-                            </form>
+                            <a th:href="@{/prestatario/eliminar/{id}(id=${prestatario.idUsuario})}" class="btn btn-danger">
+                               <i class="far fa-trash-alt"></i>
+                            </a>
                         </td>
                     </tr>
 

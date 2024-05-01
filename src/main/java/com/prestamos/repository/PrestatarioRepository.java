@@ -16,6 +16,8 @@ public interface PrestatarioRepository extends JpaRepository<Usuario, Integer> {
 
     @Query("SELECT u FROM Usuario u JOIN u.idRol r WHERE u.nombres LIKE %:nombres% AND r.idRol = :idRol")
     List<Usuario> findByNombresAndRolId(String nombres, Integer idRol);
+    
+    List<Usuario> findByIdRolDescripcionAndIdUsuarioLiderAndEstado(String rol, int usuariolider, int estado);
 
     @Query("SELECT u FROM Usuario u JOIN u.idRol r WHERE " +
             "(:nombres is null or u.nombres like %:nombres%) AND " +

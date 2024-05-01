@@ -37,9 +37,9 @@
 	<!-- Main container -->
 	<main  class="full-box main-container">
 		<!-- Nav lateral -->
-		<section th:fragment="nav-lateral" class="full-box nav-lateral">
+		<section class="full-box nav-lateral">
 			<div class="full-box nav-lateral-bg show-nav-lateral"></div>
-			<div class="full-box nav-lateral-content">
+			<div class="full-box nav-lateral-content" th:fragment="nav-lateral">
 				<figure class="full-box nav-lateral-avatar">
 					<i class="far fa-times-circle show-nav-lateral"></i>
 					<img src="/assets/avatar/Avatar.png" class="img-fluid" alt="Avatar">
@@ -59,8 +59,8 @@
 							<a href="/home"><i class="fab fa-dashcube fa-fw"></i> &nbsp; Dashboard</a>
 						</li>
 					<!-- inicio del rol -->
-					<ul th:switch="${rol}">
-						<li th:case="'Inversionista'">
+					<ul>
+						<li sec:authorize="hasAnyAuthority('Inversionista')">
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-users fa-fw"></i> &nbsp; Jefe de Prestamistas <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
@@ -107,7 +107,7 @@
 						<li>
 
 					
-						<li th:case="'Jefe de Prestamista'">
+						<li sec:authorize="hasAnyAuthority('Administrador')">
 
 							<a href="#" class="nav-btn-submenu"><i class="fas fa-pallet fa-fw"></i> &nbsp; Items <i class="fas fa-chevron-down"></i></a>
 							<ul>
@@ -141,7 +141,7 @@
 							</ul>
 						</li>
 
-						<li th:case="'Jefe de Prestamista'">
+						<li sec:authorize="hasAnyAuthority('Administrador')">
 							<a href="#" class="nav-btn-submenu"><i class="fas  fa-user-secret fa-fw"></i> &nbsp; Usuarios <i class="fas fa-chevron-down"></i></a>
 							<ul>
 								<li>
@@ -156,7 +156,7 @@
 							</ul>
 						</li>
 
-						<li th:case="'Jefe de Prestamista'">
+						<li sec:authorize="hasAnyAuthority('Administrador')">
 							<a href="/company"><i class="fas fa-store-alt fa-fw"></i> &nbsp; Empresa</a>
 						</li>
 					<!-- fin de rol--></ul>
@@ -180,7 +180,7 @@
 			</nav>
 
 			<!-- Page header -->
-			<div class="full-box page-header">
+			<div class="full-box page-header" sec:authorize="hasAnyAuthority('Administrador')">
 				<h3 class="text-left">
 					<i class="fab fa-dashcube fa-fw"></i> &nbsp; DASHBOARD
 					
@@ -191,7 +191,7 @@
 			</div>
 			
 			<!-- Content -->
-			<div class="full-box tile-container">
+			<div class="full-box tile-container" sec:authorize="hasAnyAuthority('Administrador')">
 
 				<a href="/nuevoJefe" class="tile">
 					<div class="tile-tittle">Jefes de Prestamistas</div>
@@ -246,9 +246,13 @@
 	
 	<!-- javascript-fragment.html -->
 <div th:fragment="javascript-include">
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+	
 	<!-- jQuery V3.4.1 -->
 	<script src="/jspage/jquery-3.4.1.min.js" ></script>
-
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 	<!-- popper -->
 	<script src="/jspage/popper.min.js" ></script>

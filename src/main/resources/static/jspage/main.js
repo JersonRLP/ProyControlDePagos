@@ -44,7 +44,7 @@ $(document).ready(function(){
 			cancelButtonText: 'No, cancel'
 		}).then((result) => {
 			if (result.value) {
-				window.location="index.html";
+				window.location.href = '/login?logout'; // Cambia '/login?logout' por la URL de éxito de logout adecuada
 			}
 		});
 	});

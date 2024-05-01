@@ -107,6 +107,6 @@ public class JefePrestamistaController {
 		Usuario usuario = usuRepo.findByIdUsuario(idUsuario);
 		usuario.setEstado(1);
 		usuRepo.save(usuario);
-		return "redirect:/jefepresmista/listado";
+		return "redirect:/prestamista/listado";
 	}
 }

@@ -43,7 +43,10 @@
 						<div class="alert alert-danger">Usuario o contraseña
 							inválidos</div>	
 					</div>	
-					
+					<div th:if=${param.logout}>
+						<div class="alert alert-info">Ha cerrado sesión exitosamente
+						</div>
+					</div>
 					<span class="login100-form-title p-b-53">
 						Iniciar Sesión
 						<hr>

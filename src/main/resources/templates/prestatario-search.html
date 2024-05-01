@@ -11,7 +11,10 @@
 <!-- Main container -->
 <main class="full-box main-container">
     <!-- Nav lateral -->
-    <section th:replace="home :: nav-lateral">
+    <section class="full-box nav-lateral">
+		<div class="full-box nav-lateral-bg show-nav-lateral"></div>
+			<div class="full-box nav-lateral-content" th:replace="home :: nav-lateral">
+		</div>
     </section>
     <!-- Page content -->
     <section class="full-box page-content">

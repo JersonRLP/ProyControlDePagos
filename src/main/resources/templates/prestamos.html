@@ -178,7 +178,72 @@
     	  </div>
     	  </div>
       </div>
-	
+	 <script>
+		 function abrirModal(element) {
+             // Abre el modal con el id "AbrirModal"
+             $('#AbrirModal').modal('show');
+
+              // Restablece los valores de fecha de inicio y fecha de fin
+             $('#inputFechaInicio').val('');
+             $('#inputFechaFin').val('');
+
+             // Obtiene el valor de la celda clicada
+             var monto = $(element).text();
+
+             // Establece el valor del input de monto con el valor de la celda
+             $('#inputMonto').val(monto);
+
+             // Ahora "element" es la referencia al elemento que activó el evento onclick
+             $tr = $(element).closest('tr');
+             var data = $tr.children("td").map(function(){
+                 return $(this).text();
+             }).get();
+             console.log(data);
+
+             // Obtiene la duración desde el arreglo data
+             var duracion = parseInt(data[0]);
+             $('#inputDias').val(duracion);
+
+             // Calcula el pago diario dividiendo el monto entre el número de días
+             var pagoDiario = parseFloat(monto) / parseFloat(duracion);
+
+             // Establece el valor del input de pago diario
+             $('#inputPagoDiario').val(pagoDiario.toFixed(2));
+
+             // Establece el valor del input de interés
+             $('#inputInteres').val(data[6]);
+
+          // Agregar evento de cambio al campo de fecha de inicio
+         $('#inputFechaInicio').change(function() {
+             var fechaInicio = new Date($(this).val()); // Obtener la fecha de inicio ingresada por el usuario
+             var duracion = parseInt($('#inputDias').val()); // Obtener la duración del préstamo
+             if (!isNaN(duracion)) { // Verificar si la duración es un número válido
+                 var fechaFin = calcularFechaFin(fechaInicio, duracion);
+                 $('#inputFechaFin').val(fechaFin.toISOString().slice(0, 10)); // Establecer la fecha de finalización
+             }
+         });
+
+         }
+
+         // Función para calcular la fecha de finalización sin contar sábados y domingos
+         function calcularFechaFin(fechaInicio, dias) {
+             var fecha = new Date(fechaInicio);
+             var diasSumados = 0;
+
+             for (var i = 0; i < dias; i++) {
+                 fecha.setDate(fecha.getDate() + 1);
+                 if (fecha.getDay() === 6 || fecha.getDay() === 0) {
+                     dias++; // Si es sábado o domingo, incrementamos el contador de días nuevamente
+                 } else {
+                     diasSumados++;
+                 }
+             }
+             fecha.setDate(fecha.getDate() - 1); // Restar un día a la fecha obtenida
+             return fecha;
+         }
+
+
+	 </script>
 
 	
     <!-- Incluir el fragmento de JavaScript -->

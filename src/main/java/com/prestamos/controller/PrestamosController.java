@@ -100,12 +100,21 @@ public class PrestamosController {
 		return "redirect:/historial-prestamo?solicitudExitosa";
 	}
 
+	//Listado de solicitudes de prestatario
+	@GetMapping("/historial-prestamo")
+	public String historialPrestamos(Model model) {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    String nombreUsuario = auth.getName();		
+	    Usuario usuario = usurepo.findByNombres(nombreUsuario);
 
-
-
-
-
-
-
+		int idUsuario = usuario.getIdUsuario();
+		
+		List<Solicitud> solicitudes = solrepo.findByIdPrestatarioIdUsuario(idUsuario);
+		
+		model.addAttribute("lstSolicitudes", solicitudes);
+		
+		return "historial-prestamo";
+	}
 
 }

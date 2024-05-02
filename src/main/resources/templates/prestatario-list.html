@@ -5,6 +5,8 @@
 
     <title>Lista de Prestamistas</title>
 
+
+
 </head>
 <body>
 
@@ -57,7 +59,7 @@
         <!-- Content here-->
         <div class="container-fluid">
             <div class="table-responsive">
-                <table class="table table-dark table-sm">
+                <table id="myTable" class="table table-dark table-sm">
                     <thead>
                     <tr class="text-center roboto-medium">
                         <th>#</th>
@@ -71,7 +73,7 @@
                         <th>ELIMINAR</th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="registrosTabla">
                     <tr class="text-center" th:each="prestatario, iterStat : ${prestatarios}">                     
 						<td th:text="${iterStat.index + 1}"></td>
                         <td hidden th:text="${prestatario.idUsuario}"></td>
@@ -123,6 +125,7 @@
 y desaparezca del listado-->
 <script>
     $(document).ready(function() {
+
         $('.cambiarEstadoButton').click(function(e) {
 
         e.preventDefault(); // Evita que el formulario se envíe automáticamente
@@ -174,8 +177,10 @@ y desaparezca del listado-->
                 }
             });
         });
+
     });
 </script>
+
 
 
 <!-- Incluir el fragmento de JavaScript -->

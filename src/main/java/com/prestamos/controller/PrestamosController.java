@@ -42,6 +42,7 @@ public class PrestamosController {
 
 	public String cargar(Model model) {
 		
+		model.addAttribute("solicitud", new Solicitud());
 		
 	    List<Object[]> resultados = prepo.obtenerCalculoMontos();
 	    

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="home  :: head">
+<meta charset="UTF-8">
+<title>Prestamos</title>
+</head>
+<body>
+	 <style>
+		 
+	table{
+		  width: 100%; /* Ancho del contenedor */
+    	height: 300px; /* Alto del contenedor */
+    	overflow-y: auto; /* Habilita el desplazamiento vertical si el contenido es más grande que el contenedor */
+    	
+	}	 
+#primer-th {
+    border-top: none; /* Elimina el borde superior */
+    border-left: none; /* Elimina el borde izquierdo */
+}
+
+    
+        th[colspan="5"] { /* Aplica estilos a los th que ocupan 5 columnas */
+        text-align: center; /* Centra el texto horizontalmente */
+    }
+        /* Estilos para el encabezado de la tabla */
+		 th {
+          
+            color: #8a2be2;
+            border: 1px solid #ddd; /* Borde gris */
+            padding: 8px;
+            text-align: center; /* Centrar el contenido */
+            
+        }
+
+        /* Estilos para las celdas de la tabla */
+        td {
+            border: 1px solid #ddd; /* Borde gris */
+            padding: 8px;
+           
+            color: black;
+             text-align: center; /* Centrar el contenido */
+        }
+        
+              
+   /* Estilos para las celdas afectadas por el hover */
+        .monto-cell:hover {
+            background-color: blue; /* Cambia el color de fondo a azul */
+            color: white; /* Cambia el color de las letras a blanco */
+            cursor: pointer; /* Cambia el cursor a un puntero */
+        }
+     .hidden-column {
+        display: none;
+    }
+
+    </style>
+	<main class="full-box main-container">
+		<section class="full-box nav-lateral">
+			<div class="full-box nav-lateral-bg show-nav-lateral"></div>
+			<div class="full-box nav-lateral-content" th:replace="home :: nav-lateral">
+			</div>
+		</section>
+		<section th:fragment="contenido" class="full-box page-content">
+						<nav class="full-box navbar-info">
+				<a href="#" class="float-left show-nav-lateral">
+					<i class="fas fa-exchange-alt"></i>
+				</a>
+				<a href="/user-update">
+					<i class="fas fa-user-cog"></i>
+				</a>
+				<a href="#" class="btn-exit-system">
+					<i class="fas fa-power-off"></i>
+				</a>
+			</nav>
+			<h1>HOLAAA</h1>
+			<div class="container">
+				
+			<table id="table">
+			    <thead>
+			<tr>
+				<th id="primer-th"></th>
+            	<th  colspan="5">Monto</th> <!-- Encabezado "Monto" ocupa 5 columnas -->
+            </tr>
+			        <tr>
+						
+			            <th>Duración</th>
+			            <th>S/150</th>
+			            <th>S/200</th>
+			            <th>S/250</th>
+			            <th>S/300</th>
+			            <th>S/350</th>
+			        </tr>
+			    </thead>
+			    <tbody>
+			        <!-- Itera sobre los resultados y muestra cada fila en la tabla -->
+			        <tr th:each="resultado : ${resultados}">
+			            <!-- Accede a cada valor de la fila -->
+			            <td th:text="${resultado[0]}"></td> <!-- Duración en días -->
+			            <td th:text="${resultado[1]}" class="monto-cell" onclick="abrirModal(this)"></td> <!-- Monto 1 -->
+			            <td th:text="${resultado[2]}" class="monto-cell" onclick="abrirModal(this)"></td> <!-- Monto 2 -->
+			            <td th:text="${resultado[3]}" class="monto-cell" onclick="abrirModal(this)"></td> <!-- Monto 3 -->
+			            <td th:text="${resultado[4]}" class="monto-cell" onclick="abrirModal(this)"></td> <!-- Monto 4 -->
+			            <td th:text="${resultado[5]}" class="monto-cell" onclick="abrirModal(this)"></td> <!-- Monto 5 -->
+			            <td th:text="${resultado[6]}" class="hidden-column"></td>
+			        </tr>
+			    </tbody>
+			</table>
+			
+			
+
+			</div>
+		</section>
+	</main>
+	
+	
+			<!-- Modal -->
+<div class="modal fade" id="AbrirModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">REGISTRAR SOLICITUD</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+    	  <div class="modal-body">	
+			  <h1>OPEN MODAL</h1>
+			   <div class="mb-3 row">
+		    <label for="inputMonto" class="col-sm-2 col-form-label">MONTO</label>
+		    <div class="col-sm-10">
+		      <input type="text" class="form-control" id="inputMonto">
+		    </div>
+		  </div>
+		  
+		  
+		  	 <div class="mb-3 row">
+		    <label for="inputFechaInicio" class="col-sm-2 col-form-label">FECHA INICIO</label>
+		    <div class="col-sm-10">
+		      <input type="date" class="form-control" id="inputFechaInicio">
+		    </div>
+		  </div>
+		  
+		  
+		   <div class="mb-3 row">
+		    <label for="inputFechaFin" class="col-sm-2 col-form-label">FECHA FIN</label>
+		    <div class="col-sm-10">
+		      <input type="date" class="form-control" id="inputFechaFin" readonly>
+		    </div>
+		  </div>
+		  
+		   <div class="mb-3 row">
+		    <label for="inputDias" class="col-sm-2 col-form-label">DIAS</label>
+		    <div class="col-sm-10">
+		      <input type="number" class="form-control" id="inputDias">
+		    </div>
+		  </div>
+		  
+		  
+		   <div class="mb-3 row">
+		    <label for="inputPagoDiario" class="col-sm-2 col-form-label">PAGO DIARIO</label>
+		    <div class="col-sm-10">
+		      <input type="number" class="form-control" id="inputPagoDiario">
+		    </div>
+		  </div>
+		  
+		   <div class="mb-3 row">
+		    <label for="inputInteres" class="col-sm-2 col-form-label">INTERES</label>
+		    <div class="col-sm-10">
+		      <input type="number" class="form-control" id="inputInteres">
+		    </div>
+		  </div>
+		  
+		  <div class="mb-3 row text-center">
+			  <div class="col">
+			  <button type="submit" class="btn btn-raised btn-info btn-sm"><i class="far fa-save"></i> &nbsp; GUARDAR</button>
+			  </div>
+		  </div>
+		  
+		  </div>
+
+    	  </div>
+    	  </div>
+      </div>
+	
+
+	
+    <!-- Incluir el fragmento de JavaScript -->
+    <div th:include="home :: javascript-include"></div>
+    
+    
+    
+    
+
+</body>
+</html>

@@ -201,7 +201,53 @@ public class PrestamistaController {
 			return "redirect:/prestamistas";
 		}
 		
+	    @GetMapping("/prestamista-search")
+	    public String buscarPorNombreYRol(String nombres, Model model) {
+	        List<Usuario> personas = prestamistaService.buscarPorNombreYRol(nombres);
+	        model.addAttribute("personas", personas);
+	        return "prestamista-search"; // nombre de la plantilla Thymeleaf
+	    }
+	    
+	    @GetMapping("/prestamista-search1")
+	    public String buscarPorAtributos(
+	            String nombres,
+	            String apePaterno,
+	            String apeMaterno,
+	            String dni,
+	            Model model) {
+
+	        List<Usuario> usuarios = prestamistaService.buscarPorAtributos(nombres, apePaterno, apeMaterno, dni);
+	        model.addAttribute("usuarios", usuarios);
+	        return "prestamista-search";
+	    }
 		
+	    @GetMapping("/prestamista-search2")
+	    public String buscarPorAtributosP(
+	            String nombres,
+	            String apePaterno,
+	            String apeMaterno,
+	            String dni,
+	            Model model) {
+
+	        // Obtener el nombre del prestamista logueado
+	        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	        String username = auth.getName();
+
+	        // Obtener el prestamista logueado desde la base de datos
+	        Usuario jefeprestamista = usurepo.findByUsername(username);
+	        Integer idUsuario = jefeprestamista.getIdUsuario();
+
+	        List<Usuario> usuarios = prestamistaService.buscarPorAtributosP(nombres, apePaterno, apeMaterno, dni, idUsuario);
+	        model.addAttribute("usuarios", usuarios);
+	        return "prestamista-search";
+	    }
+
+	    @PostMapping("/prestamista/cambiarEstado/{idUsuario}")
+	    public String cambiarEstado(@PathVariable int idUsuario) {
+	        prestamistaService.cambiarEstado(idUsuario); // Cambiar el estado de la entidad
+	        return "redirect:/prestamista-list"; // Redirigir a la página de listado
+	    }
+	    
 		@GetMapping("/solicitudes-prestamo")
 		public String verSolicitudesPrestamos(Model model) {
 			

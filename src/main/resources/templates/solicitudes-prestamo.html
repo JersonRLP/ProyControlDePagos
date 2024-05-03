@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="https://www.thymeleaf.org">
+<head th:replace="home  :: head">
+    <meta charset="UTF-8">
+
+    <title>Solicitudes de  Préstamos</title>
+
+</head>
+<body>
+
+<!-- Main container -->
+<main class="full-box main-container">
+    <!-- Nav lateral -->
+    <section class="full-box nav-lateral">
+		<div class="full-box nav-lateral-bg show-nav-lateral"></div>
+			<div class="full-box nav-lateral-content" th:replace="home :: nav-lateral">
+		</div>
+    </section>
+    <!-- Page content -->
+    <section th:fragment="contenido" class="full-box page-content">
+        <nav class="full-box navbar-info">
+            <a href="#" class="float-left show-nav-lateral">
+                <i class="fas fa-exchange-alt"></i>
+            </a>
+            <a href="user-update.html">
+                <i class="fas fa-user-cog"></i>
+            </a>
+            <a href="#" class="btn-exit-system">
+                <i class="fas fa-power-off"></i>
+            </a>
+        </nav>
+
+        <!-- Page header -->
+        <div class="full-box page-header">
+            <h3 class="text-left">
+                <i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR SOLICITUDES
+            </h3>
+        </div>
+
+        <div class="container-fluid">
+            <ul class="full-box list-unstyled page-nav-tabs">
+                <li>
+                    <a href="/prestatario-crear"><i class="fas fa-plus fa-fw"></i> &nbsp; NUEVO PRESTATARIO</a>
+                </li>
+                <li>
+                    <a href="/prestatario-list"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRESTATARIOS</a>
+                </li>
+                <li>
+                    <a href="/prestatario-search"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR PRESTATARIO</a>
+                </li>
+                <li>
+                    <a href="/solicitudes-prestamo"><i class="fas fa-search fa-fw"></i> &nbsp; SOLICITUDES DE PRÉSTAMOS</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Content -->
+        <div class="container-fluid">
+            <form id="searchForm" class="form-neon" th:action="@{/solicitudes-filtrar}">
+                <div class="container-fluid">
+                    <div class="row justify-content-md-center">
+                        <div class="col-12 col-md-6">
+                            <div class="form-group">
+                                <label for="prestatario" class="bmd-label-floating">Prestatario</label>
+                                <input type="text" class="form-control" id="prestatario" name="prestatario" maxlength="100" required>
+                            </div>
+                            <div class="form-group">
+								<div class="mb-3 row">
+								    <label for="primeraFecha" class="col-sm-2 col-form-label">Desde</label>
+								    <div class="col-sm-10">
+								      <input type="date" class="form-control" id="primeraFecha" name="primeraFecha" required>
+								    </div>
+							  	</div>
+							  	<div class="mb-3 row">
+								    <label for="segundaFecha" class="col-sm-2 col-form-label">Hasta</label>
+								    <div class="col-sm-10">
+								      <input type="date" class="form-control" id="segundaFecha" name="segundaFecha" required>
+								    </div>
+							  	</div>
+							</div>
+                        <div class="col-12">
+                            <p class="text-center" style="margin-top: 40px;">
+                                <button type="submit" id="searchButton" class="btn btn-raised btn-info"><i class="fas fa-search"></i> &nbsp; FILTRAR</button>
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+       
+        <div class="container-fluid">
+            <div class="table-responsive">
+                <table class="table table-dark table-sm">
+                    <thead>
+                    <tr class="text-center roboto-medium">
+                        <th>#</th>
+                        <th>NOMBRES DEL PRESTATARIO</th>
+                        <th>MONTO</th>
+                        <th>INTERES</th>
+                        <th>TASA</th>
+                        <th>DETALLE</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Aquí se cargarán dinámicamente los resultados de la búsqueda -->
+                    <tr th:each="s, iterStat : ${lstSolicitudes}" class="text-center">
+						<td th:text="${iterStat.index + 1}"></td>
+                        <td hidden th:text="${s.idSolicitud}"></td>
+                        <td th:text="${s.idPrestatario.nombres}+' '+${s.idPrestatario.apePaterno}+' '+${s.idPrestatario.apeMaterno}"></td>
+                        <td th:text="${s.monto}"></td>
+                        <td th:text="${s.interes}"></td>
+                        <td th:text="${s.interes}"></td>
+                        <td>
+							<a class="btn btn-success" onclick="abrirModal(this)">VER</a>
+						</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </section>
+</main>
+
+			<!-- Modal -->
+<!--<div class="modal fade" id="AbrirModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">REGISTRAR PRÉSTAMO</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form th:action="@{/registrarprestamo}" th:object="" method="">
+    	  <div class="modal-body">	
+			  <h1>OPEN MODAL</h1>
+			<div class="mb-3 row">
+			    <label for="inputPrestatario" class="col-sm-2 col-form-label">PRESTATARIO</label>
+			    <div class="col-sm-10">
+			      <input th:field="*{idPrestatario}" type="text" class="form-control" id="inputPrestatario" readonly>
+			    </div>
+		  	</div>
+		  	<div class="mb-3 row">
+			    <label for="inputPrestamista" class="col-sm-2 col-form-label">PRESTAMISTA</label>
+			    <div class="col-sm-10">
+			      <input th:field="*{idPrestamista}" type="text" class="form-control" id="inputPrestamista" readonly>
+			    </div>
+		  	</div>
+			<div class="mb-3 row">
+		    <label for="inputMonto" class="col-sm-2 col-form-label">MONTO</label>
+		    <div class="col-sm-10">
+		      <input th:field="*{monto}" type="text" class="form-control" id="inputMonto" readonly>
+		    </div>
+		  </div>
+		  <div class="mb-3 row">
+		    <label for="inputInteres" class="col-sm-2 col-form-label">INTERES</label>
+		    <div class="col-sm-10">
+		      <input th:field="*{interes}" type="number" class="form-control" id="inputInteres" readonly>
+		    </div>
+		  </div>
+		  <div class="mb-3 row">
+		    <label for="inputTasa" class="col-sm-2 col-form-label">TASA</label>
+		    <div class="col-sm-10">
+		      <input th:field="*{interes}" type="number" class="form-control" id="inputTasa" readonly>
+		    </div>
+		  </div>
+		  
+		  <div class="mb-3 row">
+		    <label for="inputDias" class="col-sm-2 col-form-label">DIAS</label>
+		    <div class="col-sm-10">
+		      <input th:field="*{dias}" type="number" class="form-control" id="inputDias" readonly>
+		    </div>
+		  </div>
+		  
+		  
+		   <div class="mb-3 row">
+		    <label for="inputPagoDiario" class="col-sm-2 col-form-label">PAGO DIARIO</label>
+		    <div class="col-sm-10">
+		      <input th:field="*{pagodiario}" type="number" class="form-control" id="inputPagoDiario" readonly>
+		    </div>
+		  </div>
+		  <div class="mb-3 row">
+		    <label for="inputFechaInicio" class="col-sm-2 col-form-label">FECHA INICIO</label>
+		    <div class="col-sm-10">
+		      <input th:field="*{fecInicio}" type="date" class="form-control" id="inputFechaInicio" name="" required>
+		    </div>
+		  </div>
+		  
+		  
+		   <div class="mb-3 row">
+		    <label for="inputFechaFin" class="col-sm-2 col-form-label">FECHA FIN</label>
+		    <div class="col-sm-10">
+		      <input th:field="*{fecFin}" type="date" class="form-control" id="inputFechaFin" name="fecFin" readonly>
+		    </div>
+		  </div>
+		  	  
+		  <div class="mb-3 row text-center">
+			  <div class="col">
+			  	<button type="submit" class="btn btn-raised btn-success btn-sm"><i class="far fa-save"></i> &nbsp; APROBAR</button>
+			  </div>
+			  <div class="col">
+			  	<button type="button" class="btn btn-raised btn-danger btn-sm"><i class="far fa-save"></i> &nbsp; RECHAZAR</button>
+			  </div>
+		  </div>
+		  
+		  </div>
+		</form>
+    	  </div>
+    	  </div>
+      </div>-->
+
+<script>
+	function abrirModal(element) {
+	    // Abre el modal con el id "AbrirModal"
+	    $('#AbrirModal').modal('show');
+	}
+</script>
+
+<!-- Incluir el fragmento de JavaScript -->
+<div th:include="home :: javascript-include"></div>
+</body>
+</html>

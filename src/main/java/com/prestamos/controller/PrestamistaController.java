@@ -1,13 +1,16 @@
 package com.prestamos.controller;
 
 import com.prestamos.model.Rol;
+import com.prestamos.model.Solicitud;
 import com.prestamos.model.Usuario;
 import com.prestamos.model.Zona;
+import com.prestamos.repository.SolicitudRepository;
 import com.prestamos.repository.UsuarioRepository;
 import com.prestamos.repository.ZonaRepository;
 import com.prestamos.service.PrestamistaService;
 import com.prestamos.service.RolService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -17,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -37,6 +41,9 @@ public class PrestamistaController {
 
 	@Autowired
 	private UsuarioRepository usurepo;
+	
+	@Autowired
+	private SolicitudRepository solrepo;
 
 
 	/*@GetMapping("prestamista-list")
@@ -193,5 +200,44 @@ public class PrestamistaController {
 			prestamistaService.eliminar(id);
 			return "redirect:/prestamistas";
 		}
+		
+		
+		@GetMapping("/solicitudes-prestamo")
+		public String verSolicitudesPrestamos(Model model) {
+			
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		    String nombreUsuario = auth.getName();		
+		    Usuario usuario = usurepo.findByNombres(nombreUsuario);
+
+			int idUsuario = usuario.getIdUsuario();
+			
+			List<Solicitud> solicitudes = solrepo.findByIdPrestamistaIdUsuario(idUsuario);
+			
+			model.addAttribute("lstSolicitudes", solicitudes);
+			return "solicitudes-prestamo";
+		}
+		
+		@GetMapping("/solicitudes-filtrar")
+		public String filtrarSolicitudes(Model model, @RequestParam("prestatario") String nombres, @RequestParam("primeraFecha") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha1,
+													  @RequestParam("segundaFecha") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha2) {
+			
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		    String nombreUsuario = auth.getName();		
+		    Usuario usuario = usurepo.findByNombres(nombreUsuario);
+		    
+		    int idUsuario = usuario.getIdUsuario();
+			
+			List<Solicitud> solicitudesfiltradas = 
+					solrepo.findBySearchAndIdPrestatarioNombresAndFecha1AndFecha2AndIdPrestamistaIdUsuario(nombres, fecha1, fecha2, idUsuario);
+			
+			
+			model.addAttribute("lstSolicitudes", solicitudesfiltradas);
+			
+			return "solicitudes-prestamo";
+		}
+
+		
 	}
+
+	
 

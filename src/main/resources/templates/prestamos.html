@@ -5,6 +5,25 @@
 <title>Prestamos</title>
 </head>
 <body>
+<style>
+
+	/* Estilos para el modal */
+    .modal-content {
+      border-radius: 20px;
+    }
+
+    .modal-title {
+      color: #007bff;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .btn-close {
+      color: #dc3545; /* Color para el botón de cerrar */
+    }
+</style>
 	<style>
 		 
 	table{
@@ -14,6 +33,7 @@
     	
 	}	 
 #primer-th {
+
     border-top: none; /* Elimina el borde superior */
     border-left: none; /* Elimina el borde izquierdo */
 }
@@ -21,10 +41,12 @@
     
         th[colspan="5"] { /* Aplica estilos a los th que ocupan 5 columnas */
         text-align: center; /* Centra el texto horizontalmente */
+        background-color: purple;
+        color: white;
     }
         /* Estilos para el encabezado de la tabla */
 		 th {
-          
+
             color: #8a2be2;
             border: 1px solid #ddd; /* Borde gris */
             padding: 8px;
@@ -53,7 +75,7 @@
     }
 
     </style>
-	<main class="full-box main-container">
+	<main class="full-box main-container" style="background-color: #E4e4e4;">
 		<section class="full-box nav-lateral">
 			<div class="full-box nav-lateral-bg show-nav-lateral"></div>
 			<div class="full-box nav-lateral-content" th:replace="home :: nav-lateral">
@@ -71,23 +93,26 @@
 					<i class="fas fa-power-off"></i>
 				</a>
 			</nav>
-			<h1>SOLICITUD DE PRÉSTAMO</h1>
+			<div class="container">
+				<div class="card mx-auto mt-4 mb-4 p-4">
+			<div class="text-center">
+			<h1 class="mt-4 mb-4" style="font-weight: bold;">SOLICITUD DE PRÉSTAMO</h1>
 			<div class="container">
 				
-			<table id="table" class="table table-bordered table-striped">
+			<table id="table" class="mx-auto">
 			    <thead>
 			<tr>
 				<th id="primer-th" border="none"></th>
             	<th colspan="5">Monto</th> <!-- Encabezado "Monto" ocupa 5 columnas -->
             </tr>
-			        <tr class="thead-dark">
+			        <tr>
 						
-			            <th>Duración</th>
-			            <th>S/150</th>
-			            <th>S/200</th>
-			            <th>S/250</th>
-			            <th>S/300</th>
-			            <th>S/350</th>
+			            <th style="background-color: #debeec;">Duración</th>
+			            <th style="background-color: #debeec;">S/150</th>
+			            <th style="background-color: #debeec;">S/200</th>
+			            <th style="background-color: #debeec;">S/250</th>
+			            <th style="background-color: #debeec;">S/300</th>
+			            <th style="background-color: #debeec;">S/350</th>
 			        </tr>
 			    </thead>
 			    <tbody>
@@ -108,6 +133,9 @@
 			
 
 			</div>
+			</div>
+			</div>
+				</div>
 		</section>
 	</main>
 	
@@ -117,15 +145,18 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">REGISTRAR SOLICITUD</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h3 class="modal-title" id="staticBackdropLabel">REGISTRAR SOLICITUD</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="border: none;"><i class="fas fa-times"></i></button>
       </div>
-    	  <div class="modal-body">	
-			  <h1>OPEN MODAL</h1>
+    	  <div class="modal-body">
+
 			   <div class="mb-3 row">
 		    <label for="inputMonto" class="col-sm-2 col-form-label">MONTO</label>
 		    <div class="col-sm-10">
-		      <input type="text" class="form-control" id="inputMonto">
+				<div class="input-group">
+					<span class="input-group-text">S/ </span>
+					<input type="text" class="form-control" id="inputMonto">
+				</div>
 		    </div>
 		  </div>
 		  
@@ -153,7 +184,7 @@
 		  </div>
 
 			  <div class="mb-3 row">
-				  <label for="inputDiasLaborables" class="col-sm-2 col-form-label">DIAS LABORABLES</label>
+				  <label for="inputDiasLaborables" class="col-sm-2 col-form-label">DIAS LABORABLES </label>
 				  <div class="col-sm-10">
 					  <input type="number" class="form-control" id="inputDiasLaborables">
 				  </div>
@@ -163,7 +194,10 @@
 		   <div class="mb-3 row">
 		    <label for="inputPagoDiario" class="col-sm-2 col-form-label">PAGO DIARIO</label>
 		    <div class="col-sm-10">
+				<div class="input-group">
+				<span class="input-group-text">S/ </span>
 		      <input type="number" class="form-control" id="inputPagoDiario">
+				</div>
 		    </div>
 		  </div>
 		  

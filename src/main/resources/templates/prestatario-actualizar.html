@@ -45,7 +45,7 @@
         <div class="container-fluid">
             <ul class="full-box list-unstyled page-nav-tabs">
                 <li>
-                    <a class="active" href="/prestatario-crear"><i class="fas fa-plus fa-fw"></i> &nbsp; NUEVO PRESTATARIO</a>
+                    <a href="/prestatario-crear"><i class="fas fa-plus fa-fw"></i> &nbsp; NUEVO PRESTATARIO</a>
                 </li>
                 <li>
                     <a href="/prestatario-list"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRESTATARIO</a>
@@ -53,6 +53,9 @@
                 <li>
                     <a href="/prestatario-search"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR PRESTATARIO</a>
                 </li>
+                <li>
+					<a href="/solicitudes-prestamo"><i class="fas fa-search fa-fw"></i> &nbsp; Solicitudes de Préstamo</a>
+				</li>
             </ul>
         </div>
 
@@ -70,20 +73,26 @@
                                 </div>
                             </div>
 
-
-                            <div class="col-12 col-md-4">
+							<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="username" class="bmd-label-floating">Usuario</label>
+										<input th:field="*{username}" type="text" pattern="^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,40}$" class="form-control" name="username" id="username" maxlength="100" readonly>
+										<small class="form-text text-muted">Por favor ingresa tu usuario.</small>
+									</div>
+							</div>
+                            <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="usuario_nombre" class="bmd-label-floating">Nombres</label>
                                     <input type="text" th:field="*{nombres}" pattern="[A-Z][a-záéíóúñ ]{0,34}" class="form-control" name="usuario_nombre" id="usuario_nombre" maxlength="35" required>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="usuario_apepaterno" class="bmd-label-floating">Apellido Paterno</label>
                                     <input type="text" th:field="*{apePaterno}" pattern="[A-Z][a-záéíóúñ ]{0,34}" class="form-control" name="usuario_apepaterno" id="usuario_apepaterno" maxlength="35" required>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-6">
                                 <div class="form-group">
                                     <label for="usuario_apematerno" class="bmd-label-floating">Apellido Materno</label>
                                     <input type="text" th:field="*{apeMaterno}" pattern="[A-Z][a-záéíóúñ ]{0,34}" class="form-control" name="usuario_apematerno" id="usuario_apematerno" maxlength="35" required>

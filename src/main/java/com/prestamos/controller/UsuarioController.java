@@ -133,9 +133,9 @@ public class UsuarioController {
 	public String home(Model model, HttpSession session) {
 	   
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    String nombreUsuario = auth.getName();
+	    String username = auth.getName();
 		
-	    Usuario usuario = usurepo.findByNombres(nombreUsuario);
+	    Usuario usuario = usurepo.findByUsername(username);
 	    
 	    Rol r = usuario.getIdRol();
 	    	

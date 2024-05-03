@@ -42,6 +42,7 @@ public class PrestamosController {
 
 	public String cargar(Model model) {
 		
+		model.addAttribute("solicitud", new Solicitud());
 		
 	    List<Object[]> resultados = prepo.obtenerCalculoMontos();
 	    
@@ -83,8 +84,8 @@ public class PrestamosController {
 									@RequestParam("fecFin") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecFin) {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String nombreUsuario = auth.getName();
-		Usuario usuario = usurepo.findByNombres(nombreUsuario);
+		String username = auth.getName();
+		Usuario usuario = usurepo.findByUsername(username);
 		int idPrestamista = usuario.getIdUsuarioLider();
 		Usuario prestamista = usurepo.findByIdUsuario(idPrestamista);
 
@@ -105,8 +106,8 @@ public class PrestamosController {
 	public String historialPrestamos(Model model) {
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    String nombreUsuario = auth.getName();		
-	    Usuario usuario = usurepo.findByNombres(nombreUsuario);
+	    String username = auth.getName();		
+	    Usuario usuario = usurepo.findByUsername(username);
 
 		int idUsuario = usuario.getIdUsuario();
 		

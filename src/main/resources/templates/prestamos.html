@@ -71,8 +71,22 @@
 					<i class="fas fa-power-off"></i>
 				</a>
 			</nav>
-			<h1>HOLAAA</h1>
-			<div class="container">
+            <!-- Page header -->
+            <div class="full-box page-header">
+                <h3 class="text-left">
+                    <i class="fas fa-clipboard-list fa-fw"></i> &nbsp; TABLA DE PRESTAMOS
+                </h3>
+            </div>
+            <div class="container-fluid">
+                <ul class="full-box list-unstyled page-nav-tabs">
+                    <li>
+                        <a class="active" href="#"><i class="fas fa-plus fa-fw"></i> &nbsp; NUEVO PRÉSTAMO</a>
+                    </li>
+                    <li>
+                        <a href="/historial-prestamo"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE SOLICITUDES</a>
+                    </li>
+                </ul>
+            </div>
 				
 			<table id="table">
 			    <thead>
@@ -112,6 +126,7 @@
 	</main>
 	
 	
+	
 			<!-- Modal -->
 <div class="modal fade" id="AbrirModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -120,12 +135,13 @@
         <h5 class="modal-title" id="staticBackdropLabel">REGISTRAR SOLICITUD</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
+      <form th:action="@{/solicitarprestamo}" th:object="${solicitud}" method="post">
     	  <div class="modal-body">	
 			  <h1>OPEN MODAL</h1>
-			   <div class="mb-3 row">
+			<div class="mb-3 row">
 		    <label for="inputMonto" class="col-sm-2 col-form-label">MONTO</label>
 		    <div class="col-sm-10">
-		      <input type="text" class="form-control" id="inputMonto">
+		      <input th:field="*{monto}" type="text" class="form-control" id="inputMonto" th:value="${solicitud.monto}" readonly>
 		    </div>
 		  </div>
 		  
@@ -133,7 +149,7 @@
 		  	 <div class="mb-3 row">
 		    <label for="inputFechaInicio" class="col-sm-2 col-form-label">FECHA INICIO</label>
 		    <div class="col-sm-10">
-		      <input type="date" class="form-control" id="inputFechaInicio">
+		      <input th:field="*{fecInicio}" type="date" class="form-control" id="inputFechaInicio" name="" th:value="${solicitud.fecInicio}" required>
 		    </div>
 		  </div>
 		  
@@ -141,14 +157,14 @@
 		   <div class="mb-3 row">
 		    <label for="inputFechaFin" class="col-sm-2 col-form-label">FECHA FIN</label>
 		    <div class="col-sm-10">
-		      <input type="date" class="form-control" id="inputFechaFin" readonly>
+		      <input th:field="*{fecFin}" type="date" class="form-control" id="inputFechaFin" name="fecFin" th:value="${solicitud.fecFin}" readonly>
 		    </div>
 		  </div>
 		  
 		   <div class="mb-3 row">
 		    <label for="inputDias" class="col-sm-2 col-form-label">DIAS</label>
 		    <div class="col-sm-10">
-		      <input type="number" class="form-control" id="inputDias">
+		      <input th:field="*{dias}" type="number" class="form-control" id="inputDias" th:value="${solicitud.dias}" readonly>
 		    </div>
 		  </div>
 		  
@@ -156,14 +172,14 @@
 		   <div class="mb-3 row">
 		    <label for="inputPagoDiario" class="col-sm-2 col-form-label">PAGO DIARIO</label>
 		    <div class="col-sm-10">
-		      <input type="number" class="form-control" id="inputPagoDiario">
+		      <input th:field="*{pagodiario}" type="number" class="form-control" id="inputPagoDiario" th:value="${solicitud.pagodiario}" readonly>
 		    </div>
 		  </div>
 		  
 		   <div class="mb-3 row">
 		    <label for="inputInteres" class="col-sm-2 col-form-label">INTERES</label>
 		    <div class="col-sm-10">
-		      <input type="number" class="form-control" id="inputInteres">
+		      <input th:field="*{interes}" type="number" class="form-control" id="inputInteres" th:value="${solicitud.interes}" readonly>
 		    </div>
 		  </div>
 		  
@@ -174,10 +190,13 @@
 		  </div>
 		  
 		  </div>
-
+		</form>
     	  </div>
     	  </div>
       </div>
+	
+      
+      
 	 <script>
 		 function abrirModal(element) {
              // Abre el modal con el id "AbrirModal"

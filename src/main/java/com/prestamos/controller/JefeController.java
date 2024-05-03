@@ -1,5 +1,6 @@
 package com.prestamos.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.prestamos.model.Rol;
 import com.prestamos.model.Usuario;
 import com.prestamos.model.Zona;
-import com.prestamos.repository.InversionistaRepository;
+import com.prestamos.repository.JefeRepository;
 import com.prestamos.repository.UsuarioRepository;
 import com.prestamos.repository.ZonaRepository;
 
@@ -26,7 +27,7 @@ import jakarta.servlet.http.HttpSession;
 
 
 @Controller
-public class InversionistaController {
+public class JefeController {
 
 	@Autowired
 	private UsuarioRepository usurepo;
@@ -35,7 +36,7 @@ public class InversionistaController {
 	private ZonaRepository zonarepo;
 	
 	@Autowired
-	private InversionistaRepository invrepo;
+	private JefeRepository jeferepo;
 	
 	@Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -45,10 +46,10 @@ public class InversionistaController {
 		model.addAttribute("jefe", new Usuario());
 	    // Obtener el nombre de usuario del contexto de seguridad
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    String nombreUsuario = auth.getName();
+	    String username = auth.getName();
 	    
 	    // Obtener el usuario actual por nombres
-	    Usuario usuario = usurepo.findByNombres(nombreUsuario);
+	    Usuario usuario = usurepo.findByUsername(username);
 	    
 	    // Obtener el ID del usuario actual
 	    int idUsuario = usuario.getIdUsuario();
@@ -62,46 +63,74 @@ public class InversionistaController {
 	    // Poner el ID del rol en el modelo
 	    model.addAttribute("idRol", idRol);
 	    
-	    // Poner la lista de Zonas en el modelo
-	    model.addAttribute("listzonas", zonarepo.findAll());		
-	    
-		// Obtener el rol del usuario logueado (Inversionista)
-	    Rol r = usuario.getIdRol();	    	
-		String desrol = r.getDescripcion();		
-		session.setAttribute("rol", desrol);		
-		String rol = (String) session.getAttribute("rol");
-		// Agregar el rol del usuario logueado (Inversionista) al modelo
-		model.addAttribute("rol", rol);   
-		//
-		
+	    List<Usuario> jefes = jeferepo.findByIdRolDescripcionAndEstado("Jefe de Prestamista", 0);
+
+		 // Crear una lista para almacenar las zonas de los jefes
+		 List<Zona> zonasJefes = new ArrayList<>();
+	
+		 // Iterar sobre la lista de jefes para obtener y almacenar las zonas
+		 for (Usuario jefe : jefes) {
+		     Zona zonaJefe = jefe.getIdZona();
+		     zonasJefes.add(zonaJefe);
+		 }
+
+		 List<Zona> listaZonas = zonarepo.findAll();
+		 
+		// Obtener la zona del jefe de prestamista
+		Zona zonaJefe = listaZonas.get(0);
+		    
+		listaZonas.remove(zonaJefe);
+		// Agregar la zona del jefe al modelo
+		model.addAttribute("zonajefe", zonaJefe);
+		 
+		 // Eliminar las zonas de los jefes de la lista de zonas
+	 	listaZonas.removeAll(zonasJefes);
+
+	 	// Poner la lista de zonas restantes en el modelo
+	 	model.addAttribute("listzonas", listaZonas);		
+	    		
 	    return "nuevoJefe";
 	}
 	
 	@GetMapping("/corregirJefe")
 	public String corregirjefe(@ModelAttribute("jefe") Usuario jefe,
-		    				 //@ModelAttribute("listzonas") List<Zona> listzonas,
 		    				 @ModelAttribute("errorField") String errorField,
 		    				 Model model, HttpSession session) {
 	
+		//Usuario usu = usurepo.findByIdUsuario(jefe.getIdUsuario());
+		
 	    model.addAttribute("jefe", jefe);
-	    //model.addAttribute("listzonas", listzonas);
+
 	    model.addAttribute("errorField", errorField);
-	 /*
-	    // Obtener la zona del jefe de prestamista 
-	    Zona zonaJefe = jefe.getIdZona();	    
-	    List<Zona> listaZonas = zonarepo.findAll();
-	    // Eliminar la zona del jefe del la lista para evitar duplicidad
-	    listaZonas.remove(zonaJefe);
+	 
+	    List<Usuario> jefes = jeferepo.findByIdRolDescripcionAndEstado("Jefe de Prestamista", 0);
+
+		 // Crear una lista para almacenar las zonas de los jefes
+		 List<Zona> zonasJefes = new ArrayList<>();
+	
+		 // Iterar sobre la lista de jefes para obtener y almacenar las zonas
+		 for (Usuario jefee : jefes) {
+		     Zona zonaJefe = jefee.getIdZona();
+		     zonasJefes.add(zonaJefe);
+		 }
+
+		 List<Zona> listaZonas = zonarepo.findAll();
+		 
+		 // Eliminar las zonas de los jefes de la lista de zonas
+	 	listaZonas.removeAll(zonasJefes);
+	    
+	    // Obtener la zona del jefe de prestamista
+	    Zona zonaJefe = listaZonas.get(0);	    
 	    
 	    // Agregar lista de zonas al modelo
 	    model.addAttribute("listzonas", listaZonas);
-		// Agregar la zona del jefe al modelo
-		model.addAttribute("zonajefe", zonaJefe);*/
 	    
+		// Agregar la zona del jefe al modelo
+		model.addAttribute("zonajefe", zonaJefe);
 	    
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    String nombreUsuario = auth.getName();		
-	    Usuario usuario = usurepo.findByNombres(nombreUsuario);  
+	    String username = auth.getName();		
+	    Usuario usuario = usurepo.findByUsername(username);  
 	    
 	    // Obtener el ID del usuario actual
 	    int idUsuario = usuario.getIdUsuario();
@@ -114,12 +143,6 @@ public class InversionistaController {
 	    
 	    // Poner el ID del rol en el modelo
 	    model.addAttribute("idRol", idRol);
-	    
-	    Rol r = usuario.getIdRol();
-	    String desrol = r.getDescripcion();	
-		session.setAttribute("rol", desrol);		
-		String rol = (String) session.getAttribute("rol");	
-		model.addAttribute("rol", rol);
 		
 		return "nuevoJefe";
 	}
@@ -131,32 +154,41 @@ public class InversionistaController {
     	String passwordEncriptado = passwordEncoder.encode(jefe.getPassword());
     	  	
     	jefe.setPassword(passwordEncriptado);
-    	Usuario jefeemail = invrepo.findByEmail(jefe.getEmail());
-    	if(jefeemail == null) {
-    		Usuario jefetel = invrepo.findByTelefono(jefe.getTelefono());
-    		if(jefetel == null) {
-    			Usuario jefedni = invrepo.findByDni(jefe.getDni());
-    			if(jefedni == null) {
-    				usurepo.save(jefe);
-    				return "redirect:/nuevoJefe?registroExitoso";
-    			}else {
-					attribute.addFlashAttribute("mensaje", "El Jefe con el DNI: "+jefe.getDni()+" ya existe");
+    	Usuario jefeuser = jeferepo.findByUsername(jefe.getUsername());
+    	if(jefeuser == null) {
+	    	Usuario jefeemail = jeferepo.findByEmail(jefe.getEmail());
+	    	if(jefeemail == null) {
+	    		Usuario jefetel = jeferepo.findByTelefono(jefe.getTelefono());
+	    		if(jefetel == null) {
+	    			Usuario jefedni = jeferepo.findByDni(jefe.getDni());
+	    			if(jefedni == null) {
+	    				usurepo.save(jefe);
+	    				return "redirect:/nuevoJefe?registroExitoso";
+	    			}else {
+						attribute.addFlashAttribute("mensaje", "El Jefe con el DNI: "+jefe.getDni()+" ya existe");
+			            attribute.addFlashAttribute("jefe", jefe);
+			            attribute.addFlashAttribute("listzonas", zonarepo.findAll());
+			            attribute.addFlashAttribute("errorField", "dni");
+					}
+	    		}else{
+					attribute.addFlashAttribute("mensaje", "El Jefe con el Teléfono: "+jefe.getTelefono()+" ya existe");
 		            attribute.addFlashAttribute("jefe", jefe);
 		            attribute.addFlashAttribute("listzonas", zonarepo.findAll());
-		            attribute.addFlashAttribute("errorField", "dni");
-				}
-    		}else{
-				attribute.addFlashAttribute("mensaje", "El Jefe con el Teléfono: "+jefe.getTelefono()+" ya existe");
+		            attribute.addFlashAttribute("errorField", "telefono");
+	    		}
+	    	}else {
+				attribute.addFlashAttribute("mensaje", "El Jefe con el Correo: "+jefe.getEmail()+" ya existe");
 	            attribute.addFlashAttribute("jefe", jefe);
 	            attribute.addFlashAttribute("listzonas", zonarepo.findAll());
-	            attribute.addFlashAttribute("errorField", "telefono");
-    		}
+	            attribute.addFlashAttribute("errorField", "email");
+	    	}
     	}else {
-			attribute.addFlashAttribute("mensaje", "El Jefe con el Correo: "+jefe.getEmail()+" ya existe");
+			attribute.addFlashAttribute("mensaje", "El Jefe con el usuario: "+jefe.getUsername()+" ya existe");
             attribute.addFlashAttribute("jefe", jefe);
             attribute.addFlashAttribute("listzonas", zonarepo.findAll());
-            attribute.addFlashAttribute("errorField", "email");
+            attribute.addFlashAttribute("errorField", "username");
 		}
+	    	
     	
     	return "redirect:/corregirJefe";
     }
@@ -164,21 +196,10 @@ public class InversionistaController {
 	@GetMapping("/listaJefe")
 	public String cargarPaginaListar(Model model, HttpSession session) {
 		// Buscar Jefes de prestamistas con estado 0 = Activo
-		List<Usuario> listaJefes = invrepo.findByIdRolDescripcionAndEstado("Jefe de Prestamista", 0);
+		List<Usuario> listaJefes = jeferepo.findByIdRolDescripcionAndEstado("Jefe de Prestamista", 0);
 		// Agregar lista de Jefes de prestamistas al modelo
 		model.addAttribute("lstJefes", listaJefes);
-		
-		// Dar permiso por rol a las acciones de Inversionista
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    String nombreUsuario = auth.getName();		
-	    Usuario usuario = usurepo.findByNombres(nombreUsuario);   
-	    Rol r = usuario.getIdRol();
-	    String desrol = r.getDescripcion();	
-		session.setAttribute("rol", desrol);		
-		String rol = (String) session.getAttribute("rol");	
-		model.addAttribute("rol", rol);
-		//
-		
+				
 		return "listaJefe";
 	}
     
@@ -188,20 +209,33 @@ public class InversionistaController {
 		Usuario usu = usurepo.findByIdUsuario(idUsuario);
 		
 	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    String nombreUsuario = auth.getName();
+	    String username = auth.getName();
 	    
-	    Usuario usuario = usurepo.findByNombres(nombreUsuario); 
+	    Usuario usuario = usurepo.findByUsername(username); 
 	    
 	    int inversionista = usuario.getIdUsuario();
 	    model.addAttribute("idUsuario", inversionista);	    
 	    int idRol = usuario.getIdRol().getIdRol();	    
 	    model.addAttribute("idRol", idRol);
 	    
+	    List<Usuario> jefes = jeferepo.findByIdRolDescripcionAndEstado("Jefe de Prestamista", 0);
+
+		 // Crear una lista para almacenar las zonas de los jefes
+		 List<Zona> zonasJefes = new ArrayList<>();
+	
+		 // Iterar sobre la lista de jefes para obtener y almacenar las zonas
+		 for (Usuario jefe : jefes) {
+		     Zona zonaJefe = jefe.getIdZona();
+		     zonasJefes.add(zonaJefe);
+		 }
+
+		 List<Zona> listaZonas = zonarepo.findAll();
+		 
+		 // Eliminar las zonas de los jefes de la lista de zonas
+	 	listaZonas.removeAll(zonasJefes);
+	    
 	    // Obtener la zona del jefe de prestamista
 	    Zona zonaJefe = usu.getIdZona();	    
-	    List<Zona> listaZonas = zonarepo.findAll();
-	    // Eliminar la zona del jefe del la lista para evitar duplicidad
-	    listaZonas.remove(zonaJefe);
 	    
 	    // Agregar lista de zonas al modelo
 	    model.addAttribute("listzonas", listaZonas);
@@ -209,16 +243,7 @@ public class InversionistaController {
 		model.addAttribute("jefe", usu);
 		// Agregar la zona del jefe al modelo
 		model.addAttribute("zonajefe", zonaJefe);
-		
-		
-		//
-	    Rol r = usuario.getIdRol();
-	    String desrol = r.getDescripcion();	
-		session.setAttribute("rol", desrol);		
-		String rol = (String) session.getAttribute("rol");	
-		model.addAttribute("rol", rol);
-		//
-		
+				
 		return "actualizarJefe";
 	}
 	
@@ -355,23 +380,13 @@ public class InversionistaController {
 		List<Usuario> listaJefes = null;
 		
 	    if (search != null && !search.isEmpty()) {
-	    	listaJefes = invrepo.findBySearchAndIdRolDescripcionAndEstado(search, "Jefe de Prestamista", 0);
+	    	listaJefes = jeferepo.findBySearchAndIdRolDescripcionAndEstado(search, "Jefe de Prestamista", 0);
 	    } else {
-	    	listaJefes = invrepo.findByIdRolDescripcionAndEstado("Jefe de Prestamista", 0);
+	    	listaJefes = jeferepo.findByIdRolDescripcionAndEstado("Jefe de Prestamista", 0);
 	    }
 	    
 	    model.addAttribute("lstJefes", listaJefes);
-	    
-		//
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    String nombreUsuario = auth.getName();		
-	    Usuario usuario = usurepo.findByNombres(nombreUsuario);   
-	    Rol r = usuario.getIdRol();
-	    String desrol = r.getDescripcion();		
-		session.setAttribute("rol", desrol);		
-		String rol = (String) session.getAttribute("rol");	
-		model.addAttribute("rol", rol);
-		//
+	    model.addAttribute("search", search);
 		
 		return "buscarJefe";
 	}

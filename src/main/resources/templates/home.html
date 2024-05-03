@@ -9,8 +9,6 @@
 	<!-- Normalize V8.0.1 -->
 	<link rel="stylesheet" href="/csspage/normalize.css">
 
-	<!-- Bootstrap V4.3 -->
-	<link rel="stylesheet" href="/csspage/bootstrap.min.css">
 
 
 
@@ -20,14 +18,14 @@
 	<!-- Font Awesome V5.9.0 -->
 	<link rel="stylesheet" href="/csspage/all.css">
 
+
 	<!-- jQuery Custom Content Scroller V3.1.5 -->
 	<link rel="stylesheet" href="/csspage/jquery.mCustomScrollbar.css">
 	
 	<!-- General Styles -->
 	<link rel="stylesheet" href="/csspage/style.css">
-	
-
-
+	<!-- boot strap5-->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
 <body>
 	
@@ -98,6 +96,9 @@
 								<li>
 									<a href="/prestatario-search"><i class="fas fa-search fa-fw"></i> &nbsp; Buscar Prestatario</a>
 								</li>
+								<li>
+									<a href="/solicitudes-prestamo"><i class="fas fa-search fa-fw"></i> &nbsp; Solicitudes de Préstamo</a>
+								</li>
 							</ul>
 						</li>
 
@@ -128,12 +129,6 @@
 								</li>
 								<li>
 									<a href="/historial-prestamo"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; Historial de préstamos</a>
-								</li>
-								<li>
-									<a href="/reservation-search"><i class="fas fa-search-dollar fa-fw"></i> &nbsp; Buscar préstamos</a>
-								</li>
-								<li>
-									<a href="/reservation-pending"><i class="fas fa-hand-holding-usd fa-fw"></i> &nbsp; Préstamos pendientes</a>
 								</li>
 							</ul>
 						</li>
@@ -171,7 +166,7 @@
 				<a href="/user-update">
 					<i class="fas fa-user-cog"></i>
 				</a>
-				<a href="#" class="btn-exit-system">
+				<a th:href="@{/logout}" class="btn-exit-system">
 					<i class="fas fa-power-off"></i>
 				</a>
 			</nav>
@@ -243,18 +238,18 @@
 	
 	<!-- javascript-fragment.html -->
 <div th:fragment="javascript-include">
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
-
-
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
 	<!-- jQuery V3.4.1 -->
 	<script src="/jspage/jquery-3.4.1.min.js" ></script>
 
 
 
+
 	<script src="/js/jquery-3.6.0.min.js"></script>
 	<script src="/js/sweetalert2@11.js"></script>
+
 
 
 	<!-- popper -->
@@ -269,8 +264,6 @@
 	<!-- Bootstrap Material Design V4.0 -->
 	<script src="jspage/bootstrap-material-design.min.js" ></script>
 	<script>$(document).ready(function() { $('body').bootstrapMaterialDesign(); });</script>
-
-
 
 	<script src="/jspage/main.js" ></script>
 </div>

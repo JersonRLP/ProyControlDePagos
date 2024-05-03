@@ -5,7 +5,26 @@
 <title>Prestamos</title>
 </head>
 <body>
-	 <style>
+<style>
+
+	/* Estilos para el modal */
+    .modal-content {
+      border-radius: 20px;
+    }
+
+    .modal-title {
+      color: #007bff;
+    }
+
+    .modal-body {
+      padding: 20px;
+    }
+
+    .btn-close {
+      color: #dc3545; /* Color para el botón de cerrar */
+    }
+</style>
+	<style>
 		 
 	table{
 		  width: 100%; /* Ancho del contenedor */
@@ -14,6 +33,7 @@
     	
 	}	 
 #primer-th {
+
     border-top: none; /* Elimina el borde superior */
     border-left: none; /* Elimina el borde izquierdo */
 }
@@ -21,10 +41,12 @@
     
         th[colspan="5"] { /* Aplica estilos a los th que ocupan 5 columnas */
         text-align: center; /* Centra el texto horizontalmente */
+        background-color: purple;
+        color: white;
     }
         /* Estilos para el encabezado de la tabla */
 		 th {
-          
+
             color: #8a2be2;
             border: 1px solid #ddd; /* Borde gris */
             padding: 8px;
@@ -53,7 +75,7 @@
     }
 
     </style>
-	<main class="full-box main-container">
+	<main class="full-box main-container" style="background-color: #E4e4e4;">
 		<section class="full-box nav-lateral">
 			<div class="full-box nav-lateral-bg show-nav-lateral"></div>
 			<div class="full-box nav-lateral-content" th:replace="home :: nav-lateral">
@@ -87,21 +109,28 @@
                     </li>
                 </ul>
             </div>
+
+			<div class="container">
+				<div class="card mx-auto mt-4 mb-4 p-4">
+			<div class="text-center">
+			<h1 class="mt-4 mb-4" style="font-weight: bold;">SOLICITUD DE PRÉSTAMO</h1>
+			<div class="container">
+
 				
-			<table id="table">
+			<table id="table" class="mx-auto">
 			    <thead>
 			<tr>
-				<th id="primer-th"></th>
-            	<th  colspan="5">Monto</th> <!-- Encabezado "Monto" ocupa 5 columnas -->
+				<th id="primer-th" border="none"></th>
+            	<th colspan="5">Monto</th> <!-- Encabezado "Monto" ocupa 5 columnas -->
             </tr>
 			        <tr>
 						
-			            <th>Duración</th>
-			            <th>S/150</th>
-			            <th>S/200</th>
-			            <th>S/250</th>
-			            <th>S/300</th>
-			            <th>S/350</th>
+			            <th style="background-color: #debeec;">Duración</th>
+			            <th style="background-color: #debeec;">S/150</th>
+			            <th style="background-color: #debeec;">S/200</th>
+			            <th style="background-color: #debeec;">S/250</th>
+			            <th style="background-color: #debeec;">S/300</th>
+			            <th style="background-color: #debeec;">S/350</th>
 			        </tr>
 			    </thead>
 			    <tbody>
@@ -122,6 +151,9 @@
 			
 
 			</div>
+			</div>
+			</div>
+				</div>
 		</section>
 	</main>
 	
@@ -132,16 +164,21 @@
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="staticBackdropLabel">REGISTRAR SOLICITUD</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <h3 class="modal-title" id="staticBackdropLabel">REGISTRAR SOLICITUD</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="border: none;"><i class="fas fa-times"></i></button>
       </div>
+
       <form th:action="@{/solicitarprestamo}" th:object="${solicitud}" method="post">
-    	  <div class="modal-body">	
-			  <h1>OPEN MODAL</h1>
-			<div class="mb-3 row">
+    	  <div class="modal-body">
+
+			   <div class="mb-3 row">
 		    <label for="inputMonto" class="col-sm-2 col-form-label">MONTO</label>
 		    <div class="col-sm-10">
-		      <input th:field="*{monto}" type="text" class="form-control" id="inputMonto" th:value="${solicitud.monto}" readonly>
+				<div class="input-group">
+					<span class="input-group-text">S/ </span>
+					<input th:field="*{monto}" type="text" class="form-control" id="inputMonto" th:value="${solicitud.monto}" readonly>
+				</div>
+
 		    </div>
 		  </div>
 		  
@@ -162,17 +199,27 @@
 		  </div>
 		  
 		   <div class="mb-3 row">
-		    <label for="inputDias" class="col-sm-2 col-form-label">DIAS</label>
+		    <label for="inputDias" class="col-sm-2 col-form-label">DURACION PRÉSTAMO</label>
 		    <div class="col-sm-10">
 		      <input th:field="*{dias}" type="number" class="form-control" id="inputDias" th:value="${solicitud.dias}" readonly>
 		    </div>
 		  </div>
+
+			  <div class="mb-3 row">
+				  <label for="inputDiasLaborables" class="col-sm-2 col-form-label">DIAS LABORABLES </label>
+				  <div class="col-sm-10">
+					  <input type="number" class="form-control" id="inputDiasLaborables">
+				  </div>
+			  </div>
 		  
 		  
 		   <div class="mb-3 row">
 		    <label for="inputPagoDiario" class="col-sm-2 col-form-label">PAGO DIARIO</label>
 		    <div class="col-sm-10">
-		      <input th:field="*{pagodiario}" type="number" class="form-control" id="inputPagoDiario" th:value="${solicitud.pagodiario}" readonly>
+				<div class="input-group">
+				<span class="input-group-text">S/ </span>
+        <input th:field="*{pagodiario}" type="number" class="form-control" id="inputPagoDiario" th:value="${solicitud.pagodiario}" readonly>
+				</div>
 		    </div>
 		  </div>
 		  
@@ -194,15 +241,20 @@
     	  </div>
     	  </div>
       </div>
+
 	
       
       
+
+
+
 	 <script>
-		 function abrirModal(element) {
+		 // Función para abrir el modal y realizar cálculos
+         function abrirModal(element) {
              // Abre el modal con el id "AbrirModal"
              $('#AbrirModal').modal('show');
 
-              // Restablece los valores de fecha de inicio y fecha de fin
+             // Restablece los valores de fecha de inicio y fecha de fin
              $('#inputFechaInicio').val('');
              $('#inputFechaFin').val('');
 
@@ -221,49 +273,81 @@
 
              // Obtiene la duración desde el arreglo data
              var duracion = parseInt(data[0]);
+
+             // Calcula la duración ajustada contando solo los días laborables
+             var fechaInicio = new Date();
+             var fechaFin = calcularFechaFin(fechaInicio, duracion);
+             var duracionLaborables = calcularDiasLaborables(fechaInicio, fechaFin);
+
+
+             // Obtiene la duración desde el arreglo data
+             var duracion = parseInt(data[0]);
              $('#inputDias').val(duracion);
 
-             // Calcula el pago diario dividiendo el monto entre el número de días
-             var pagoDiario = parseFloat(monto) / parseFloat(duracion);
+             // Calcula el pago diario dividiendo el monto entre el número de días laborables
+             var pagoDiario = calcularPagoDiario(monto, fechaInicio, fechaFin);
 
-             // Establece el valor del input de pago diario
-             $('#inputPagoDiario').val(pagoDiario.toFixed(2));
-
-             // Establece el valor del input de interés
+             // Establece los valores calculados en los inputs correspondientes
+             //$('#inputPagoDiario').val(pagoDiario);
              $('#inputInteres').val(data[6]);
 
-          // Agregar evento de cambio al campo de fecha de inicio
+             // Agregar evento de cambio al campo de fecha de inicio
          $('#inputFechaInicio').change(function() {
              var fechaInicio = new Date($(this).val()); // Obtener la fecha de inicio ingresada por el usuario
              var duracion = parseInt($('#inputDias').val()); // Obtener la duración del préstamo
              if (!isNaN(duracion)) { // Verificar si la duración es un número válido
                  var fechaFin = calcularFechaFin(fechaInicio, duracion);
                  $('#inputFechaFin').val(fechaFin.toISOString().slice(0, 10)); // Establecer la fecha de finalización
+             	 var duracionLaborables = calcularDiasLaborables(fechaInicio, fechaFin);
+             	 $('#inputDiasLaborables').val(duracionLaborables);
+             	 var pagoDiario = calcularPagoDiario(monto, fechaInicio, fechaFin);
+             	 $('#inputPagoDiario').val(pagoDiario);
+
              }
+         });
+
+         // Agregar evento para limpiar los campos al cerrar el modal
+         $('#AbrirModal').on('hidden.bs.modal', function () {
+             $('#inputPagoDiario').val('');
+             $('#inputDiasLaborables').val('');
          });
 
          }
 
-         // Función para calcular la fecha de finalización sin contar sábados y domingos
+
+         // Función para calcular la cantidad de días laborables entre dos fechas
+         function calcularDiasLaborables(fechaInicio, fechaFin) {
+             var diasLaborables = 0;
+             var fecha = new Date(fechaInicio);
+             while (fecha <= fechaFin) {
+                 if (fecha.getDay() !== 0 && fecha.getDay() !== 6) {
+                     diasLaborables++;
+                 }
+                 fecha.setDate(fecha.getDate() + 1);
+             }
+             return diasLaborables;
+         }
+
+         // Función para calcular el pago diario excluyendo los sábados y domingos
+         function calcularPagoDiario(monto, fechaInicio, fechaFin) {
+             var diasLaborables = calcularDiasLaborables(fechaInicio, fechaFin);
+             var pagoDiario = parseFloat(monto) / parseFloat(diasLaborables);
+             return pagoDiario.toFixed(2);
+         }
+
+         // Función para calcular la fecha de finalización incluyendo sábados y domingos y luego restar un día
          function calcularFechaFin(fechaInicio, dias) {
              var fecha = new Date(fechaInicio);
-             var diasSumados = 0;
 
              for (var i = 0; i < dias; i++) {
                  fecha.setDate(fecha.getDate() + 1);
-                 if (fecha.getDay() === 6 || fecha.getDay() === 0) {
-                     dias++; // Si es sábado o domingo, incrementamos el contador de días nuevamente
-                 } else {
-                     diasSumados++;
-                 }
              }
+
              fecha.setDate(fecha.getDate() - 1); // Restar un día a la fecha obtenida
+
              return fecha;
          }
-
-
 	 </script>
-
 	
     <!-- Incluir el fragmento de JavaScript -->
     <div th:include="home :: javascript-include"></div>

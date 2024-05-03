@@ -34,14 +34,14 @@ $(document).ready(function(){
 	$('.btn-exit-system').on('click', function(e){
 		e.preventDefault();
 		Swal.fire({
-			title: 'Are you sure to close the session?',
-			text: "You are about to close the session and exit the system",
-			type: 'question',
+			title: 'Estás seguro de cerrar sesión?',
+			text: "Cerrando sesión y saliendo del sistema",
+			icon: 'question',
 			showCancelButton: true,
 			confirmButtonColor: '#3085d6',
 			cancelButtonColor: '#d33',
-			confirmButtonText: 'Yes, exit!',
-			cancelButtonText: 'No, cancel'
+			confirmButtonText: 'Si, salir!',
+			cancelButtonText: 'No, cancelar'
 		}).then((result) => {
 			if (result.value) {
 				window.location.href = '/login?logout'; // Cambia '/login?logout' por la URL de éxito de logout adecuada

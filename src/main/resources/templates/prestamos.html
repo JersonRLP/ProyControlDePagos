@@ -178,12 +178,14 @@
     	  </div>
     	  </div>
       </div>
+
 	 <script>
-		 function abrirModal(element) {
+		 // Función para abrir el modal y realizar cálculos
+         function abrirModal(element) {
              // Abre el modal con el id "AbrirModal"
              $('#AbrirModal').modal('show');
 
-              // Restablece los valores de fecha de inicio y fecha de fin
+             // Restablece los valores de fecha de inicio y fecha de fin
              $('#inputFechaInicio').val('');
              $('#inputFechaFin').val('');
 
@@ -202,18 +204,25 @@
 
              // Obtiene la duración desde el arreglo data
              var duracion = parseInt(data[0]);
+
+             // Calcula la duración ajustada contando solo los días laborables
+             var fechaInicio = new Date();
+             var fechaFin = calcularFechaFin(fechaInicio, duracion);
+             var duracionLaborables = calcularDiasLaborables(fechaInicio, fechaFin);
+
+
+             // Obtiene la duración desde el arreglo data
+             var duracion = parseInt(data[0]);
              $('#inputDias').val(duracion);
 
-             // Calcula el pago diario dividiendo el monto entre el número de días
-             var pagoDiario = parseFloat(monto) / parseFloat(duracion);
+             // Calcula el pago diario dividiendo el monto entre el número de días laborables
+             var pagoDiario = calcularPagoDiario(monto, fechaInicio, fechaFin);
 
-             // Establece el valor del input de pago diario
-             $('#inputPagoDiario').val(pagoDiario.toFixed(2));
-
-             // Establece el valor del input de interés
+             // Establece los valores calculados en los inputs correspondientes
+             $('#inputPagoDiario').val(pagoDiario);
              $('#inputInteres').val(data[6]);
 
-          // Agregar evento de cambio al campo de fecha de inicio
+             // Agregar evento de cambio al campo de fecha de inicio
          $('#inputFechaInicio').change(function() {
              var fechaInicio = new Date($(this).val()); // Obtener la fecha de inicio ingresada por el usuario
              var duracion = parseInt($('#inputDias').val()); // Obtener la duración del préstamo
@@ -222,29 +231,42 @@
                  $('#inputFechaFin').val(fechaFin.toISOString().slice(0, 10)); // Establecer la fecha de finalización
              }
          });
-
          }
 
-         // Función para calcular la fecha de finalización sin contar sábados y domingos
+
+         // Función para calcular la cantidad de días laborables entre dos fechas
+         function calcularDiasLaborables(fechaInicio, fechaFin) {
+             var diasLaborables = 0;
+             var fecha = new Date(fechaInicio);
+             while (fecha <= fechaFin) {
+                 if (fecha.getDay() !== 0 && fecha.getDay() !== 6) {
+                     diasLaborables++;
+                 }
+                 fecha.setDate(fecha.getDate() + 1);
+             }
+             return diasLaborables;
+         }
+
+         // Función para calcular el pago diario excluyendo los sábados y domingos
+         function calcularPagoDiario(monto, fechaInicio, fechaFin) {
+             var diasLaborables = calcularDiasLaborables(fechaInicio, fechaFin);
+             var pagoDiario = parseFloat(monto) / parseFloat(diasLaborables);
+             return pagoDiario.toFixed(2);
+         }
+
+         // Función para calcular la fecha de finalización incluyendo sábados y domingos y luego restar un día
          function calcularFechaFin(fechaInicio, dias) {
              var fecha = new Date(fechaInicio);
-             var diasSumados = 0;
 
              for (var i = 0; i < dias; i++) {
                  fecha.setDate(fecha.getDate() + 1);
-                 if (fecha.getDay() === 6 || fecha.getDay() === 0) {
-                     dias++; // Si es sábado o domingo, incrementamos el contador de días nuevamente
-                 } else {
-                     diasSumados++;
-                 }
              }
+
              fecha.setDate(fecha.getDate() - 1); // Restar un día a la fecha obtenida
+
              return fecha;
          }
-
-
 	 </script>
-
 	
     <!-- Incluir el fragmento de JavaScript -->
     <div th:include="home :: javascript-include"></div>

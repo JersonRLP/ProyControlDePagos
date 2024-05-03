@@ -91,7 +91,7 @@
 								<td th:text="${#dates.format(s.fecInicio, 'dd/MM/yyyy')}"></td>
 								<td th:text="${#dates.format(s.fecFin, 'dd/MM/yyyy')}"></td>
 								<td th:text="${s.dias}"></td>
-								<td th:text="${s.idPrestatario.nombres}+' '+${s.idPrestatario.apePaterno}"></td>
+								<td th:text="${s.idPrestamista.nombres}+' '+${s.idPrestamista.apePaterno}"></td>
 								<td th:text="${s.estado}" th:class="${s.estado == 'APROBADO' ? 'aprobado' : s.estado == 'RECHAZADO' ? 'rechazado' : 'pendiente'}"></td>
 							</tr>
 						</tbody>

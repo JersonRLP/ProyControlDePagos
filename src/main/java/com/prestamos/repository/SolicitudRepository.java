@@ -16,10 +16,9 @@ public interface SolicitudRepository extends JpaRepository<Solicitud, Integer> {
 
     @Query("SELECT s FROM Solicitud s " +
             "JOIN s.idPrestatario p " +
-            "WHERE (LOWER(p.nombres) LIKE LOWER(CONCAT('%', :search, '%')) " +
-            "       OR (s.fecInicio BETWEEN :fecha1 AND :fecha2) " +
-            "       OR (s.fecFin BETWEEN :fecha1 AND :fecha2)) " +
-            "       AND s.idPrestamista.idUsuario = :idPrestamista")
+            "WHERE (:search IS NULL OR LOWER(p.nombres) LIKE LOWER(CONCAT('%', :search, '%'))) " +
+            "AND (:fecha1 IS NULL OR :fecha2 IS NULL OR (s.fecInicio BETWEEN :fecha1 AND :fecha2) OR (s.fecFin BETWEEN :fecha1 AND :fecha2)) " +
+            "AND s.idPrestamista.idUsuario = :idPrestamista")
     List<Solicitud> findBySearchAndIdPrestatarioNombresAndFecha1AndFecha2AndIdPrestamistaIdUsuario(@Param("search") String search,
                                                                                                    @Param("fecha1") Date fecha1,
                                                                                                    @Param("fecha2") Date fecha2,

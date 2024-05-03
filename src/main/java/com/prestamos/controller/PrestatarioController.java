@@ -44,8 +44,8 @@ public class PrestatarioController {
     public String mostrarTodos(@ModelAttribute Usuario usuario, Model model) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String nombrePrestamista = auth.getName();
-        Usuario prestamista = usuarioRepository.findByNombres(nombrePrestamista);
+        String username = auth.getName();
+        Usuario prestamista = usuarioRepository.findByUsername(username);
 
         Integer idUsuario = prestamista.getIdUsuario();
         usuario.setIdUsuarioLider(idUsuario);
@@ -63,8 +63,8 @@ public class PrestatarioController {
     public String mostrarFormularioCrear(Model model) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String nombrePrestamista = auth.getName();
-        Usuario prestamista = usuarioRepository.findByNombres(nombrePrestamista);
+        String username = auth.getName();
+        Usuario prestamista = usuarioRepository.findByUsername(username);
 
         // Obtener la zona del prestamista
         Zona zonaPrestamista = prestamista.getIdZona();
@@ -77,7 +77,7 @@ public class PrestatarioController {
         // Filtrar los roles para obtener solo el de "prestatario"
         Rol rolPrestatario = rolService.obtenerRolPrestatario(6);
 
-        model.addAttribute("nombrePrestamista", nombrePrestamista);
+        model.addAttribute("nombrePrestamista", username);
         model.addAttribute("zonas", zonas);
         // Agregar el rol al modelo
         model.addAttribute("rolPrestatario", rolPrestatario);
@@ -89,8 +89,8 @@ public class PrestatarioController {
     public String crearPrestamista(@ModelAttribute Usuario usuario, @RequestParam("idZona") int idZona, Model model) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String nombrePrestamista = auth.getName();
-        Usuario prestamista = usuarioRepository.findByNombres(nombrePrestamista);
+        String username = auth.getName();
+        Usuario prestamista = usuarioRepository.findByUsername(username);
 
         // Encriptar la contraseña
         String passwordEncriptado = encriptarPassword(usuario.getPassword());
@@ -127,8 +127,8 @@ public class PrestatarioController {
         Usuario usuario = prestatarioService.obtenerPorId(id);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String nombrePrestamista = auth.getName();
-        Usuario prestamista = usuarioRepository.findByNombres(nombrePrestamista);
+        String username = auth.getName();
+        Usuario prestamista = usuarioRepository.findByUsername(username);
 
         // Obtener la zona del prestamista
         Zona zonaPrestamista = prestamista.getIdZona();
@@ -141,7 +141,7 @@ public class PrestatarioController {
         // Filtrar los roles para obtener solo el de "prestatario"
         Rol rolPrestatario = rolService.obtenerRolPrestatario(6);
 
-        model.addAttribute("nombrePrestamista", nombrePrestamista);
+        model.addAttribute("nombrePrestamista", username);
         //model.addAttribute("zonas", zonas);
         // Agregar el rol al modelo
         model.addAttribute("rolPrestatario", rolPrestatario);
@@ -153,8 +153,8 @@ public class PrestatarioController {
     @PostMapping("/prestatario/editar/{id}")
     public String actualizarPrestamista(@PathVariable Integer id, @ModelAttribute Usuario usuario, @RequestParam("idZona") int idZona, Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String nombrePrestamista = auth.getName();
-        Usuario prestamista = usuarioRepository.findByNombres(nombrePrestamista);
+        String username = auth.getName();
+        Usuario prestamista = usuarioRepository.findByUsername(username);
 
         // Encriptar la contraseña
         String passwordEncriptado = encriptarPassword(usuario.getPassword());
@@ -222,10 +222,10 @@ public class PrestatarioController {
 
         // Obtener el nombre del prestamista logueado
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String nombrePrestamista = auth.getName();
+        String username = auth.getName();
 
         // Obtener el prestamista logueado desde la base de datos
-        Usuario prestamista = usuarioRepository.findByNombres(nombrePrestamista);
+        Usuario prestamista = usuarioRepository.findByUsername(username);
         Integer idUsuario = prestamista.getIdUsuario();
 
         List<Usuario> usuarios = prestatarioService.buscarPorAtributosP(nombres, apePaterno, apeMaterno, email, telefono, dni, idUsuario);

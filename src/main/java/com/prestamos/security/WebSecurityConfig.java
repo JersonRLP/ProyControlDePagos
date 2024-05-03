@@ -12,8 +12,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.prestamos.service.UserDetailsServiceImpl;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
-
 
 @Configuration
 @EnableWebSecurity
@@ -57,7 +55,7 @@ public class WebSecurityConfig {
                 .anyRequest().authenticated())
             .formLogin(form -> form
                 .loginPage("/login")
-                .usernameParameter("nombres")
+                .usernameParameter("username")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/home", true)
                 .failureUrl("/login?error=true"))

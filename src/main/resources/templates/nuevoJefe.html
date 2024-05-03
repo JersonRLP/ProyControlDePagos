@@ -65,9 +65,9 @@
 							<div class="row">
 								<div class="col-12 col-md-6">
 									<div class="form-group">
-										<label for="cliente_dni" class="bmd-label-floating">DNI</label>
-										<input th:field="*{dni}" type="text" pattern="\d{8}" class="form-control" name="dni" id="dni" th:value="${jefe.dni}" maxlength="8" title="Ingresa 8 dígitos numéricos" required>
-										<p th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}" class="error-message"></p>
+										<label for="username" class="bmd-label-floating">Usuario</label>
+										<input th:field="*{username}" type="text" pattern="^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,40}$" class="form-control" name="username" id="username" th:value="${jefe.username}" maxlength="100" title="Ingresa un usuario correcto" required>
+										<p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" class="error-message"></p>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
@@ -104,8 +104,15 @@
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_telefono" class="bmd-label-floating">Teléfono</label>
-										<input th:field="*{telefono}" type="text" pattern="[0-9()+]{1,20}" class="form-control" name="telefono" id="telefono" th:value="${jefe.telefono}" maxlength="20" required>
+										<input th:field="*{telefono}" type="number" pattern="[0-9()+]{1,20}" class="form-control" name="telefono" id="telefono" th:value="${jefe.telefono}" maxlength="20" required>
 										<p th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}" class="error-message"></p>
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="cliente_dni" class="bmd-label-floating">DNI</label>
+										<input th:field="*{dni}" type="number" pattern="\d{8}" class="form-control" name="dni" id="dni" th:value="${jefe.dni}" maxlength="8" title="Ingresa 8 dígitos numéricos" required>
+										<p th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}" class="error-message"></p>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
@@ -113,7 +120,6 @@
 								            <label for="zona" class="bmd-label-floating">Zona</label>
 								            <select id="zona" class="form-control" name="idZona">
 								                <option disabled value="">Selecciona una zona</option>
-								              
 								                <option th:each="zona : ${listzonas}" th:value="${zona.idZona}" th:text="${zona.descripcion}"></option>
 								            </select>
 								        </div>

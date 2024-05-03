@@ -60,8 +60,8 @@ public class PrestamistaController {
 
 		// Obtener el usuario autenticado
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String nombreUsuario = authentication.getName();
-		Usuario usuarioAutenticado = usurepo.findByNombres(nombreUsuario);
+		String username = authentication.getName();
+		Usuario usuarioAutenticado = usurepo.findByUsername(username);
 
 		// Obtener el idUsuarioLider del usuario autenticado
 		Integer idUsuarioLider = usuarioAutenticado.getIdUsuario();
@@ -86,16 +86,16 @@ public class PrestamistaController {
 	public String mostrarFormularioCrear(Model model) {
 			// Obtener el nombre de usuario del contexto de seguridad
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			String nombreUsuario = auth.getName();
+			String username = auth.getName();
 
 			// Obtener el usuario actual
-			Usuario usuario = usurepo.findByNombres(nombreUsuario);
+			Usuario usuario = usurepo.findByUsername(username);
 
 			Rol rolPrestatario = rolService.obtenerRolPrestatario(5);
 
 			// Poner el usuario en el modelo
 			// Agregar otros atributos necesarios al modelo
-			model.addAttribute("nombreUsuario", nombreUsuario);
+			model.addAttribute("nombreUsuario", username);
 			model.addAttribute("idRol", rolPrestatario);
 			model.addAttribute("idZona", usuario.getIdZona().getIdZona());
 			model.addAttribute("listzonas", zonarepo.findAll());
@@ -111,8 +111,8 @@ public class PrestamistaController {
 		public String crearPrestamista (@ModelAttribute Usuario usuario, @RequestParam("idZona") int idZona, Model model){
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String nombreJefePrestamista = auth.getName();
-		Usuario jefeprestamista = usurepo.findByNombres(nombreJefePrestamista);
+		String username = auth.getName();
+		Usuario jefeprestamista = usurepo.findByUsername(username);
 
 		// Encriptar la contraseña
 		String passwordEncriptado = encriptarPassword(usuario.getPassword());
@@ -141,8 +141,8 @@ public class PrestamistaController {
 
 
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			String nombreJefePrestamista = auth.getName();
-			Usuario jefeprestamista = usurepo.findByNombres(nombreJefePrestamista);
+			String username = auth.getName();
+			Usuario jefeprestamista = usurepo.findByUsername(username);
 
 			// Obtener la zona del prestamista
 			Zona zonaJefePrestamista = jefeprestamista.getIdZona();
@@ -152,7 +152,7 @@ public class PrestamistaController {
 
 			Rol rolJefePrestamista = rolService.obtenerRolPrestatario(5);
 
-			model.addAttribute("nombreJefePrestamista", nombreJefePrestamista);
+			model.addAttribute("nombreJefePrestamista", username);
 
 			// Agregar el rol al modelo
 			model.addAttribute("rolJefePrestamista", rolJefePrestamista);
@@ -206,8 +206,8 @@ public class PrestamistaController {
 		public String verSolicitudesPrestamos(Model model) {
 			
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		    String nombreUsuario = auth.getName();		
-		    Usuario usuario = usurepo.findByNombres(nombreUsuario);
+		    String username = auth.getName();		
+		    Usuario usuario = usurepo.findByUsername(username);
 
 			int idUsuario = usuario.getIdUsuario();
 			
@@ -218,17 +218,17 @@ public class PrestamistaController {
 		}
 		
 		@GetMapping("/solicitudes-filtrar")
-		public String filtrarSolicitudes(Model model, @RequestParam("prestatario") String nombres, @RequestParam("primeraFecha") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha1,
+		public String filtrarSolicitudes(Model model, @RequestParam("prestatario") String prestatario, @RequestParam("primeraFecha") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha1,
 													  @RequestParam("segundaFecha") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha2) {
 			
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		    String nombreUsuario = auth.getName();		
-		    Usuario usuario = usurepo.findByNombres(nombreUsuario);
+		    String username = auth.getName();		
+		    Usuario usuario = usurepo.findByUsername(username);
 		    
 		    int idUsuario = usuario.getIdUsuario();
 			
 			List<Solicitud> solicitudesfiltradas = 
-					solrepo.findBySearchAndIdPrestatarioNombresAndFecha1AndFecha2AndIdPrestamistaIdUsuario(nombres, fecha1, fecha2, idUsuario);
+					solrepo.findBySearchAndIdPrestatarioNombresAndFecha1AndFecha2AndIdPrestamistaIdUsuario(prestatario, fecha1, fecha2, idUsuario);
 			
 			
 			model.addAttribute("lstSolicitudes", solicitudesfiltradas);

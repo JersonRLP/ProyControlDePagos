@@ -49,7 +49,7 @@
                     <a href="/prestatario-search"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR PRESTATARIO</a>
                 </li>
                 <li>
-                    <a href="/solicitudes-prestamo"><i class="fas fa-search fa-fw"></i> &nbsp; SOLICITUDES DE PRÉSTAMOS</a>
+                    <a class="active" href="/solicitudes-prestamo"><i class="fas fa-search fa-fw"></i> &nbsp; SOLICITUDES DE PRÉSTAMOS</a>
                 </li>
             </ul>
         </div>
@@ -96,6 +96,8 @@
                     <tr class="text-center roboto-medium">
                         <th>#</th>
                         <th>NOMBRES DEL PRESTATARIO</th>
+                        <th>FECHA INICIO</th>
+                        <th>FECHA FIN</th>
                         <th>MONTO</th>
                         <th>INTERES</th>
                         <th>TASA</th>
@@ -108,6 +110,8 @@
 						<td th:text="${iterStat.index + 1}"></td>
                         <td hidden th:text="${s.idSolicitud}"></td>
                         <td th:text="${s.idPrestatario.nombres}+' '+${s.idPrestatario.apePaterno}+' '+${s.idPrestatario.apeMaterno}"></td>
+                        <td th:text="${#dates.format(s.fecInicio, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${#dates.format(s.fecFin, 'dd/MM/yyyy')}"></td>
                         <td th:text="${s.monto}"></td>
                         <td th:text="${s.interes}"></td>
                         <td th:text="${s.interes}"></td>

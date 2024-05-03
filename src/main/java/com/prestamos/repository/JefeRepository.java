@@ -8,13 +8,17 @@ import org.springframework.data.repository.query.Param;
 
 import com.prestamos.model.Usuario;
 
-public interface InversionistaRepository extends JpaRepository<Usuario, Integer> {
+public interface JefeRepository extends JpaRepository<Usuario, Integer> {
 
 	Usuario findByEmail(String email);
 	
 	Usuario findByTelefono(String telefono);
 	
 	Usuario findByDni(String dni);
+	
+	Usuario findByUsername(String username);
+	
+	Usuario findByIdRolDescripcion(String descripcion);
 	
 	List<Usuario> findByIdRolDescripcionAndEstado(String descripcion, int estado);
 	

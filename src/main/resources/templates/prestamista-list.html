@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="es" xmlns:th="https://www.thymeleaf.org">
 <head th:replace="home  :: head">
   <meta charset="UTF-8">
@@ -66,7 +67,6 @@
             <th>EMAIL</th>
             <th>TELEFONO</th>
             <th>DNI</th>
-            <th>ESTADO</th>
             <th>ACTUALIZAR</th>
             <th>ELIMINAR</th>
           </tr>
@@ -81,7 +81,6 @@
             <td th:text="${prestamista.email}"></td>
             <td th:text="${prestamista.telefono}"></td>
             <td th:text="${prestamista.dni}"></td>
-            <td th:text="${prestamista.estado}"></td>
             <td>
               <a th:href="@{/prestamista/editar/{id}(id=${prestamista.idUsuario})}" class="btn btn-success">
                 <i class="fas fa-sync-alt"></i>

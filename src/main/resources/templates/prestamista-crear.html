@@ -66,20 +66,25 @@
 						<legend><i class="fas fa-user"></i> &nbsp; Información básica</legend>
 						<div class="container-fluid">
 							<div class="row">
-
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-6">
+									<div class="form-group">
+										<label for="username" class="bmd-label-floating">Usuario</label>
+										<input th:field="*{username}" type="text" pattern="^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,40}$" class="form-control" name="username" id="username" maxlength="100" title="Ingresa usuario correcto" required>
+									</div>
+								</div>
+								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_nombre" class="bmd-label-floating">Nombres</label>
 										<input type="text" th:field="*{nombres}" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="nombres" id="nombres" maxlength="50" title="Ingresa nombres correctos" required>
 									</div>
 								</div>
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_apellido" class="bmd-label-floating">Apellido Paterno</label>
 										<input type="text" th:field="*{apePaterno}" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}" class="form-control" name="apePaterno" id="apePaterno" maxlength="50" title="Ingresa un apellido correcto" required>
 									</div>
 								</div>
-								<div class="col-12 col-md-4">
+								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_apellido" class="bmd-label-floating">Apellido Materno</label>
 										<input type="text" th:field="*{apeMaterno}" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}" class="form-control" name="apeMaterno" id="apeMaterno" title="Ingresa un apellido correcto" maxlength="50">

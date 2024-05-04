@@ -11,6 +11,8 @@ import com.prestamos.model.Solicitud;
 
 public interface SolicitudRepository extends JpaRepository<Solicitud, Integer> {
 
+	Solicitud findByIdSolicitud(int idSolicitud);
+	
     List<Solicitud> findByIdPrestatarioIdUsuario(int idPrestatario);
     List<Solicitud> findByIdPrestamistaIdUsuario(int idPrestamista);
 

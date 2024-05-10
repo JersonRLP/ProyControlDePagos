@@ -208,7 +208,7 @@
 			  <div class="mb-3 row">
 				  <label for="inputDiasLaborables" class="col-sm-2 col-form-label">DIAS LABORABLES </label>
 				  <div class="col-sm-10">
-					  <input type="number" class="form-control" id="inputDiasLaborables">
+					  <input th:field="*{diaslaborales}" type="number" class="form-control" id="inputDiasLaborables" th:value="${solicitud.diaslaborales}" readonly>
 				  </div>
 			  </div>
 		  

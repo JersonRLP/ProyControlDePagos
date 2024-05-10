@@ -36,6 +36,7 @@ public class Solicitud {
     @Column(name = "fecha_fin_prestamo")
     private Date fecFin;
     private int dias;
+    private int diaslaborales;
     private double pagodiario;
     private String estado;
 

@@ -260,7 +260,7 @@ public class PrestamistaController {
 
 			int idUsuario = usuario.getIdUsuario();
 			
-			List<Solicitud> solicitudes = solrepo.findByIdPrestamistaIdUsuario(idUsuario);
+			List<Solicitud> solicitudes = solrepo.findByIdPrestamistaIdUsuarioAndEstado(idUsuario, "PENDIENTE");
 			
 			model.addAttribute("lstSolicitudes", solicitudes);
 			return "solicitudes-prestamo";

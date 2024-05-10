@@ -1,9 +1,11 @@
 package com.prestamos.controller;
 
+import com.prestamos.model.Cuota;
 import com.prestamos.model.Rol;
 import com.prestamos.model.Solicitud;
 import com.prestamos.model.Usuario;
 import com.prestamos.model.Zona;
+import com.prestamos.repository.CuotaRepository;
 import com.prestamos.repository.SolicitudRepository;
 import com.prestamos.repository.UsuarioRepository;
 import com.prestamos.repository.ZonaRepository;
@@ -17,7 +19,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,14 +38,14 @@ public class PrestamistaController {
 	private ZonaRepository zonarepo;
 
 	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
-
-	@Autowired
 	private UsuarioRepository usurepo;
 	
 	@Autowired
 	private SolicitudRepository solrepo;
 
+	
+	@Autowired
+	private CuotaRepository cuotarepo;
 
 	/*@GetMapping("prestamista-list")
 	public String mostrarTodos(Model model) {
@@ -201,9 +202,57 @@ public class PrestamistaController {
 			return "redirect:/prestamistas";
 		}
 		
+	    @GetMapping("/prestamista-search")
+	    public String buscarPorNombreYRol(String nombres, Model model) {
+	        List<Usuario> personas = prestamistaService.buscarPorNombreYRol(nombres);
+	        model.addAttribute("personas", personas);
+	        return "prestamista-search"; // nombre de la plantilla Thymeleaf
+	    }
+	    
+	    @GetMapping("/prestamista-search1")
+	    public String buscarPorAtributos(
+	            String nombres,
+	            String apePaterno,
+	            String apeMaterno,
+	            String dni,
+	            Model model) {
+
+	        List<Usuario> usuarios = prestamistaService.buscarPorAtributos(nombres, apePaterno, apeMaterno, dni);
+	        model.addAttribute("usuarios", usuarios);
+	        return "prestamista-search";
+	    }
 		
+	    @GetMapping("/prestamista-search2")
+	    public String buscarPorAtributosP(
+	            String nombres,
+	            String apePaterno,
+	            String apeMaterno,
+	            String dni,
+	            Model model) {
+
+	        // Obtener el nombre del prestamista logueado
+	        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	        String username = auth.getName();
+
+	        // Obtener el prestamista logueado desde la base de datos
+	        Usuario jefeprestamista = usurepo.findByUsername(username);
+	        Integer idUsuario = jefeprestamista.getIdUsuario();
+
+	        List<Usuario> usuarios = prestamistaService.buscarPorAtributosP(nombres, apePaterno, apeMaterno, dni, idUsuario);
+	        model.addAttribute("usuarios", usuarios);
+	        return "prestamista-search";
+	    }
+
+	    @PostMapping("/prestamista/cambiarEstado/{idUsuario}")
+	    public String cambiarEstado(@PathVariable int idUsuario) {
+	        prestamistaService.cambiarEstado(idUsuario); // Cambiar el estado de la entidad
+	        return "redirect:/prestamista-list"; // Redirigir a la página de listado
+	    }
+	    
 		@GetMapping("/solicitudes-prestamo")
 		public String verSolicitudesPrestamos(Model model) {
+			
+			//model.addAttribute("cuotas", new Cuota());
 			
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		    String username = auth.getName();		
@@ -221,6 +270,8 @@ public class PrestamistaController {
 		public String filtrarSolicitudes(Model model, @RequestParam("prestatario") String prestatario, @RequestParam("primeraFecha") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha1,
 													  @RequestParam("segundaFecha") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecha2) {
 			
+			//model.addAttribute("cuotas", new Cuota());
+			
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		    String username = auth.getName();		
 		    Usuario usuario = usurepo.findByUsername(username);
@@ -236,8 +287,48 @@ public class PrestamistaController {
 			return "solicitudes-prestamo";
 		}
 
+		@PostMapping("registrarprestamo")
+		public String registrarPrestamo(//@ModelAttribute Cuota cuota,
+										//@ModelAttribute Solicitud solicitud,
+										@RequestParam("idSolicitud") int idSolicitud,
+										@RequestParam("dias") int nrodiaslaborales,
+										@RequestParam("fecPago") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecPago,
+										@RequestParam("fecVencimiento") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecVencimiento,
+										@RequestParam("pagoDiario") double pagoDiario) {
+			
+			Solicitud solicitud = solrepo.findByIdSolicitud(idSolicitud);
+			
+			solicitud.setEstado("APROBADO");
+			solrepo.save(solicitud);
+			
+			for(int x=0; x<nrodiaslaborales; x++) {
+				Cuota cuota = new Cuota();
+				
+				cuota.setIdSolicitud(solicitud);
+				cuota.setNumeroCuota(x);
+				cuota.setMontoCuota(pagoDiario);
+				cuota.setFechaPago(fecPago);
+				cuota.setFechaVencimiento(fecVencimiento);
+				cuota.setEstado("PENDIENTE");
+				cuotarepo.save(cuota);
+			}
+					
+			return "redirect:/cuotas-list-prestamista?prestamosAprobado";
+		}
+		
+		@PostMapping("rechazarprestamo")
+		public String rechazarPrestamo(@RequestParam("idSolicitud") int idSolicitud) {
+			
+			Solicitud solicitud = solrepo.findByIdSolicitud(idSolicitud);
+			
+			solicitud.setEstado("RECHAZADO");
+			solrepo.save(solicitud);
+			
+			return "redirect:/cuotas-list-prestamista?prestamosRechazado";
+		}
 		
 	}
+
 
 	
 

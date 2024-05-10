@@ -117,5 +117,4 @@ public class PrestamosController {
 		
 		return "historial-prestamo";
 	}
-
 }

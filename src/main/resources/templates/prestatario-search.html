@@ -35,9 +35,6 @@
             <h3 class="text-left">
                 <i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR PRESTATARIO
             </h3>
-            <p class="text-justify">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit nostrum rerum animi natus beatae ex. Culpa blanditiis tempore amet alias placeat, obcaecati quaerat ullam, sunt est, odio aut veniam ratione.
-            </p>
         </div>
 
         <div class="container-fluid">
@@ -208,7 +205,6 @@
                         <th>EMAIL</th>
                         <th>TELEFONO</th>
                         <th>DNI</th>
-                        <th>ESTADO</th>
                         <th>ACTUALIZAR</th>
                         <th>ELIMINAR</th>
                     </tr>
@@ -224,7 +220,6 @@
                         <td th:text="${prestatario.email}"></td>
                         <td th:text="${prestatario.telefono}"></td>
                         <td th:text="${prestatario.dni}"></td>
-                        <td th:text="${prestatario.estado}"></td>
                         <td>
                             <a th:href="@{/prestatario/editar/{id}(id=${prestatario.idUsuario})}" class="btn btn-success">
                                 <i class="fas fa-sync-alt"></i>

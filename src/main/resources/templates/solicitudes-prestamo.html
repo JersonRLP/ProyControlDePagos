@@ -109,11 +109,14 @@
                     <tr th:each="s, iterStat : ${lstSolicitudes}" class="text-center">
 						<td th:text="${iterStat.index + 1}"></td>
                         <td hidden th:text="${s.idSolicitud}"></td>
-                        <td th:text="${s.idPrestatario.nombres}+' '+${s.idPrestatario.apePaterno}+' '+${s.idPrestatario.apeMaterno}"></td>
+                        <td hidden th:text="${s.idPrestamista.nombres}+' '+${s.idPrestamista.apePaterno}+' '+${s.idPrestamista.apeMaterno}"></td>
+                        <td th:text="${s.idPrestatario.nombres}+' '+${s.idPrestatario.apePaterno}+' '+${s.idPrestatario.apeMaterno}"></td>             
                         <td th:text="${#dates.format(s.fecInicio, 'dd/MM/yyyy')}"></td>
                         <td th:text="${#dates.format(s.fecFin, 'dd/MM/yyyy')}"></td>
                         <td th:text="${s.monto}"></td>
                         <td th:text="${s.interes}"></td>
+                        <td hidden th:text="${s.dias}"></td>
+                        <td hidden th:text="${s.pagodiario}"></td>
                         <td th:text="${s.interes}"></td>
                         <td>
 							<a class="btn btn-success" onclick="abrirModal(this)">VER</a>
@@ -141,73 +144,89 @@
 </main>
 
 			<!-- Modal -->
-<!--<div class="modal fade" id="AbrirModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="AbrirModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="staticBackdropLabel">REGISTRAR PRÉSTAMO</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form th:action="@{/registrarprestamo}" th:object="" method="">
+      <form th:action="@{/registrarprestamo}" method="post">
     	  <div class="modal-body">	
 			  <h1>OPEN MODAL</h1>
+			 <div class="mb-3 row">
+			    <label for="inputIdSolicitud" class="col-sm-2 col-form-label">IDSOLICITUD</label>
+			    <span class="col-sm-1"></span>
+			    <div class="col-sm-9">
+			      <input type="text" class="form-control" name="idSolicitud" id="inputIdSolicitud" readonly>
+			    </div>
+		  	</div>
 			<div class="mb-3 row">
 			    <label for="inputPrestatario" class="col-sm-2 col-form-label">PRESTATARIO</label>
-			    <div class="col-sm-10">
-			      <input th:field="*{idPrestatario}" type="text" class="form-control" id="inputPrestatario" readonly>
+			    <span class="col-sm-1"></span>
+			    <div class="col-sm-9">
+			      <input type="text" class="form-control" id="inputPrestatario" readonly>
 			    </div>
 		  	</div>
 		  	<div class="mb-3 row">
 			    <label for="inputPrestamista" class="col-sm-2 col-form-label">PRESTAMISTA</label>
-			    <div class="col-sm-10">
-			      <input th:field="*{idPrestamista}" type="text" class="form-control" id="inputPrestamista" readonly>
+			    <span class="col-sm-1"></span>
+			    <div class="col-sm-9">
+			      <input type="text" class="form-control" id="inputPrestamista" readonly>
 			    </div>
 		  	</div>
 			<div class="mb-3 row">
 		    <label for="inputMonto" class="col-sm-2 col-form-label">MONTO</label>
-		    <div class="col-sm-10">
-		      <input th:field="*{monto}" type="text" class="form-control" id="inputMonto" readonly>
+		    <span class="col-sm-1"></span>
+		    <div class="col-sm-9">
+		      <input type="text" class="form-control" id="inputMonto" readonly>
 		    </div>
 		  </div>
 		  <div class="mb-3 row">
 		    <label for="inputInteres" class="col-sm-2 col-form-label">INTERES</label>
-		    <div class="col-sm-10">
-		      <input th:field="*{interes}" type="number" class="form-control" id="inputInteres" readonly>
+		    <span class="col-sm-1"></span>
+		    <div class="col-sm-9">
+		      <input type="number" class="form-control" id="inputInteres" readonly>
 		    </div>
 		  </div>
 		  <div class="mb-3 row">
 		    <label for="inputTasa" class="col-sm-2 col-form-label">TASA</label>
-		    <div class="col-sm-10">
-		      <input th:field="*{interes}" type="number" class="form-control" id="inputTasa" readonly>
+		    <span class="col-sm-1"></span>
+		    <div class="col-sm-9">
+		      <input type="number" class="form-control" id="inputTasa" readonly>
 		    </div>
 		  </div>
 		  
 		  <div class="mb-3 row">
 		    <label for="inputDias" class="col-sm-2 col-form-label">DIAS</label>
-		    <div class="col-sm-10">
-		      <input th:field="*{dias}" type="number" class="form-control" id="inputDias" readonly>
+		    <span class="col-sm-1"></span>
+		    <div class="col-sm-9">
+		      <input type="number" class="form-control" name="dias" id="inputDias" readonly>
 		    </div>
 		  </div>
 		  
 		  
 		   <div class="mb-3 row">
 		    <label for="inputPagoDiario" class="col-sm-2 col-form-label">PAGO DIARIO</label>
-		    <div class="col-sm-10">
-		      <input th:field="*{pagodiario}" type="number" class="form-control" id="inputPagoDiario" readonly>
+		    <span class="col-sm-1"></span>
+		    <div class="col-sm-9">
+		      <input type="number" class="form-control" id="inputPagoDiario" readonly>
 		    </div>
 		  </div>
 		  <div class="mb-3 row">
 		    <label for="inputFechaInicio" class="col-sm-2 col-form-label">FECHA INICIO</label>
-		    <div class="col-sm-10">
-		      <input th:field="*{fecInicio}" type="date" class="form-control" id="inputFechaInicio" name="" required>
+		    <span class="col-sm-1"></span>
+		    <div class="col-sm-9">
+		      <input type="text" class="form-control" id="inputFechaInicio" name="fecInicio" readonly>
 		    </div>
 		  </div>
 		  
 		  
 		   <div class="mb-3 row">
 		    <label for="inputFechaFin" class="col-sm-2 col-form-label">FECHA FIN</label>
-		    <div class="col-sm-10">
-		      <input th:field="*{fecFin}" type="date" class="form-control" id="inputFechaFin" name="fecFin" readonly>
+		    <span class="col-sm-1"></span>
+		    <div class="col-sm-9">
+		      <input type="text" class="form-control" id="inputFechaFin" name="fecFin" readonly>
 		    </div>
 		  </div>
 		  	  
@@ -224,14 +243,48 @@
 		</form>
     	  </div>
     	  </div>
-      </div>-->
+      </div>
 
-<script>
-	function abrirModal(element) {
-	    // Abre el modal con el id "AbrirModal"
-	    $('#AbrirModal').modal('show');
-	}
-</script>
+	<script>
+	    function abrirModal(element) {
+	        // Abre el modal con el id "AbrirModal"
+	        $('#AbrirModal').modal('show');
+	        
+	        // Obtiene la fila correspondiente a la solicitud seleccionada
+	        var $row = $(element).closest('tr');
+	        
+	        // Obtiene los datos de la solicitud de la fila
+	        var idSolicitud = $row.find('td:eq(1)').text();
+	        var fecInicio = $row.find('td:eq(4)').text();
+	        var fecFin = $row.find('td:eq(5)').text();
+	        var montoTotal = parseFloat($row.find('td:eq(6)').text()); // Índice 4 para el monto
+	        var tasa = parseFloat($row.find('td:eq(7)').text()); // Índice 5 para la tasa de interés
+	        var dias = parseInt($row.find('td:eq(8)').text()); // Índice 7 para los días
+	        var pagodiario = parseFloat($row.find('td:eq(9)').text()); // Índice 8 para el pago diario
+	        
+	        // Calcular el monto sin intereses
+	        var montosininteres = montoTotal / (1 + (tasa/100));
+	        // Calcular el interés
+	        var interes = montoTotal - montosininteres;
+	        
+	        // Asigna los valores a los campos del modal
+	        $('#inputIdSolicitud').val(idSolicitud);
+	        $('#inputMonto').val(montosininteres.toFixed(2));
+	        $('#inputInteres').val(interes.toFixed(2));
+	        $('#inputTasa').val(tasa.toFixed(2));
+	        $('#inputDias').val(dias);
+	        $('#inputPagoDiario').val(pagodiario.toFixed(2));
+	        $('#inputFechaInicio').val(fecInicio);
+	        $('#inputFechaFin').val(fecFin);
+	
+	        // También puedes establecer el nombre del prestatista, si está disponible
+	        // Esto asume que el nombre del prestatista está disponible en la lista de solicitudes
+	        var prestatista = $row.find('td:eq(2)').text(); // Índice 2 para el nombre del prestatista
+	        $('#inputPrestamista').val(prestatista);
+	        var prestatario = $row.find('td:eq(3)').text();
+	        $('#inputPrestatario').val(prestatario);
+	    }
+	</script>
 
 <!-- Incluir el fragmento de JavaScript -->
 <div th:include="home :: javascript-include"></div>

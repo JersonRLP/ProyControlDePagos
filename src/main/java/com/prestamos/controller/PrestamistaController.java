@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -287,36 +288,82 @@ public class PrestamistaController {
 			return "solicitudes-prestamo";
 		}
 
-		@PostMapping("registrarprestamo")
-		public String registrarPrestamo(//@ModelAttribute Cuota cuota,
-										//@ModelAttribute Solicitud solicitud,
-										@RequestParam("idSolicitud") int idSolicitud,
-										@RequestParam("dias") int nrodiaslaborales,
-										@RequestParam("fecPago") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecPago,
-										@RequestParam("fecVencimiento") @DateTimeFormat(pattern = "yyyy-MM-dd") Date fecVencimiento,
-										@RequestParam("pagoDiario") double pagoDiario) {
+		@GetMapping("/cuotas-list-prestamista-pendiente")
+		public String listaCuotasPrestamista(Model model) {
 			
-			Solicitud solicitud = solrepo.findByIdSolicitud(idSolicitud);
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		    String username = auth.getName();		
+		    Usuario usuario = usurepo.findByUsername(username);
 			
-			solicitud.setEstado("APROBADO");
-			solrepo.save(solicitud);
+			int idPrestamista = usuario.getIdUsuario();
 			
-			for(int x=0; x<nrodiaslaborales; x++) {
-				Cuota cuota = new Cuota();
-				
-				cuota.setIdSolicitud(solicitud);
-				cuota.setNumeroCuota(x);
-				cuota.setMontoCuota(pagoDiario);
-				cuota.setFechaPago(fecPago);
-				cuota.setFechaVencimiento(fecVencimiento);
-				cuota.setEstado("PENDIENTE");
-				cuotarepo.save(cuota);
-			}
-					
-			return "redirect:/cuotas-list-prestamista?prestamosAprobado";
+			List<Cuota> cuotas = cuotarepo.findByIdSolicitudIdPrestamistaIdUsuarioAndEstado(idPrestamista, "PENDIENTE");
+			
+			model.addAttribute("lstCuotas", cuotas);
+		    
+			return "cuotas-list-prestamista-pendiente";
+		}
+
+		@PostMapping("/registrarprestamo")
+		public String registrarPrestamo(@RequestParam("idSolicitud") int idSolicitud,
+		                                 @RequestParam("diaslaborales") int nrodiaslaborales,
+		                                 @RequestParam("pagodiario") double pagoDiario) {
+
+		    // Obtener la solicitud por su ID
+		    Solicitud solicitud = solrepo.findByIdSolicitud(idSolicitud);
+		    solicitud.setEstado("APROBADO");
+		    solrepo.save(solicitud);
+
+		    // Calcular la fecha de inicio
+		    Date fechaInicio = solicitud.getFecInicio();
+		    
+		    // Inicializar las fechas de pago y vencimiento
+		    Date fechaPago = fechaInicio;
+		    Date fechaVencimiento = fechaInicio;
+
+		    // Iterar sobre los días laborables para crear las cuotas
+		    for (int x = 1; x < nrodiaslaborales+1; x++) {
+		        // Verificar si la fecha de pago es un día laborable
+		        while (!esDiaLaborable(fechaPago)) {
+		            fechaPago = sumarDias(fechaPago, 1);
+		            fechaVencimiento = sumarDias(fechaVencimiento, 1);
+		        }
+		        
+		        // Crear la cuota y establecer sus atributos
+		        Cuota cuota = new Cuota();
+		        cuota.setIdSolicitud(solicitud);
+		        cuota.setNumeroCuota(x);
+		        cuota.setMontoCuota(pagoDiario);
+		        cuota.setFechaPago(fechaPago);
+		        cuota.setFechaVencimiento(fechaVencimiento);
+		        cuota.setEstado("PENDIENTE");
+		        cuotarepo.save(cuota);
+		        
+		        // Avanzar la fecha de pago y la fecha de vencimiento
+		        fechaPago = sumarDias(fechaPago, 1);
+		        fechaVencimiento = sumarDias(fechaVencimiento, 1);
+		    }
+		    
+		    return "redirect:/cuotas-list-prestamista-pendiente?prestamoAprobado";
+		}
+
+		// Función para verificar si una fecha es un día laborable (no sábado ni domingo)
+		private boolean esDiaLaborable(Date fecha) {
+		    Calendar cal = Calendar.getInstance();
+		    cal.setTime(fecha);
+		    int diaSemana = cal.get(Calendar.DAY_OF_WEEK);
+		    return diaSemana != Calendar.SATURDAY && diaSemana != Calendar.SUNDAY;
+		}
+
+		// Función para sumar días a una fecha
+		private Date sumarDias(Date fecha, int dias) {
+		    Calendar cal = Calendar.getInstance();
+		    cal.setTime(fecha);
+		    cal.add(Calendar.DAY_OF_MONTH, dias);
+		    return cal.getTime();
 		}
 		
-		@PostMapping("rechazarprestamo")
+		@PostMapping("/rechazarprestamo")
 		public String rechazarPrestamo(@RequestParam("idSolicitud") int idSolicitud) {
 			
 			Solicitud solicitud = solrepo.findByIdSolicitud(idSolicitud);
@@ -324,7 +371,7 @@ public class PrestamistaController {
 			solicitud.setEstado("RECHAZADO");
 			solrepo.save(solicitud);
 			
-			return "redirect:/cuotas-list-prestamista?prestamosRechazado";
+			return "redirect:/solicitudes-prestamo?prestamoRechazado";
 		}
 		
 	}

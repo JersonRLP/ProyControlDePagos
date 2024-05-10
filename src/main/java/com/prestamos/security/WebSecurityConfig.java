@@ -48,8 +48,8 @@ public class WebSecurityConfig {
            	 .requestMatchers("/nuevoJefe","/buscarJefe","/listaJefe","/actualizarJefe").hasAnyAuthority("Inversionista")
            	.requestMatchers("/home").hasAnyAuthority("Administrador","Inversionista","Jefe de Prestamista","Prestamista","Prestatario")
                 .requestMatchers("/prestamista-list","/prestamista-crear").hasAnyAuthority("Jefe de Prestamista")
-                   .requestMatchers("prestatario-crear","prestatario-actualizar","/prestatario-list","/prestatario-search","/solicitudes-prestamo").hasAnyAuthority("Prestamista")
-                   .requestMatchers("/solicitar-prestamo","/historial-prestamo","/prestamos").hasAnyAuthority("Prestatario")  
+                   .requestMatchers("prestatario-crear","prestatario-actualizar","/prestatario-list","/prestatario-search","/solicitudes-prestamo", "/cuotas-list-prestamista-pendiente").hasAnyAuthority("Prestamista")
+                   .requestMatchers("/solicitar-prestamo","/historial-prestamo","/prestamos", "/cuotas-list-prestatario-pendiente").hasAnyAuthority("Prestatario")  
 
 
                 .anyRequest().authenticated())

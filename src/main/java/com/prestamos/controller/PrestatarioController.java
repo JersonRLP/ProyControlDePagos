@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.prestamos.model.Zona;
+import com.prestamos.repository.CuotaRepository;
 import com.prestamos.repository.PrestatarioRepository;
 import com.prestamos.repository.UsuarioRepository;
 import com.prestamos.service.MyUserDetails;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import com.prestamos.model.Cuota;
 import com.prestamos.model.Rol;
 import com.prestamos.model.Usuario;
 import com.prestamos.service.PrestatarioService;
@@ -24,6 +26,9 @@ import com.prestamos.service.RolService;
 
 @Controller
 public class PrestatarioController {
+	
+	@Autowired
+	private CuotaRepository cuotarepo;
 
 	@Autowired
     private PrestatarioService prestatarioService;
@@ -239,5 +244,21 @@ public class PrestatarioController {
         return "redirect:/prestatario-list"; // Redirigir a la página de listado
     }
 	
+    
+    @GetMapping("/cuotas-list-prestatario-pendiente")
+	public String listaCuotasPrestatario(Model model) {
+		
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+	    String username = auth.getName();		
+	    Usuario usuario = usuarioRepository.findByUsername(username);
+		
+		int idPrestatario = usuario.getIdUsuario();
+		
+		List<Cuota> cuotas = cuotarepo.findByIdSolicitudIdPrestatarioIdUsuarioAndEstado(idPrestatario, "PENDIENTE");
+		
+		model.addAttribute("lstCuotas", cuotas);
+	    
+		return "cuotas-list-prestatario-pendiente";
+	}
 	
 }

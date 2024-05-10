@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
 
     <title>Solicitudes de  Préstamos</title>
-
+	
 </head>
 <body>
 
@@ -48,15 +48,18 @@
                 <li>
                     <a href="/prestatario-search"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR PRESTATARIO</a>
                 </li>
-				<li>
-				     <a class="active" href="/solicitudes-prestamo"><i class="fas fa-search fa-fw"></i> &nbsp; SOLICITUDES DE PRÉSTAMOS</a>
-				 </li>
-				 <li>
-				      <a href="/cuotas-list-prestamista-pendiente"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; CUOTAS DE PAGO PENDIENTES</a>
-				  </li>
+                <li>
+                    <a class="active" href="/solicitudes-prestamo"><i class="fas fa-search fa-fw"></i> &nbsp; SOLICITUDES DE PRÉSTAMOS</a>
+                </li>
+            	<li>
+                    <a href="/cuotas-list-prestamista-pendiente"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; CUOTAS DE PAGO PENDIENTES</a>
+                </li>
             </ul>
         </div>
 
+       <div align="center" th:if=${param.prestamoRechazado}>
+			<div class="alert alert-danger">Préstamo Rechazado Correctamente</div>
+		</div>
         <!-- Content -->
         <div class="container-fluid">
             <form id="searchForm" class="form-neon" th:action="@{/solicitudes-filtrar}">
@@ -120,9 +123,10 @@
                         <td th:text="${s.interes}"></td>
                         <td hidden th:text="${s.dias}"></td>
                         <td hidden th:text="${s.pagodiario}"></td>
+                        <td hidden th:text="${s.diaslaborales}"></td>
                         <td th:text="${s.interes}"></td>
                         <td>
-							<a class="btn btn-success" onclick="abrirModal(this)">VER</a>
+							<a class="btn btn-success custom-btn" onclick="abrirModal(this)">VER</a>
 						</td>
                     </tr>
                     </tbody>
@@ -154,10 +158,10 @@
         <h5 class="modal-title" id="staticBackdropLabel">REGISTRAR PRÉSTAMO</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form th:action="@{/registrarprestamo}" method="post">
+      <form id="solicitudForm" method="post">
     	  <div class="modal-body">	
 			  <h1>OPEN MODAL</h1>
-			 <div class="mb-3 row">
+			 <div class="mb-3 row" style="display: none;">
 			    <label for="inputIdSolicitud" class="col-sm-2 col-form-label">IDSOLICITUD</label>
 			    <span class="col-sm-1"></span>
 			    <div class="col-sm-9">
@@ -208,12 +212,19 @@
 		    </div>
 		  </div>
 		  
+		  <div class="mb-3 row">
+		    <label for="inputDiasLaborales" class="col-sm-2 col-form-label">DIAS LABORALES</label>
+		    <span class="col-sm-1"></span>
+		    <div class="col-sm-9">
+		      <input type="number" class="form-control" name="diaslaborales" id="inputDiasLaborales" readonly>
+		    </div>
+		  </div>
 		  
 		   <div class="mb-3 row">
 		    <label for="inputPagoDiario" class="col-sm-2 col-form-label">PAGO DIARIO</label>
 		    <span class="col-sm-1"></span>
 		    <div class="col-sm-9">
-		      <input type="number" class="form-control" id="inputPagoDiario" readonly>
+		      <input type="number" class="form-control" name="pagodiario" id="inputPagoDiario" readonly>
 		    </div>
 		  </div>
 		  <div class="mb-3 row">
@@ -235,10 +246,10 @@
 		  	  
 		  <div class="mb-3 row text-center">
 			  <div class="col">
-			  	<button type="submit" class="btn btn-raised btn-success btn-sm"><i class="far fa-save"></i> &nbsp; APROBAR</button>
+			  	<button type="button" onclick="aprobar()" class="btn btn-raised btn-success btn-sm"><i class="far fa-save"></i> &nbsp; APROBAR</button>
 			  </div>
 			  <div class="col">
-			  	<button type="button" class="btn btn-raised btn-danger btn-sm"><i class="far fa-save"></i> &nbsp; RECHAZAR</button>
+			  	<button type="button" onclick="rechazar()" class="btn btn-raised btn-danger btn-sm"><i class="far fa-save"></i> &nbsp; RECHAZAR</button>
 			  </div>
 		  </div>
 		  
@@ -248,6 +259,17 @@
     	  </div>
       </div>
 
+	<script>
+	    function aprobar() {
+	        document.getElementById("solicitudForm").action = "/registrarprestamo";
+	        document.getElementById("solicitudForm").submit();
+	    }
+	
+	    function rechazar() {
+	        document.getElementById("solicitudForm").action = "/rechazarprestamo";
+	        document.getElementById("solicitudForm").submit();
+	    }
+	</script>
 	<script>
 	    function abrirModal(element) {
 	        // Abre el modal con el id "AbrirModal"
@@ -264,6 +286,7 @@
 	        var tasa = parseFloat($row.find('td:eq(7)').text()); // Índice 5 para la tasa de interés
 	        var dias = parseInt($row.find('td:eq(8)').text()); // Índice 7 para los días
 	        var pagodiario = parseFloat($row.find('td:eq(9)').text()); // Índice 8 para el pago diario
+	        var diaslaborales = parseFloat($row.find('td:eq(10)').text()); // Índice 8 para el pago diario
 	        
 	        // Calcular el monto sin intereses
 	        var montosininteres = montoTotal / (1 + (tasa/100));
@@ -274,11 +297,12 @@
 	        $('#inputIdSolicitud').val(idSolicitud);
 	        $('#inputMonto').val(montosininteres.toFixed(2));
 	        $('#inputInteres').val(interes.toFixed(2));
-	        $('#inputTasa').val(tasa.toFixed(2));
+	        $('#inputTasa').val(tasa);
 	        $('#inputDias').val(dias);
 	        $('#inputPagoDiario').val(pagodiario.toFixed(2));
 	        $('#inputFechaInicio').val(fecInicio);
 	        $('#inputFechaFin').val(fecFin);
+	        $('#inputDiasLaborales').val(diaslaborales);
 	
 	        // También puedes establecer el nombre del prestatista, si está disponible
 	        // Esto asume que el nombre del prestatista está disponible en la lista de solicitudes

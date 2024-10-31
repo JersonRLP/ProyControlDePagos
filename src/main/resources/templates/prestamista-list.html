@@ -43,7 +43,7 @@
           <a href="/prestamista-crear"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR PRESTAMISTA</a>
         </li>
         <li>
-          <a class="active" href="client-list.html"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRESTAMISTA</a>
+          <a class="active" href="/prestamista-list"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRESTAMISTA</a>
         </li>
         <li>
           <a href="/prestamista-search"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR PRESTAMISTA</a>
@@ -68,30 +68,31 @@
             <th>ELIMINAR</th>
           </tr>
           </thead>
-          <tbody>
-          <tr class="text-center" th:each="prestamista, iterStat : ${lstPrestamistas}">
-			<td th:text="${iterStat.index + 1}"></td>
-            <td hidden th:text="${prestamista.idUsuario}"></td>
-            <td th:text="${prestamista.nombres}"></td>
-            <td th:text="${prestamista.apePaterno}"></td>
-            <td th:text="${prestamista.apeMaterno}"></td>
-            <td th:text="${prestamista.email}"></td>
-            <td th:text="${prestamista.telefono}"></td>
-            <td th:text="${prestamista.dni}"></td>
-            <td>
-              <a th:href="@{/prestamista/editar/{id}(id=${prestamista.idUsuario})}" class="btn btn-success">
-                <i class="fas fa-sync-alt"></i>
-              </a>
-            </td>
-            <td>
-              	<a th:href="@{/prestamista/eliminar/{id}(id=${prestamista.idUsuario})}" class="btn btn-danger eliminarButton">
-                  <i class="far fa-trash-alt"></i>
-                </a>
-            </td>
-          </tr>
-
-
-          </tbody>
+  <tbody>
+    <tr class="text-center" th:each="prestamista, iterStat : ${prestamistas}">
+      <td th:text="${iterStat.index + 1}"></td>
+      <td hidden th:text="${prestamista.idUsuario}"></td>
+      <td th:text="${prestamista.nombres}"></td>
+      <td th:text="${prestamista.apePaterno}"></td>
+      <td th:text="${prestamista.apeMaterno}"></td>
+      <td th:text="${prestamista.email}"></td>
+      <td th:text="${prestamista.telefono}"></td>
+      <td th:text="${prestamista.dni}"></td>
+      <td>
+        <a th:href="@{/prestamista/editar/{id}(id=${prestamista.idUsuario})}" class="btn btn-success">
+          <i class="fas fa-sync-alt"></i>
+        </a>
+      </td>
+      <td>
+        <a th:href="@{/prestamista/eliminar/{id}(id=${prestamista.idUsuario})}" class="btn btn-danger eliminarButton">
+          <i class="far fa-trash-alt"></i>
+        </a>
+      </td>
+    </tr>
+    <tr th:if="${noDatosDisponibles}">
+      <td colspan="9" class="text-center">No hay Datos Disponibles</td>
+    </tr>
+  </tbody>
         </table>
       </div>
       <nav aria-label="Page navigation example">

@@ -45,7 +45,7 @@
 						<a class="active" th:href="@{/prestamista-crear}"><i class="fas fa-plus fa-fw"></i> &nbsp; AGREGAR PRESTAMISTA</a>
 					</li>
 					<li>
-						<a th:href="@{/prestamista/listado}"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRESTAMISTA</a>
+						<a th:href="@{/prestamista-list}"><i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE PRESTAMISTA</a>
 					</li>
 					<li>
 						<a href="/prestamista-search"><i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR PRESTAMISTA</a>
@@ -84,7 +84,7 @@
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="usuario_apematerno" class="bmd-label-floating">Apellido Materno</label>
-										<input type="text" th:field="*{apeMaterno}" pattern="[A-Z][a-záéíóúñ ]{0,34}" class="form-control" name="apeMaterno" id="usuario_apematerno" title="Ingresa un apellido correcto" maxlength="50">
+										<input type="text" th:field="*{apeMaterno}" pattern="[A-Z][a-záéíóúñ ]{0,34}" class="form-control" name="apeMaterno" id="usuario_apematerno" title="Ingresa un apellido correcto" maxlength="50" required>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">

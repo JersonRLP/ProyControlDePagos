@@ -38,6 +38,9 @@
 					<i class="fas fa-sync-alt fa-fw"></i> &nbsp; ACTUALIZAR JEFE DE PRESTAMISTAS
 				</h3>
 			</div>
+			<div align="center" th:if=${actualizacionExitosa}>
+						<div class="alert alert-success">Jefe actualizado Exitosamente</div>
+				</div>
 
 			<div class="container-fluid">
 				<ul class="full-box list-unstyled page-nav-tabs">
@@ -55,7 +58,7 @@
 			
 			<!-- Content here-->
 			<div class="container-fluid">
-				<form id="FormUpdate" th:action="@{/actualizarJefe}" th:object="${jefe}" method="post" class="form-neon">
+				<form id="FormUpdate" th:action="@{/{id}/actualizar(id=${usuarioId})}" th:object="${usuarioDTO}" method="post" class="form-neon">
 					<fieldset>
 						<legend><i class="fas fa-user"></i> &nbsp; Información básica</legend>
 						<div class="container-fluid">
@@ -63,86 +66,56 @@
 								<div class="col-12 col-md-6" style="display: none;">
 									<div class="form-group">
 										<label for="InputIdUsuario" class="bmd-label-floating">ID</label>
-										<input th:field="*{idUsuario}" type="text" class="form-control" name="dni" id="InputIdUsuario" th:value="${jefe.idUsuario}" required>
+										<input th:field="*{idUsuario}" type="text" class="form-control" name="dni" id="InputIdUsuario" required>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="username" class="bmd-label-floating">Usuario</label>
-										<input th:field="*{username}" type="text" pattern="^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,40}$" class="form-control" name="username" id="username" th:value="${jefe.username}" maxlength="100" readonly>
+										<input th:field="*{username}" type="text" pattern="^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑ ]{1,40}$" class="form-control" name="username" id="username"  maxlength="100" readonly>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_nombre" class="bmd-label-floating">Nombres</label>
-										<input th:field="*{nombres}" type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="nombres" id="cliente_nombre" th:value="${jefe.nombres}" maxlength="40" required>
+										<input th:field="*{nombres}" type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="nombres" id="cliente_nombre"  maxlength="40" required>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_apellido_paterno" class="bmd-label-floating">Apellido Paterno</label>
-										<input th:field="*{apePaterno}" type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="apePaterno" id="cliente_apellido_paterno" th:value="${jefe.apePaterno}" maxlength="40" required>
+										<input th:field="*{apePaterno}" type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="apePaterno" id="cliente_apellido_paterno"  maxlength="40" required>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_apellido_materno" class="bmd-label-floating">Apellido Materno</label>
-										<input th:field="*{apeMaterno}" type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="apeMaterno" id="cliente_apellido_materno" th:value="${jefe.apeMaterno}" maxlength="40" required>
+										<input th:field="*{apeMaterno}" type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,40}" class="form-control" name="apeMaterno" id="cliente_apellido_materno"  maxlength="40" required>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_apellido" class="bmd-label-floating">Email</label>
-										<input th:field="*{email}" type="text" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" class="form-control" name="email" id="email" th:value="${jefe.email}" maxlength="100" title="Ingresa un email correcto" readonly>
+										<input th:field="*{email}" type="text" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" class="form-control" name="email" id="email"  maxlength="100" title="Ingresa un email correcto" readonly>
 									</div>
 								</div>
-								<div class="col-12 col-md-6">
-									<div class="form-group">
-										<label for="password" class="bmd-label-floating">Contraseña</label>
-										<input th:field="*{password}" type="text"  class="form-control" name="password" id="password" th:value="${jefe.password}" maxlength="40" required>
-									</div>
-								</div>
+
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_telefono" class="bmd-label-floating">Teléfono</label>
-										<input th:field="*{telefono}" type="number" pattern="[0-9()+]{1,20}" class="form-control" name="telefono" id="cliente_telefono" th:value="${jefe.telefono}" maxlength="20" readonly>
+										<input th:field="*{telefono}" type="number" pattern="[0-9()+]{1,20}" class="form-control" name="telefono" id="cliente_telefono" maxlength="20" readonly>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="cliente_dni" class="bmd-label-floating">DNI</label>
-										<input th:field="*{dni}" type="number" pattern="\d{8,20}" class="form-control" name="dni" id="cliente_dni" th:value="${jefe.dni}" maxlength="27" readonly>
+										<input th:field="*{dni}" type="number" pattern="\d{8,20}" class="form-control" name="dni" id="cliente_dni"  maxlength="27" readonly>
 									</div>
 								</div>
-								<div class="col-12 col-md-6">
-								        <div class="form-group">
-								            <label for="zona" class="bmd-label-floating">Zona</label>
-								            <select id="zona" class="form-control" name="idZona">
-								                <option disabled value="">Selecciona una zona</option>
-								                <option th:selected="${zonajefe}" th:value="${zonajefe.idZona}" th:text="${zonajefe.descripcion}"></option>
-								                <option th:each="zona : ${listzonas}" th:value="${zona.idZona}" th:text="${zona.descripcion}"></option>
-								            </select>
-								            
-								        </div>
-								</div>
-								<div class="col-12 col-md-6" style="display: none;">
-									<div class="form-group">
-										<label for="estado" class="bmd-label-floating">Estado</label>
-										<input type="number"  class="form-control" name="estado" id="estado" value="0" readonly>
-									</div>
-								</div>
-								<div class="col-12 col-md-6" style="display: none;">
-								    <div class="form-group">
-								        <label for="idUsuarioLider" class="bmd-label-floating">ID Usuario Líder</label>
-								        <input type="number" class="form-control" name="idUsuarioLider" id="idUsuarioLider" th:value="${idUsuario}" readonly>
-								    </div>
-								</div>
-								<div class="col-12 col-md-6" style="display: none;">
-									<div class="form-group">
-										<label for="estado" class="bmd-label-floating">idRol</label>
-										<input type="number"  class="form-control" name="idRol" id="idRol" value="4" readonly>
-									</div>
-								</div>
+						
+
+
+
 							</div>
 						</div>
 					</fieldset>
@@ -165,7 +138,7 @@
         validateForm();
 
         // Llamar a validateForm() cada vez que los campos cambien para actualizar las marcas de validación
-            $('#FormUpdate input[type="text"], #FormSave input[type="password"]').on('input', function() {
+            $('#FormUpdate input[type="text"]').on('input', function() {
                 validateForm();
             });
 
@@ -197,33 +170,8 @@
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        // Si el usuario confirma, enviar el formulario con AJAX
-                        $.ajax({
-                            url: form.attr('action'), // URL del endpoint
-                            method: form.attr('method'), // Método HTTP (POST en este caso)
-                            data: form.serialize(), // Datos del formulario
-                            success: function(response) {
-                                // Manejar la respuesta del servidor aquí
-                                console.log(response);
-                                // Mostrar mensaje de éxito y redirigir
-                                Swal.fire(
-                                    'Actualizado',
-                                    'Los cambios han sido actualizados exitosamente.',
-                                    'success'
-                                ).then(() => {
-                                    window.location.href = '/listaJefe';
-                                });
-                            },
-                            error: function(xhr, status, error) {
-                                // Manejar errores de AJAX aquí
-                                console.error(xhr.responseText);
-                                Swal.fire(
-                                    'Error',
-                                    'Ha ocurrido un error al actualizar los cambios.',
-                                    'error'
-                                );
-                            }
-                        });
+                        // Si el usuario confirma, enviar el formulario con AJAX  // Si el usuario confirma, enviar el formulario sin AJAX
+                    $('#FormUpdate')[0].submit();
                     }
                 });
             });
@@ -232,7 +180,7 @@
             function validateForm() {
                 var isValid = true;
                 // Iterar sobre los campos del formulario
-                $('#FormUpdate input[type="text"], #FormUpdate input[type="password"]').each(function() {
+                $('#FormUpdate input[type="text"]').each(function() {
                     // Verificar si el campo está vacío o no cumple con el patrón
                     if ($(this).val() === '' || !validatePattern($(this))) {
                         isValid = false;

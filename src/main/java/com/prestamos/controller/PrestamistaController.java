@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -58,31 +59,29 @@ public class PrestamistaController {
 	}*/
 	@GetMapping("prestamista-list")
 	public String mostrarTodos(Model model) {
-		List<Rol> roles = rolService.obtenerTodos();
+	    List<Rol> roles = rolService.obtenerTodos();
 
-		// Obtener el usuario autenticado
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		String username = authentication.getName();
-		Usuario usuarioAutenticado = usurepo.findByUsername(username);
+	    // Obtener el usuario autenticado
+	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+	    String username = authentication.getName();
+	    Usuario usuarioAutenticado = usurepo.findByUsername(username);
 
-		// Obtener el idUsuarioLider del usuario autenticado
-		Integer idUsuarioLider = usuarioAutenticado.getIdUsuario();
+	    // Obtener el idUsuarioLider del usuario autenticado
+	    Integer idUsuarioLider = usuarioAutenticado.getIdUsuario();
 
-		// Obtener todos los prestamistas
-		List<Usuario> prestamistas = prestamistaService.obtenerTodos();
-		List<Usuario> prestamistasFiltrados = new ArrayList<>();
+	    // Obtener todos los prestamistas y filtrar los que tienen el rol con ID 5 y el idUsuarioLider correspondiente al usuario autenticado
+	    List<Usuario> prestamistasFiltrados = prestamistaService.obtenerTodos().stream()
+	            .filter(prestamista -> prestamista.getIdRol().getIdRol() == 5 && 
+	                                   prestamista.getIdUsuarioLider() != null && 
+	                                   prestamista.getIdUsuarioLider().equals(idUsuarioLider))
+	            .collect(Collectors.toList());
 
-		// Filtrar los prestamistas que tienen el rol con ID 5 y el idUsuarioLider correspondiente al usuario autenticado
-		for (Usuario prestamista : prestamistas) {
-			if (prestamista.getIdRol().getIdRol() == 5 && prestamista.getIdUsuarioLider() != null && prestamista.getIdUsuarioLider() == idUsuarioLider) {
-				prestamistasFiltrados.add(prestamista);
-			}
-		}
-
-		model.addAttribute("roles", roles);
-		model.addAttribute("prestamistas", prestamistasFiltrados);
-		return "";
+	    model.addAttribute("roles", roles);
+	    model.addAttribute("prestamistas", prestamistasFiltrados);
+	    model.addAttribute("noDatosDisponibles", prestamistasFiltrados.isEmpty());
+	    return "prestamista-list";
 	}
+
 
 	@GetMapping("/prestamista-crear")
 	public String mostrarFormularioCrear(Model model) {

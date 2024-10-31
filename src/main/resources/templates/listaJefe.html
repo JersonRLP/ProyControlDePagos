@@ -35,6 +35,7 @@
 				<h3 class="text-left">
 					<i class="fas fa-clipboard-list fa-fw"></i> &nbsp; LISTA DE JEFES
 				</h3>
+
 			</div>
 
 			<div class="container-fluid">
@@ -54,10 +55,11 @@
 			<!-- Content here-->
 			<div class="container-fluid">
 				<div class="table-responsive">
-				<div align="center" th:if=${param.actualizacionExitosa}>
+
+				<div align="center" th:if=${actualizacionExitosa}>
 						<div class="alert alert-success">Jefe actualizado Exitosamente</div>
 				</div>
-				<div align="center" th:if=${param.eliminacionExitosa}>
+				<div align="center" th:if=${eliminacionExitosa}>
 						<div class="alert alert-warning">Jefe Eliminado Exitosamente</div>
 				</div>
 					<table class="table table-dark table-sm">
@@ -85,7 +87,7 @@
 								<td th:text="${j.email}"></td>
 								<td th:text="${j.idZona.descripcion}"></td>
 								<td>
-									<a th:href="@{/obtenerJefe(id=${j.idUsuario})}" class="btn btn-success">
+									<a th:href="@{/{id}/editar(id=${j.idUsuario})}" class="btn btn-success">
 									    <i class="fas fa-sync-alt"></i>
 									</a>
 								</td>

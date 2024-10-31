@@ -9,19 +9,22 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-
+import com.prestamos.dto.UsuarioDTO;
 import com.prestamos.model.Rol;
 import com.prestamos.model.Usuario;
 import com.prestamos.model.Zona;
 import com.prestamos.repository.JefeRepository;
 import com.prestamos.repository.UsuarioRepository;
 import com.prestamos.repository.ZonaRepository;
+import com.prestamos.service.UsuarioService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -29,6 +32,9 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class JefeController {
 
+	
+	@Autowired
+    private UsuarioService usuarioService;
 	@Autowired
 	private UsuarioRepository usurepo;
 	
@@ -203,178 +209,33 @@ public class JefeController {
 		return "listaJefe";
 	}
     
-	@GetMapping("/obtenerJefe")
-	public String cargarDatosActualizar(@RequestParam("id") int idUsuario, Model model, HttpSession session) {
-		// Buscar usuario por id
-		Usuario usu = usurepo.findByIdUsuario(idUsuario);
-		
-	    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    String username = auth.getName();
-	    
-	    Usuario usuario = usurepo.findByUsername(username); 
-	    
-	    int inversionista = usuario.getIdUsuario();
-	    model.addAttribute("idUsuario", inversionista);	    
-	    int idRol = usuario.getIdRol().getIdRol();	    
-	    model.addAttribute("idRol", idRol);
-	    
-	    List<Usuario> jefes = jeferepo.findByIdRolDescripcionAndEstado("Jefe de Prestamista", 0);
-
-		 // Crear una lista para almacenar las zonas de los jefes
-		 List<Zona> zonasJefes = new ArrayList<>();
 	
-		 // Iterar sobre la lista de jefes para obtener y almacenar las zonas
-		 for (Usuario jefe : jefes) {
-		     Zona zonaJefe = jefe.getIdZona();
-		     zonasJefes.add(zonaJefe);
-		 }
-
-		 List<Zona> listaZonas = zonarepo.findAll();
-		 
-		 // Eliminar las zonas de los jefes de la lista de zonas
-	 	listaZonas.removeAll(zonasJefes);
-	    
-	    // Obtener la zona del jefe de prestamista
-	    Zona zonaJefe = usu.getIdZona();	    
-	    
-	    // Agregar lista de zonas al modelo
-	    model.addAttribute("listzonas", listaZonas);
-	    // Agregar jefe al modelo
-		model.addAttribute("jefe", usu);
-		// Agregar la zona del jefe al modelo
-		model.addAttribute("zonajefe", zonaJefe);
-				
-		return "actualizarJefe";
-	}
-	
-	/*
-	@GetMapping("/corregirActualizarJefe")
-	public String corregirActualizarJefe(@ModelAttribute("jefe") Usuario jefe,
-		    				 @ModelAttribute("errorField") String errorField,
-		    				 Model model, HttpSession session) {
-	
-	    model.addAttribute("jefe", jefe);
-	    //model.addAttribute("listzonas", listzonas);
-	    model.addAttribute("errorField", errorField);
-	 /*
-	    // Obtener la zona del jefe de prestamista 
-	    Zona zonaJefe = jefe.getIdZona();	    
-	    List<Zona> listaZonas = zonarepo.findAll();
-	    // Eliminar la zona del jefe del la lista para evitar duplicidad
-	    listaZonas.remove(zonaJefe);
-	    
-	    // Agregar lista de zonas al modelo
-	    model.addAttribute("listzonas", listaZonas);
-		// Agregar la zona del jefe al modelo
-		model.addAttribute("zonajefe", zonaJefe);*/
-	    
-	    
-	   /* Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-	    String nombreUsuario = auth.getName();		
-	    Usuario usuario = usurepo.findByNombres(nombreUsuario);  
-	    
-	    // Obtener el ID del usuario actual
-	    int idUsuario = usuario.getIdUsuario();
-	    
-	    // Poner el ID del usuario en el modelo
-	    model.addAttribute("idUsuario", idUsuario);
-	    
-	    // Obtener el ID del rol del usuario actual
-	    int idRol = usuario.getIdRol().getIdRol();
-	    
-	    // Poner el ID del rol en el modelo
-	    model.addAttribute("idRol", idRol);
-	    
-	    Rol r = usuario.getIdRol();
-	    String desrol = r.getDescripcion();	
-		session.setAttribute("rol", desrol);		
-		String rol = (String) session.getAttribute("rol");	
-		model.addAttribute("rol", rol);
-		
-		return "redirect:/obtenerJefe";
-	}*/
-	
-	@PostMapping("/actualizarJefe")
-	public String actualizarJefe(@ModelAttribute Usuario jefe, @RequestParam("nombres") String nombres,
-								 @RequestParam("apePaterno") String apePaterno,
-								 @RequestParam("apeMaterno") String apeMaterno,
-								 @RequestParam("password") String password,
-								 @RequestParam("email") String email,
-								 @RequestParam("telefono") String telefono,
-								 @RequestParam("dni") String dni,
-								 @RequestParam("estado") int estado,
-								 @RequestParam("idRol") Rol idRol,
-								 @RequestParam("idZona") Zona idZona,
-								 @RequestParam("idUsuarioLider") int idUsuarioLider,
-								 RedirectAttributes attribute) {
-		
-    	String passwordEncriptado = passwordEncoder.encode(password);
-    	
-    	/*String dniactual = jefe.getDni();
-    	String emailactual = jefe.getEmail();
-    	String telefonoactual = jefe.getTelefono();
-    	
-    	String dninuevo = dni;
-		String emailnuevo = email;
-		String telefononuevo = telefono;
-    	
-		
-    	jefe.setNombres(nombres);
-    	jefe.setApePaterno(apePaterno);
-    	jefe.setApeMaterno(apeMaterno);
-    	jefe.setPassword(passwordEncriptado);
-    	jefe.setEstado(estado);
-    	jefe.setIdRol(idRol);
-    	jefe.setIdZona(idZona);
-    	jefe.setIdUsuarioLider(idUsuarioLider);
-		Usuario jefeemail = invrepo.findByEmail(emailnuevo);
-    	if(jefeemail.getEmail() == null || jefeemail.getEmail() == emailactual) {
-    		jefe.setEmail(email);
-    		Usuario jefetel = invrepo.findByTelefono(telefononuevo);
-    		if(jefetel.getTelefono() == null || jefeemail.getTelefono() == telefonoactual) {
-    			jefe.setTelefono(telefono);
-    			Usuario jefedni = invrepo.findByDni(dninuevo);
-    			if(jefedni.getDni() == null || jefedni.getDni() == dniactual) { 		    	
-    		    	jefe.setDni(dni);
-    				usurepo.save(jefe);
-    				return "redirect:/listaJefe?actualizacionExitosa";
-    			}else {
-					attribute.addFlashAttribute("mensaje", "El Jefe con el DNI: "+jefe.getDni()+" ya existe");
-		            attribute.addFlashAttribute("jefe", jefe);
-		            attribute.addFlashAttribute("listzonas", zonarepo.findAll());
-		            attribute.addFlashAttribute("errorField", "dni");
-				}
-    		}else{
-				attribute.addFlashAttribute("mensaje", "El Jefe con el Teléfono: "+jefe.getTelefono()+" ya existe");
-	            attribute.addFlashAttribute("jefe", jefe);
-	            attribute.addFlashAttribute("listzonas", zonarepo.findAll());
-	            attribute.addFlashAttribute("errorField", "telefono");
-    		}
-    	}else {
-			attribute.addFlashAttribute("mensaje", "El Jefe con el Correo: "+jefe.getEmail()+" ya existe");
-            attribute.addFlashAttribute("jefe", jefe);
-            attribute.addFlashAttribute("listzonas", zonarepo.findAll());
-            attribute.addFlashAttribute("errorField", "email");
-		}
-   
-    	return "redirect:/corregirActualizarJefe";*/
-    	
-    	jefe.setNombres(nombres);
-    	jefe.setApePaterno(apePaterno);
-    	jefe.setApeMaterno(apeMaterno);
-    	jefe.setPassword(passwordEncriptado);
-    	jefe.setTelefono(telefono);
-    	jefe.setEmail(email);
-    	jefe.setDni(dni);
-    	jefe.setEstado(estado);
-    	jefe.setIdRol(idRol);
-    	jefe.setIdZona(idZona);
-    	jefe.setIdUsuarioLider(idUsuarioLider);
-    	
-    	usurepo.save(jefe);
-    	return "redirect:/listaJefe?actualizacionExitosa";
-	}
     
+	
+	@GetMapping("/{id}/editar")
+    public String editarUsuario(@PathVariable int id, Model model) {
+        UsuarioDTO usuarioDTO = usuarioService.obtenerUsuarioPorId(id);
+        if (usuarioDTO == null) {
+            return "redirect:/listaJefe?errorUsuarioNoEncontrado";
+        }
+        model.addAttribute("usuarioDTO", usuarioDTO);
+        model.addAttribute("usuarioId", id);
+        return "actualizarJefe";
+    }
+
+	@PostMapping("/{id}/actualizar")
+	public String actualizarUsuario(@PathVariable int id, @ModelAttribute UsuarioDTO usuarioDTO, BindingResult result, RedirectAttributes redirectAttributes) {
+	    if (result.hasErrors()) {
+	        return "actualizarJefe";
+	    }
+	    boolean actualizado = usuarioService.actualizarUsuario(id, usuarioDTO);
+	    if (!actualizado) {
+	        return "redirect:/listaJefe?errorUsuarioNoEncontrado";
+	    }
+	    redirectAttributes.addFlashAttribute("actualizacionExitosa", true);
+	    return "redirect:/listaJefe";
+	}
+
 	@GetMapping("/buscarJefe")
 	public String cargarPaginaBuscar(@RequestParam(name = "search", required = false) String search, Model model, HttpSession session) {
 		List<Usuario> listaJefes = null;

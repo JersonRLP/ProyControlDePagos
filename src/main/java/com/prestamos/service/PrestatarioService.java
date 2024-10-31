@@ -4,6 +4,7 @@ import com.prestamos.model.Usuario;
 
 import java.util.List;
 
+
 public interface PrestatarioService {
 
     List<Usuario> obtenerTodos();

@@ -85,7 +85,7 @@
 								<div class="col-12 col-md-6">
 									<div class="form-group">
 										<label for="usuario_apematerno" class="bmd-label-floating">Apellido Materno</label>
-										<input th:field="*{apeMaterno}" type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}" class="form-control" name="apeMaterno" id="usuario_apematerno" th:value="${jefe.apeMaterno}" title="Ingresa un apellido correcto" maxlength="50">
+										<input th:field="*{apeMaterno}" type="text" pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,50}" class="form-control" name="apeMaterno" id="usuario_apematerno" th:value="${jefe.apeMaterno}" title="Ingresa un apellido correcto" maxlength="50" required>
 									</div>
 								</div>
 								<div class="col-12 col-md-6">
@@ -117,11 +117,13 @@
 								</div>
 								<div class="col-12 col-md-6">
 								        <div class="form-group">
-								            <label for="zona" class="bmd-label-floating">Zona</label>
-								            <select id="zona" class="form-control" name="idZona">
-								                <option disabled value="">Selecciona una zona</option>
+								           <div class="form-floating">
+								            <select id="zona" class="custom-select" required  name="idZona">
+								                <option  value="-1">Selecciona una zona</option>
 								                <option th:each="zona : ${listzonas}" th:value="${zona.idZona}" th:text="${zona.descripcion}"></option>
 								            </select>
+								            <label for="zona" class="bmd-label-floating">Zona</label>
+								        </div>
 								        </div>
 								</div>
 								<div class="col-12 col-md-4" style="display: none;">
@@ -167,9 +169,11 @@
         validateForm();
 
         // Llamar a validateForm() cada vez que los campos cambien para actualizar las marcas de validación
-            $('#FormSave input[type="text"], #FormSave input[type="password"]').on('input', function() {
+            $('#FormSave input[type="text"], #FormSave input[type="password"],#FormSave input[type="number"], #FormSave select').on('input change', function() {
                 validateForm();
             });
+            
+          
 
             $('#FormSave').submit(function(e) {
                 e.preventDefault(); // Evita que el formulario se envíe automáticamente
@@ -234,7 +238,7 @@
             function validateForm() {
                 var isValid = true;
                 // Iterar sobre los campos del formulario
-                $('#FormSave input[type="text"], #FormSave input[type="password"]').each(function() {
+                $('#FormSave input[type="text"], #FormSave input[type="password"],#FormSave input[type="number"]').each(function() {
                     // Verificar si el campo está vacío o no cumple con el patrón
                     if ($(this).val() === '' || !validatePattern($(this))) {
                         isValid = false;
@@ -250,8 +254,30 @@
                         $(this).next('small').text('').hide(); // Ocultar mensaje de validación si es válido
                     }
                 });
+                
+                
+ // Validar campos select
+        $('#FormSave select').each(function() {
+            if ($(this).val() === '-1') {
+                isValid = false;
+                $(this).addClass('is-invalid'); // Marcar campo como inválido
+                $(this).next('.invalid-feedback').text('Por favor selecciona una opción.').show(); // Mostrar mensaje de validación
+                $(this).next('.valid-feedback').hide(); // Ocultar mensaje de validación de éxito si estaba visible
+                $(this).next('small').text('Este campo es requerido.').show(); // Mostrar mensaje de validación
+            } else {
+                $(this).removeClass('is-invalid'); // Marcar campo como válido si se ha completado correctamente
+                $(this).addClass('is-valid'); // Marcar campo como válido
+                $(this).next('.invalid-feedback').hide(); // Ocultar mensaje de validación de error si estaba visible
+                $(this).next('.valid-feedback').show(); // Mostrar mensaje de validación de éxito
+                $(this).next('small').text('').hide(); // Ocultar mensaje de validación si es válido
+            }
+        });
+
                 return isValid;
             }
+            
+ 
+
 
             // Función para validar el patrón de un campo
             function validatePattern(input) {
